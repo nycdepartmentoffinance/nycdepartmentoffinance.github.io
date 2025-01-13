@@ -1,0 +1,51 @@
+[
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "About this site\n\n1 + 1\n\n[1] 2"
+  },
+  {
+    "objectID": "data_dictionary.html",
+    "href": "data_dictionary.html",
+    "title": "Data Dictionary",
+    "section": "",
+    "text": "overview of tables in database, database diagram?",
+    "crumbs": [
+      "Home",
+      "Data Dictionary"
+    ]
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "index",
+    "section": "",
+    "text": "This is a Quarto website.\nTo learn more about Quarto websites visit https://quarto.org/docs/websites.\n\n1 + 1\n\n[1] 2"
+  },
+  {
+    "objectID": "fdw_crosswalk.html",
+    "href": "fdw_crosswalk.html",
+    "title": "FDW to Vision Crosswalk",
+    "section": "",
+    "text": "To view more column names than display below, hover over the COLUMN NAMES value of table you are interested in.",
+    "crumbs": [
+      "Home",
+      "Data Dictionary",
+      "FDW to Vision Crosswalk"
+    ]
+  },
+  {
+    "objectID": "table_schema.html",
+    "href": "table_schema.html",
+    "title": "Database Table Schema",
+    "section": "",
+    "text": "The table below includes a list of database tables currently available in Vision8 (V8_NEWYORK_NY_LIVE), Financial Data Warehouse (FDW), and IAS (IAS).\nUse the search bar below to look for a specific type of table (e.g. parcel_extension) across the different databases or filter by database explore which tables exist in each resource.\nTo view more column names than display below, hover over the COLUMN NAMES value of table you are interested in.",
+    "crumbs": [
+      "Home",
+      "Data Dictionary",
+      "Database Table Schema"
+    ]
+  }
+]

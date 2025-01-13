@@ -1,0 +1,26 @@
+---
+title: "FDW to Vision Crosswalk"
+---
+
+To view more column names than display below, hover over the `COLUMN NAMES` value of table you are interested in. 
+
+```{r, include=FALSE}
+library(dplyr)
+library(readr)
+library(DT)
+
+#re-run every now and then to update df - note: might take a few minutes (especially because of IAS)
+#source("generate_table_list.R")
+
+table_data <- readr::read_csv("tables/fdw_crosswalk.csv") %>% 
+    select(-1)
+```
+
+```{r}
+#| echo: false
+#| warning: false
+
+DT::datatable(table_data, escape = FALSE, filter = 'top', rownames = FALSE,
+              options = list(paging = FALSE, scrollCollapse = TRUE, bAutoWidth = FALSE)
+              )
+```

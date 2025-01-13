@@ -1,0 +1,32 @@
+project:
+  type: website
+
+website:
+  title: NYC DOF Property Modeling
+  navbar:
+    background: light
+    search: true
+    left:
+      - text: "Home"
+        href: index.qmd
+      - text: "Data Dictionary"
+        href: data_dictionary.qmd
+
+  sidebar:
+     style: "docked"
+     search: true
+     contents:
+     - section: "Data Dictionary"
+       href: data_dictionary.qmd
+       contents:
+        - table_schema.qmd
+        - fdw_crosswalk.qmd
+
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: true
+
+editor: visual
+
