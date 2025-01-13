@@ -4,6 +4,8 @@ project:
 
 website:
   title: NYC DOF Property Modeling
+  repo-url: https://github.com/nycdepartmentoffinance/nycdepartmentoffinance.github.io
+  repo-actions: [source, issue]
   navbar:
     background: light
     search: true
@@ -12,6 +14,11 @@ website:
         href: index.qmd
       - text: "Data Dictionary"
         href: data_dictionary.qmd
+    tools:
+      - icon: github
+        href: https://github.com/nycdepartmentoffinance/nycdepartmentoffinance.github.io
+
+
 
   sidebar:
      style: "docked"

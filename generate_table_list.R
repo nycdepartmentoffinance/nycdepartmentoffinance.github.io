@@ -156,14 +156,16 @@ write.csv(all_tables, "tables/all_tables.csv", na="")
 
 # filter tables to only the ones we really use
 
+all_tables <- read.csv("tables/all_tables.csv") %>%
+    select(-X)
+
 table_list <- all_tables %>%
     rename(SCHEMA=TABLE_SCHEMA,
            COLS=COLUMNS,
            DATABASE=TABLE_CATALOG) %>%
-    mutate(NOTES = NA) %>%
     filter(!stringr::str_ends(TABLE_NAME, '_20[0-9]{2}$') &
                !(SCHEMA %in% c("dbo", "COMMON", "internal", "DATA_BACKUP", "DataBackup", "CONV", "NYC_STAGE"))) %>%
-    select(DATABASE, SCHEMA, TABLE_NAME, PREFIX, COLS, COLUMN_NAMES, NOTES)
+    select(DATABASE, SCHEMA, TABLE_NAME, PREFIX, COLS, PRIMARY_KEYS, COLUMN_NAMES)
 
 write.csv(table_list, "tables/table_list.csv", na="")
 
@@ -191,10 +193,10 @@ fdw_crosswalk = fdw_tables %>%
 
 write.csv(fdw_crosswalk, "tables/fdw_crosswalk.csv", na="")
 
-# looking at fdw tables
 
 
 
+# get time last updated from fdw tables
 
 database = "fdw"
 database_schema = toupper(Sys.getenv(paste0(database, "_schema")))

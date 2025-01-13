@@ -2,7 +2,7 @@
 title: "FDW to Vision Crosswalk"
 ---
 
-To view more column names than display below, hover over the `COLUMN NAMES` value of table you are interested in. 
+To view more column names than display below, hover over the `COLUMN NAMES` value of table you are interested in.
 
 ```{r, include=FALSE}
 library(dplyr)

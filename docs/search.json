@@ -44,8 +44,8 @@
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "index",
+    "title": "Home",
     "section": "",
-    "text": "This is a Quarto website.\nTo learn more about Quarto websites visit https://quarto.org/docs/websites.\n\n1 + 1\n\n[1] 2"
+    "text": "Explore the following pages that help document the data resources available to DOF’s property modeling team:\n\nDatabase Table Schema\nFDW to Vision Crosswalk"
   }
 ]
