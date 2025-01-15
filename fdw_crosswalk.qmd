@@ -2,25 +2,50 @@
 title: "FDW to Vision Crosswalk"
 ---
 
-To view more column names than display below, hover over the `COLUMN NAMES` value of table you are interested in.
 
 ```{r, include=FALSE}
 library(dplyr)
 library(readr)
 library(DT)
+library(knitr)
 
 #re-run every now and then to update df - note: might take a few minutes (especially because of IAS)
 #source("generate_table_list.R")
 
 table_data <- readr::read_csv("tables/fdw_crosswalk.csv") %>% 
     select(-1)
+
+table_summary = table_data %>% 
+    group_by(DB) %>% 
+    summarize(`Number of tables` = n()) %>% 
+    rename(Database = DB) %>% 
+    arrange(desc(`Number of tables`))
+
+table_data_display = table_data %>% 
+    select(-DB) %>% 
+    arrange(FDW_NAME)
 ```
+
+There are currently `r nrow(table_data)` tables within the Financial Data Warehouse (FDW) database from PTS, PDM, and CAMA.
 
 ```{r}
 #| echo: false
 #| warning: false
 
-DT::datatable(table_data, escape = FALSE, filter = 'top', rownames = FALSE,
+knitr::kable(table_summary, format = "html", table.attr = "style='width:30%;'")
+```
+
+
+#### Crosswalk
+
+The below searchable table includes all FDW tables, but includes most complete information for those also in the `V8_NEWYORK_NY_LIVE` `REAL_PROP` schema. The primary keys column indicates the identifiers needed to obtain unique records in a database table.
+
+
+```{r}
+#| echo: false
+#| warning: false
+
+DT::datatable(table_data_display, escape = FALSE, filter = 'top', rownames = FALSE,
               options = list(paging = FALSE, scrollCollapse = TRUE, bAutoWidth = FALSE)
               )
 ```
