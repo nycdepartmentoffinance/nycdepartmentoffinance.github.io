@@ -79,18 +79,42 @@ fdw_crosswalk = fdw_tables %>%
            IN_CAMA = !is.na(CAMA_NAME)) %>%
     rename(CAMA_COLUMNS = COLUMNS,
            CAMA_COLUMN_NAMES = COLUMN_NAMES) %>%
-    left_join(fdw_refresh, by=c("FDW_NAME")) %>%
-    select(FDW_NAME, FDW_LAST_UPDATE, CAMA_NAME, PREFIX, PRIMARY_KEYS, DB)
+    left_join(fdw_refresh, by=c("FDW_NAME"))
 
 
 # how to implement hist tables ?
 
-hist_tables = fdw_tables %>%
-    filter(grepl("_HIST", TABLE_NAME) & grepl("VW_CAMA", TABLE_NAME) | TABLE_NAME %in% hist_table_names) %>%
-    mutate(date_key = grepl("DATE_KEY", COLUMN_NAMES))
+hist_tables = fdw_crosswalk %>%
+    mutate(HIST_CAMA_NAME = ifelse(HIST_CAMA_NAME == "INC_LF_INC_ACTUAL", "INCOME_LF_INC_ACTUAL", HIST_CAMA_NAME)) %>%
+    mutate(HIST_CAMA_NAME = ifelse(is.na(HIST_CAMA_NAME) & !is.na(CAMA_NAME), CAMA_NAME, HIST_CAMA_NAME),
+           date_key = grepl("DATE_KEY", FDW_COLUMN_NAMES))
 
+duplicates = hist_tables %>%
+    filter(!is.na(HIST_CAMA_NAME)) %>%
+    group_by(HIST_CAMA_NAME) %>%
+    count() %>%
+    filter(n > 1)
 
-write.csv(fdw_crosswalk, "tables/fdw_crosswalk.csv", na="")
+joining_tables = hist_tables %>%
+    filter(HIST_CAMA_NAME %in% duplicates$HIST_CAMA_NAME & !is.na(CAMA_NAME)) %>%
+    select(CAMA_NAME, FDW_COLUMNS, PREFIX, PRIMARY_KEYS) %>%
+    rename(FDW_COLUMNS_CAMA= FDW_COLUMNS,
+           CAMA_PRIMARY_KEYS = PRIMARY_KEYS)
+
+hist_tables_filtered = hist_tables %>%
+    filter(HIST_CAMA_NAME %in% duplicates$HIST_CAMA_NAME & is.na(CAMA_NAME)) %>%
+    select(FDW_NAME, FDW_LAST_UPDATE, HIST_CAMA_NAME, FDW_COLUMNS, date_key, DB) %>%
+    left_join(joining_tables, by=c("HIST_CAMA_NAME"="CAMA_NAME")) %>%
+    mutate(one_more_col = (FDW_COLUMNS_CAMA + 1 == FDW_COLUMNS),
+           PRIMARY_KEYS = ifelse(date_key & one_more_col & !is.na(CAMA_PRIMARY_KEYS), paste0(CAMA_PRIMARY_KEYS, ", DATE_KEY"), NA),
+           CAMA_NAME = NA) %>%
+    select(FDW_NAME, FDW_LAST_UPDATE, CAMA_NAME, PREFIX, PRIMARY_KEYS, DB)
+
+fdw_crosswalk_display = fdw_crosswalk %>%
+    rows_update(hist_tables_filtered) %>%
+    select(FDW_NAME, FDW_LAST_UPDATE, CAMA_NAME, PREFIX, PRIMARY_KEYS, DB)
+
+write.csv(fdw_crosswalk_display, "tables/fdw_crosswalk.csv", na="")
 
 
 

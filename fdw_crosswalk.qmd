@@ -20,6 +20,10 @@ table_summary = table_data %>%
     summarize(`Number of tables` = n()) %>% 
     rename(Database = DB) %>% 
     arrange(desc(`Number of tables`))
+
+table_data_display = table_data %>% 
+    select(-DB) %>% 
+    arrange(FDW_NAME)
 ```
 
 There are currently `r nrow(table_data)` tables within the Financial Data Warehouse (FDW) database from PTS, PDM, and CAMA.
@@ -41,7 +45,7 @@ The below searchable table includes all FDW tables, but includes most complete i
 #| echo: false
 #| warning: false
 
-DT::datatable(table_data, escape = FALSE, filter = 'top', rownames = FALSE,
+DT::datatable(table_data_display, escape = FALSE, filter = 'top', rownames = FALSE,
               options = list(paging = FALSE, scrollCollapse = TRUE, bAutoWidth = FALSE)
               )
 ```
