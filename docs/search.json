@@ -16,7 +16,7 @@
     "href": "fdw_crosswalk.html",
     "title": "FDW to Vision Crosswalk",
     "section": "",
-    "text": "To view more column names than display below, hover over the COLUMN NAMES value of table you are interested in.",
+    "text": "There are currently 227 tables within the Financial Data Warehouse (FDW) database from PTS, PDM, and CAMA.\n\n\n\n\n\nDatabase\nNumber of tables\n\n\n\n\nPTS\n88\n\n\nPDM\n73\n\n\nCAMA\n65\n\n\nNA\n1\n\n\n\n\n\n\n\n\nCrosswalk\nThe below searchable table includes all FDW tables, but includes most complete information for those also in V8_NEWYORK_NY_LIVE REAL_PROP schema. The primary keys column indicates the identifiers needed to obtain unique records in a database table.",
     "crumbs": [
       "Home",
       "Data Dictionary",
