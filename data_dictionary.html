@@ -275,7 +275,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
+<<<<<<< HEAD
       var filterRegex = new RegExp('/' + window.location.host + '/');
+=======
+      var filterRegex = new RegExp("https:\/\/nycdepartmentoffinance\.github\.io\/");
+>>>>>>> ceddfa8e4fe09f66175e47501ab8f1db3d254476
     var isInternal = (href) => {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
