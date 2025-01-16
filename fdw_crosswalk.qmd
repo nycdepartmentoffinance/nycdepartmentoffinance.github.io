@@ -38,7 +38,7 @@ knitr::kable(table_summary, format = "html", table.attr = "style='width:30%;'")
 
 #### Crosswalk
 
-The below searchable table includes all FDW tables, but includes most complete information for those also in the `V8_NEWYORK_NY_LIVE` `REAL_PROP` schema. The primary keys column indicates the identifiers needed to obtain unique records in a database table.
+The table below includes all FDW tables, but includes most complete information for those also in the `V8_NEWYORK_NY_LIVE` `REAL_PROP` schema. The primary keys column indicates the identifiers needed to obtain unique records in a database table.
 
 
 ```{r}

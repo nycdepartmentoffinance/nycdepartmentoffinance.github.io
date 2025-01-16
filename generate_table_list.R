@@ -151,13 +151,15 @@ write.csv(ias_tables, "tables/ias_tables.csv")
 all_tables = rbind(production_tables, fdw_tables, ias_tables) %>%
     select(-first_col)
 
-
 write.csv(all_tables, "tables/all_tables.csv", na="")
 
-# filter tables to only the ones we really use
 
-all_tables <- read.csv("tables/all_tables.csv") %>%
-    select(-X)
+# START HERE IF ABOVE ISNT RUN
+
+
+# filter tables to only the ones we really use
+all_tables <- read_csv("tables/all_tables.csv") %>%
+    select(-1)
 
 table_list <- all_tables %>%
     rename(SCHEMA=TABLE_SCHEMA,
@@ -165,8 +167,62 @@ table_list <- all_tables %>%
            DATABASE=TABLE_CATALOG) %>%
     filter(!stringr::str_ends(TABLE_NAME, '_20[0-9]{2}$') &
                !(SCHEMA %in% c("dbo", "COMMON", "internal", "DATA_BACKUP", "DataBackup", "CONV", "NYC_STAGE"))) %>%
-    select(DATABASE, SCHEMA, TABLE_NAME, PREFIX, COLS, PRIMARY_KEYS, COLUMN_NAMES)
+    select(DATABASE, SCHEMA, TABLE_NAME, PREFIX, COLS, PRIMARY_KEYS)
 
 write.csv(table_list, "tables/table_list.csv", na="")
+
+
+
+# production columns
+
+production_columns <- read_csv("tables/production_columns.csv")%>%
+    select(-1, -ORDINAL_POSITION)
+
+manual_data_dictionary <- readxl::read_xlsx("tables/Vision 8 - NYCDataDictionary.xlsx")
+
+query = glue::glue("
+    SELECT *
+    FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE
+    WHERE OBJECTPROPERTY(OBJECT_ID(CONSTRAINT_SCHEMA + '.' + QUOTENAME(CONSTRAINT_NAME)), 'IsPrimaryKey') = 1
+")
+
+all_production_primary_keys <- dbGetQuery(con, query)
+
+
+all_production_primary_keys = all_production_primary_keys %>%
+    mutate(PRIMARY_KEY = TRUE)
+
+
+production_columns_joined <- production_columns  %>%
+    left_join(all_production_primary_keys, by=c("TABLE_CATALOG", "TABLE_SCHEMA", "TABLE_NAME", "COLUMN_NAME")) %>%
+    left_join(manual_data_dictionary, by=c("TABLE_SCHEMA"="Schema", "TABLE_NAME"="Table", "COLUMN_NAME"="Column")) %>%
+    rename(LENGTH = CHARACTER_MAXIMUM_LENGTH,
+           PRECISION = NUMERIC_PRECISION,
+           DESCRIPTION = `Friendly Name`,
+           TYPE = DATA_TYPE)  %>%
+    filter((TABLE_SCHEMA %in% c("REAL_PROP")) & !stringr::str_ends(TABLE_NAME, '_20[0-9]{2}$') &
+            !grepl("CCV_", TABLE_NAME) & !grepl("_bkup", TABLE_NAME) & !grepl("_changelog", TABLE_NAME)
+            & !grepl("knTest01", TABLE_NAME)) %>%
+    arrange(TABLE_NAME, DESCRIPTION) %>%
+    select(TABLE_NAME, COLUMN_NAME, DESCRIPTION, TYPE, PRIMARY_KEY)
+
+
+write_csv(production_columns_joined, "tables/production_columns_joined.csv")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
