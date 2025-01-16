@@ -27,8 +27,9 @@ website:
      - section: "Data Dictionary"
        href: data_dictionary.qmd
        contents:
-        - table_schema.qmd
         - fdw_crosswalk.qmd
+        - production_columns.qmd
+        - all_tables.qmd
 
 format:
   html:

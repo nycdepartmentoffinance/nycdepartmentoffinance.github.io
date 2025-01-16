@@ -1,0 +1,45 @@
+---
+title: "REAL_PROP Column Lookup"
+---
+
+```{r, include=FALSE}
+library(dplyr)
+library(readr)
+library(DT)
+library(magrittr)
+
+#re-run every now and then to update df - note: might take a few minutes (especially because of IAS)
+#source("generate_table_list.R")
+
+table_data <- readr::read_csv("tables/production_columns_joined.csv") 
+
+```
+
+The table below includes a list of columns from core tables available in the `REAL_PROP` schema of the production database (`V8_NEWYORK_NY_LIVE`). Use the search bar below to look for columns within a particular table (e.g. `REALMAST`) or by column name (e.g. `CNS_PID`) to see which tables it appears in.
+
+```{r}
+#| echo: false
+#| warning: false
+
+DT::datatable(table_data, escape = FALSE, filter = 'top', rownames = FALSE,
+              options = list(paging = FALSE, scrollCollapse = TRUE,
+                             columnDefs = list(
+                                 # width limit for table name
+                                 list(
+                                  targets = 0,
+                                  render = JS(
+                                    "function(data, type, row, meta) {",
+                                    "return type === 'display' && data.length > 15 ?",
+                                    "'<span title=\"' + data + '\">' + data.substr(0, 15) + '...</span>' : data;",
+                                    "}")),
+                                  list(
+                                  targets = 1,
+                                  render = JS(
+                                    "function(data, type, row, meta) {",
+                                    "return type === 'display' && data.length > 20 ?",
+                                    "'<span title=\"' + data + '\">' + data.substr(0, 20) + '...</span>' : data;",
+                                    "}"))
+                                )
+                             )
+              )
+```

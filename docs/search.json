@@ -1,14 +1,14 @@
 [
   {
-    "objectID": "table_schema.html",
-    "href": "table_schema.html",
-    "title": "Database Table Schema",
+    "objectID": "production_columns.html",
+    "href": "production_columns.html",
+    "title": "REAL_PROP Column Lookup",
     "section": "",
-    "text": "The table below includes a list of database tables currently available in Vision8 (V8_NEWYORK_NY_LIVE), Financial Data Warehouse (FDW), and IAS (IAS).\nUse the search bar below to look for a specific type of table (e.g. parcel_extension) across the different databases or filter by database explore which tables exist in each resource.\nTo view more column names than display below, hover over the COLUMN NAMES value of table you are interested in.",
+    "text": "The table below includes a list of columns from core tables available in the REAL_PROP schema of the production database (V8_NEWYORK_NY_LIVE). Use the search bar below to look for columns within a particular table (e.g. REALMAST) or by column name (e.g. CNS_PID) to see which tables it appears in.",
     "crumbs": [
       "Home",
       "Data Dictionary",
-      "Database Table Schema"
+      "REAL_PROP Column Lookup"
     ]
   },
   {
@@ -16,11 +16,23 @@
     "href": "fdw_crosswalk.html",
     "title": "FDW to Vision Crosswalk",
     "section": "",
-    "text": "There are currently 227 tables within the Financial Data Warehouse (FDW) database from PTS, PDM, and CAMA.\n\n\n\n\n\nDatabase\nNumber of tables\n\n\n\n\nPTS\n88\n\n\nPDM\n73\n\n\nCAMA\n65\n\n\nNA\n1\n\n\n\n\n\n\n\n\nCrosswalk\nThe below searchable table includes all FDW tables, but includes most complete information for those also in the V8_NEWYORK_NY_LIVE REAL_PROP schema. The primary keys column indicates the identifiers needed to obtain unique records in a database table.",
+    "text": "There are currently 227 tables within the Financial Data Warehouse (FDW) database from PTS, PDM, and CAMA.\n\n\n\n\n\nDatabase\nNumber of tables\n\n\n\n\nPTS\n88\n\n\nPDM\n73\n\n\nCAMA\n65\n\n\nNA\n1\n\n\n\n\n\n\n\n\nCrosswalk\nThe table below includes all FDW tables, but includes most complete information for those also in the V8_NEWYORK_NY_LIVE REAL_PROP schema. The primary keys column indicates the identifiers needed to obtain unique records in a database table.",
     "crumbs": [
       "Home",
       "Data Dictionary",
       "FDW to Vision Crosswalk"
+    ]
+  },
+  {
+    "objectID": "all_tables.html",
+    "href": "all_tables.html",
+    "title": "All Tables",
+    "section": "",
+    "text": "The table below includes a list of core database tables available in Vision8 (V8_NEWYORK_NY_LIVE), Financial Data Warehouse (FDW), and IAS (IAS).\nNote: for brevity, this table excludes tables with the following schemas: \"dbo\", \"COMMON\", \"internal\", \"DATA_BACKUP\", \"DataBackup\", \"CONV\", \"NYC_STAGE\". For a comprehensive list of tables that includes these schemas, explore the source data here.\n\n\n\n\n\nDatabase\nNumber of tables\n\n\n\n\nFDW\n228\n\n\nV8_NEWYORK_NY_LIVE\n1145\n\n\nIAS\n6298\n\n\n\n\n\nUse the search bar below to look for a specific type of table (e.g. parcel_extension) across the different databases or filter by database explore which tables exist in each resource.",
+    "crumbs": [
+      "Home",
+      "Data Dictionary",
+      "All Tables"
     ]
   },
   {
@@ -35,17 +47,10 @@
     "href": "data_dictionary.html",
     "title": "Data Dictionary",
     "section": "",
-    "text": "overview of tables in database, database diagram?",
+    "text": "Explore the following pages that help document the data resources available to DOF’s property modeling team:\n\nFDW to Vision Crosswalk: A table that contains FDW table names and their matching CAMA table names if applicable, as well as the prefix used and relevant primary keys for the table (unit of observation: table).\nREAL_PROP Column Lookup: A table that contains all columns for the most important REAL_PROP tables in the production database, including the column type, description, and if it is a primary key (unit of observation: column).\nAll Tables: This is a comprehensive list of all database tables within Production, FDW, and IAS databases, including the prefix used, number of columns in the table, and primary keys where relevant (unit of observation: table).\n\nTo download any of these datasets, visit the source data here.",
     "crumbs": [
       "Home",
       "Data Dictionary"
     ]
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Home",
-    "section": "",
-    "text": "Explore the following pages that help document the data resources available to DOF’s property modeling team:\n\nDatabase Table Schema\nFDW to Vision Crosswalk"
   }
 ]

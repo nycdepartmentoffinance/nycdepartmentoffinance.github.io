@@ -3,7 +3,5 @@ title: "Home"
 sidebar: false
 ---
 
-Explore the following pages that help document the data resources available to DOF's property modeling team:
 
--   [Database Table Schema](table_schema.html)
--   [FDW to Vision Crosswalk](fdw_crosswalk.html)
+

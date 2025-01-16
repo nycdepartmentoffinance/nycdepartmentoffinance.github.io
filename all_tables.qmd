@@ -1,0 +1,63 @@
+---
+title: "All Tables"
+---
+
+```{r, include=FALSE}
+library(dplyr)
+library(readr)
+library(DT)
+library(magrittr)
+
+#re-run every now and then to update df - note: might take a few minutes (especially because of IAS)
+#source("generate_table_list.R")
+
+table_data <- readr::read_csv("tables/table_list.csv") %>% 
+    select(-1)
+
+table_summary = table_data %>% 
+    group_by(DATABASE) %>% 
+    summarize(`Number of tables` = n()) %>% 
+    rename(Database = DATABASE) %>% 
+    arrange(`Number of tables`)
+
+
+readLines("tables/table_list.csv") %>% 
+  paste0(collapse="\n") %>% 
+  openssl::base64_encode() -> encoded
+```
+
+The table below includes a list of core database tables available in Vision8 (`V8_NEWYORK_NY_LIVE`), Financial Data Warehouse (`FDW`), and IAS (`IAS`).
+
+Note: for brevity, this table excludes tables with the following schemas: `"dbo", "COMMON", "internal", "DATA_BACKUP", "DataBackup", "CONV", "NYC_STAGE"`. For a comprehensive list of tables that includes these schemas, explore the source data [here](https://github.com/nycdepartmentoffinance/nycdepartmentoffinance.github.io/tree/main/tables).
+
+```{r}
+#| echo: false
+#| warning: false
+
+knitr::kable(table_summary)
+             
+```
+
+Use the search bar below to look for a specific type of table (e.g. `parcel_extension`) across the different databases or filter by database explore which tables exist in each resource.
+
+```{r}
+#| echo: false
+#| warning: false
+
+DT::datatable(table_data, escape = FALSE, filter = 'top', rownames = FALSE,
+              options = list(paging = FALSE, scrollCollapse = TRUE,
+                             columnDefs = list(
+                                 # width limit for table name
+                                 list(
+                                  targets = 2,
+                                  render = JS(
+                                    "function(data, type, row, meta) {",
+                                    "return type === 'display' && data.length > 15 ?",
+                                    "'<span title=\"' + data + '\">' + data.substr(0, 15) + '...</span>' : data;",
+                                    "}"))
+                                )
+                             )
+              ) %>% 
+    formatStyle(columns = "PREFIX", `max-width` = '30px') %>% 
+    formatStyle(columns = "COLS", `max-width` = '30px')
+```

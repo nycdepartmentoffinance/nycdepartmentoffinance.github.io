@@ -139,14 +139,20 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./table_schema.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Database Table Schema</span></a>
+  <a href="./fdw_crosswalk.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">FDW to Vision Crosswalk</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./fdw_crosswalk.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">FDW to Vision Crosswalk</span></a>
+  <a href="./production_columns.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">REAL_PROP Column Lookup</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./all_tables.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">All Tables</span></a>
   </div>
 </li>
       </ul>
@@ -181,7 +187,13 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>overview of tables in database, database diagram?</p>
+<p>Explore the following pages that help document the data resources available to DOF’s property modeling team:</p>
+<ul>
+<li><a href="fdw_crosswalk.html">FDW to Vision Crosswalk</a>: A table that contains FDW table names and their matching CAMA table names if applicable, as well as the prefix used and relevant primary keys for the table (<em>unit of observation</em>: table).</li>
+<li><a href="production_columns.html">REAL_PROP Column Lookup</a>: A table that contains all columns for the most important REAL_PROP tables in the production database, including the column type, description, and if it is a primary key (<em>unit of observation</em>: column).</li>
+<li><a href="all_tables.html">All Tables</a>: This is a comprehensive list of all database tables within Production, FDW, and IAS databases, including the prefix used, number of columns in the table, and primary keys where relevant (<em>unit of observation</em>: table).</li>
+</ul>
+<p>To download any of these datasets, visit the source data <a href="https://github.com/nycdepartmentoffinance/nycdepartmentoffinance.github.io/tree/main/tables">here</a>.</p>
 
 
 
