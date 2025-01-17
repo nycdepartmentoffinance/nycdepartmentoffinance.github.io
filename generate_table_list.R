@@ -43,6 +43,42 @@ production_primary_keys = all_production_primary_keys %>%
     arrange(TABLE_CATALOG, TABLE_SCHEMA, TABLE_NAME, ORDINAL_POSITION) %>%
     summarize(PRIMARY_KEYS = stringr::str_c(COLUMN_NAME, collapse = ", "), .groups = "drop")
 
+# get record counts of tables
+
+query <-
+    glue::glue("
+    SELECT T.*,
+        T.NAME AS TABLE_NAME,
+        P.[ROWS] AS RECORDS
+    FROM SYS.TABLES T
+    INNER JOIN  SYS.PARTITIONS P
+        ON T.OBJECT_ID=P.OBJECT_ID
+    LEFT JOIN sys.all_objects A
+        ON T.OBJECT_ID=A.OBJECT_ID;
+")
+
+prod_rows <- dbGetQuery(con, query)
+
+query <-
+    "
+    SELECT *
+    FROM sys.schemas
+    "
+
+schemas <- dbGetQuery(con, query) %>%
+    rename(TABLE_SCHEMA = name)
+
+
+production_rows <- prod_rows %>%
+    left_join(schemas, by="schema_id") %>%
+    group_by(object_id) %>%
+    slice(1) %>%
+    ungroup() %>%
+    rename(LAST_UPDATE = modify_date) %>%
+    select(TABLE_SCHEMA, TABLE_NAME, RECORDS, LAST_UPDATE)
+
+
+
 production_tables = production_columns %>%
     group_by(TABLE_CATALOG, TABLE_SCHEMA, TABLE_NAME) %>%
     summarise(COLUMNS = n(),
@@ -52,9 +88,13 @@ production_tables = production_columns %>%
     mutate(first_col = str_extract(COLUMN_NAMES, "^[^,]+"),
            PREFIX = ifelse(grepl("_", first_col),
                            sub("^(.*?)_.*$", "\\1", first_col), NA)) %>%
-    left_join(production_primary_keys, by=c("TABLE_CATALOG", "TABLE_SCHEMA", "TABLE_NAME"))
+    left_join(production_primary_keys, by=c("TABLE_CATALOG", "TABLE_SCHEMA", "TABLE_NAME")) %>%
+    left_join(production_rows,by=c("TABLE_SCHEMA", "TABLE_NAME"))
 
 DBI::dbDisconnect(con)
+
+write.csv(production_columns, "tables/production_columns.csv")
+write.csv(production_tables, "tables/production_tables.csv")
 
 
 # GET FDW AND IAS TABLES
@@ -83,6 +123,45 @@ query <-
 
 fdw_columns <- dbGetQuery(con, query)
 
+get_record_count = function(con, schema, table){
+    print(paste0("counting rows in ", table))
+    query <-
+        glue::glue("
+    SELECT count(*)
+      FROM {schema}.{table};
+    ")
+
+    count = dbGetQuery(con, query)
+    num = as.numeric(count[1])
+    print("done.")
+
+    return(num)
+}
+
+query <-
+    glue::glue("
+    SELECT *
+      FROM FDW3NF.VW_ETL_REFRESH_STATS
+      ORDER BY TS_REFRESH DESC
+        ;
+    ")
+
+stats <- dbGetQuery(con, query)
+
+fdw_refresh <- stats %>%
+    filter(#SCHEMA_NM %in% c("FDW3NF", "IAS") &
+        DB_NM %in% c("DOFEDPRD"),
+        !(PROJECT_NM %in% c("FDW_HIST"))) %>%
+    group_by(DB_NM, SCHEMA_NM, TABLE_NM) %>%
+    slice(1) %>%
+    mutate(FDW_NAME = paste0("VW_", TABLE_NM),
+           LAST_UPDATE = TS_REFRESH) %>%
+    ungroup() %>%
+    rename(TABLE_CATALOG = DB_NM,
+           TABLE_SCHEMA = SCHEMA_NM,
+           TABLE_NAME = FDW_NAME) %>%
+    select(TABLE_CATALOG, TABLE_SCHEMA, TABLE_NAME, LAST_UPDATE)
+
 fdw_tables = fdw_columns %>%
     mutate(TABLE_CATALOG = "FDW") %>%
     rename(TABLE_SCHEMA = OWNER) %>%
@@ -94,9 +173,19 @@ fdw_tables = fdw_columns %>%
     mutate(first_col = str_extract(COLUMN_NAMES, "^[^,]+"),
            PREFIX = ifelse(grepl("_", first_col) & grepl("VW_CAMA", TABLE_NAME),
                            sub("^(.*?)_.*$", "\\1", first_col), NA),
-           PRIMARY_KEYS = NA)
+           PRIMARY_KEYS = NA
+    ) %>%
+    rowwise() %>%
+    mutate(RECORDS = get_record_count(con, database_schema, TABLE_NAME)) %>%
+    left_join(fdw_refresh, by=c("TABLE_CATALOG", "TABLE_SCHEMA", "TABLE_NAME"))
 
 DBI::dbDisconnect(con)
+
+write.csv(fdw_columns, "tables/fdw_columns.csv")
+write.csv(fdw_tables, "tables/fdw_tables.csv")
+
+
+
 
 # GET IAS TABLES
 
@@ -124,7 +213,8 @@ query <-
 
 ias_columns <- dbGetQuery(con, query)
 
-ias_tables = ias_columns %>%
+
+ias_tables_without_records = ias_columns %>%
     mutate(TABLE_CATALOG = "IAS") %>%
     rename(TABLE_SCHEMA = OWNER) %>%
     group_by(TABLE_CATALOG, TABLE_SCHEMA, TABLE_NAME) %>%
@@ -136,12 +226,15 @@ ias_tables = ias_columns %>%
            first_col = NA,
            PRIMARY_KEYS = NA)
 
+# START HERE
+
+ias_tables <- ias_tables_without_records %>%
+    rowwise() %>%
+    mutate(RECORDS = get_record_count(con, database_schema, TABLE_NAME),
+           LAST_UPDATE = NA)
+
 DBI::dbDisconnect(con)
 
-write.csv(fdw_columns, "tables/fdw_columns.csv")
-write.csv(fdw_tables, "tables/fdw_tables.csv")
-write.csv(production_columns, "tables/production_columns.csv")
-write.csv(production_tables, "tables/production_tables.csv")
 write.csv(ias_columns, "tables/ias_columns.csv")
 write.csv(ias_tables, "tables/ias_tables.csv")
 
