@@ -10,8 +10,6 @@ website:
     background: light
     search: true
     left:
-      - text: "Home"
-        href: index.qmd
       - text: "Data Dictionary"
         href: data_dictionary.qmd
     tools:
