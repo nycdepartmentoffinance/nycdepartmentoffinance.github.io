@@ -1,0 +1,439 @@
+//CONDBAS3  DD DSN=A836.ORG.M3.CONDBAS3.D110616,DISP=(SHR,KEEP)
+********************************************************************;
+** CONDBASE FILE                                                  **;
+** CONDO MAIN (BC=R0) AND CONDO SUFFIX LEVEL (EXCLUDED TC=3)      **;
+** (LRECL = 2205)                                                 **;
+**                                                                **;
+** FOR CONDBASE A/O 5/26/11 :                                     **;
+**    -- FMV = FMVB + FMVL                                        **;
+**    -- NO INFO FOR THE FOLLOWING DATA :                         **;
+**       1)NO VISION DATA INFO FOR BC=R0 (CONDO MAIN)             **;
+**       2)PREVFMVMTHD, PREVCAPGIMFL, PREVOVRDINC, PREVOVRDEXP,   **;
+**         PREVEFFTXRAT, PREVTOTCAPRAT, PREVCAPGIMRT.             **;
+**       3)ALL DATA FROM POS.1365 - POS.1469                      **;
+**                                                                **;
+** FOR CONDBASE A/O 1/18/12 AND AFTER :                           **;
+**    -- FMV = FMVB + SPCFEATVAL + OUTBLDGVAL + FMVL              **;
+**                                                                **;
+** BY WENDY .................... 01/16/12                         **;
+**                                                                **;
+**   FMVMTHD : VALUE SOURCE (I, C, M, T, O ETC.)                  **;
+**   OVRCND : COMMERCIAL ONLY - OVERALL CONDITION / DEPRE.CODE    **;
+**   CDU : RESIDENTIAL ONLY - COST & DESIGN RATING                **;
+**                                                                **;
+** REVISED BY WENDY ............ 05/14/12                         **;
+**   @465 FILLER0A --> @465 OFMV (ORIGINAL FMV = PREV.YR FMV)     **;
+**   @476 FILLER0B --> @476 OFMVL (ORIGINAL FMVL = PREV.YR FMVL)  **;
+**   @511 OVRDINCF --> @511 FILLER1D (FILLER)                     **;
+**   @523 OVRDEXPF --> @523 FILLER1E (FILLER)                     **;
+**   - REPLACED TCAP INFO (POS.2003-2068) WITH TCAPFILLER(FILLER) **;
+**   - ADDED 4 FIELDS AT THE END OF THE FILE (POS.2069-2205)      **;
+**     (FILLER5, UAFLAND, UAFBLDG, LUC)                           **;
+**                                                                **;
+** REVISED BY WENDY ............ 8/10/12                          **;
+**   REPLACED @1333 GL_BORO AND GL_ARATE WITH SUBBCAT (2 BYTES)   **;
+**                                                                **;
+** REVISED BY WENDY ............ 11/04/12                         **;
+**   @36 CARDNO $CHAR35 --> @36  CARDNO   $CHAR24                 **;
+**                               BILLBLOCK 5.     (BILLING BLOCK) **;
+**                               BILLLOT   5.     (BILLING LOT)   **;
+**                               BILLEASE $CHAR1. (BILLING EASE)  **;
+***                                                               **;
+*** REVISED BY WENDY ON 12/17/12 :                                **;
+***  @460 PREVCAPGIMFL --> @460 FILLER1C2 (FILLER)                **;
+***  @463 OLDTC ---------> @463 CAPOVRFLG                         **;
+***  @487 CAPGIMFLG -----> @487 FILLER1C3 (FILLER)                **;
+***       CAPGIMFLG -----> @488 GIMOVRFLG (2 BYTES)               **;
+***  @490 OVRCAPGIMRT ---> @490 GIM                               **;
+***  @564 PREVCAPGIMRT --> @564 FILLER1C4 (FILLER)                **;
+***                                                               **;
+*** REVISED BY WENDY ON 05/21/13 :                                **;
+***  @963 FILLER3 (4 BYTES) ---> @963 SANDYADJFLG (1 BYTE)        **;
+***                         --->      STAGE1 (1 BYTE)             **;
+***                         --->      STAGE3 (1 BYTE)             **;
+***                         --->      STAGE4 (1 BYTE)             **;
+***                                                             **;
+*** REVISED BY WENDY ON 05/22/13 :                              **;
+*** REPLACED FILLER5 WITH OTHER FLAGS :                         **;
+***  @2069 FILLER5 (100 BYTES) ---> @2069 REDU17PCT (1 BYTE)    **;
+***                                 @2070 BREEZY (1 BYTE)       **;
+***                                 @2071 FILLER5 (98 BYTES)    **;
+***                                                             **;
+*** REVISED BY WENDY ON 09/27/13 :                              **;
+***  @1252 FILLER4 (42 BYTES) ---> @1252 FILLER4 (37 BYTES)     **;
+***                           ---> @1289 HTLSF   (5 BYTES)      **;
+***  @2071 FILLER5 (98 BYTES) ---> @2071 HURRZONE (2 BYTES)     **;
+***                           ---> @2073 FILLER5 (96 BYTES)     **;
+***                                                             **;
+*** REVISED BY WENDY ON 12/31/13 :                              **;
+*** IF DUP. 'KEY' OR DUP. 'ROOM', THEN TAKE THE LARGEST #S.     **;
+***   @2073 FILLER5 (96 BYTES) ----> @2073 OLDTFMVL (6 BYTES)   **;
+***                            ---->       OLDFFMVL (6 BYTES)   **;
+***                            ---->       NEWTFMVL (6 BYTES)   **;
+***                            ---->       NEWFFMVL (6 BYTES)   **;
+***                            ---->       KEY (5 BYTES)        **;
+***                            ---->       ROOM (5 BYTES)       **;
+***                            ---->       FILLER5  (62 BYTES)  **;
+***                                                             **;
+*** REVISED BY WENDY ON 12/09/14 :                              **;
+*** 'KEY' & 'ROOM' FOR HOTEL ONLY : SUBAREA.SUB_CODE='HTL'      **;
+***   @2097 KEY     ---------------> @2097 HTLKEY (5 BYTES)     **;
+***   @2102 ROOM    ---------------> @2102 HTLROOM (5 BYTES)    **;
+***   @2107 FILLER5 (62 BYTES) ----> @2107 HTLUNIT (5 BYTES)    **;
+***                            ----> @2112 FILLER5 (57 BYTES)   **;
+***                                                             **;
+*** REVISED BY WENDY ON 11/07/16                                **;
+***  SET BCAT, SUBBCAT AND DBCAT TO FILLER :                    **;
+***   @1329 BCAT --------> (BLANK)                              **;
+***   @1333 SUBBCAT -----> (BLANK)                              **;
+***   @1335 DBCAT -------> (BLANK)                              **;
+***                                                             **;
+*** BY WENDY ON 2/14/18                                         **;
+*** SET @1140 RCASF(9 BYTES) -->  FILLER4A(9 BYTES)             **;
+******************************************************************;
+DATA SELCOND;
+INFILE CONDBAS3;
+INPUT
+      /*********** FROM VISION (POS.1 - 1469) *****/
+@1    PID                  11.
+@12   ENTITY           $CHAR4.
+      /*@16     NBR               $CHAR20. */
+@16   BORO             $CHAR1.  /* NBR (20 BYTES) */
+      CONDNO                4.
+      CONDS1           $CHAR1.  /* CONDO SUFFIX 1 */
+      CONDS2           $CHAR1.  /* CONDO SUFFIX 2 */
+      NBRFILLER       $CHAR13.
+@36   CARDNO          $CHAR24.  /* REM_PIN */
+      BILLBLOCK             5.  /* REM_MBLU_BLOCK : BILLING BLOCK */
+      BILLLOT               5.  /* REM_MBLU_LOT : BILLING LOT */
+      BILLEASE         $CHAR1.  /* REM_MBLU_LOT_CUT : BILLING EASEMENT */
+@71   PYEAR                10.
+@81   BC               $CHAR2.  /* REM_BLDG_CLASS */
+      BCFILLER         $CHAR2.  /* FILLER */
+@85   PUC              $CHAR4.  /* REM_USE_CODE : PRIMARY USE CODE */
+@89   RESUNIT               6.  /* PRC_RES_UNITS : TOTAL RESID. UNIT */
+@95   COMUNIT               6.  /* PRC_COMM_UNITS : TOTAL COMM. UNIT */
+@101  TOTBLDG               6.  /* PRC_USRFLD_09 : TOTAL NO. OF BLDG */
+@107  PSTAT            $CHAR5.  /* PRC_USRFLD_04 : PARCEL STATUS */
+@112  SECVOL           $CHAR6.  /* PRC_USRFLD_03 */
+@118  ZONING           $CHAR8.  /* LOC_FLD_01 */
+@126  ZONING2          $CHAR8.  /* LOC_FLD_02 */
+@134  ZONING3          $CHAR8.  /* LOC_FLD_03 */
+@142  COMOVLY          $CHAR8.  /* LOC_FLD_04 : COMMERCIAL OVERLAY */
+@150  COMOVLY2         $CHAR8.  /* LOC_FLD_05 */
+@158  V_NBHCOD         $CHAR6.  /* PRC_ASSNG_DIST */
+@164  DNAME           $CHAR35.  /* REM_BLDG_NAME : DEVELOPMENT NAME */
+@199  FILLER1          $CHAR1.  /* FILLER */
+@200  WRKINP                6.  /* PRC_WORK_IN_PROGRESS */
+@206  AR               $CHAR6.  /* PRC_PF_06 : ARATING */
+@212  PKCOVER               6.  /* CNS_USRFLD_400: PRKING SPACE-COVER */
+@218  PKUNCOV               6.  /* CNS_USRFLD_401: PRKING SPACE-UNCOV */
+@224  FILLER1A         $CHAR1.  /* FILLER */
+@225  LOTTYPE          $CHAR4.  /* PRC_PROP_TYPE */
+@229  IRREG            $CHAR6.  /* PRC_PF_02 */
+@235  LOTFRT                9.2 /* PRC_FRONTAGE */
+@244  LOTDEP                9.2 /* PRC_DEPTH */
+@253  LOTPERIM              9.  /* PRC_PERIMETER */
+@262  COMRESSQFT            9.  /* SUB_AREA_GROSS(CRA): COM OR RES.SF */
+@271  OFFSQFT               9.  /* SUB_AREA_GROSS(OFF): OFFICE SF */
+@280  RETSQFT               9.  /* SUB_AREA_GROSS(RET): RETAIL SF */
+@289  GARSQFT               9.  /* SUB_AREA_GROSS(GAR): GARAGE SF */
+@298  STOSQFT               9.  /* SUB_AREA_GROSS(STO): STORAGE SF */
+@307  FACSQFT               9.  /* SUB_AREA_GROSS(FAC): FACTORY SF */
+@316  OTHSQFT               9.  /* SUB_AREA_GROSS(OTH): OTHER SF */
+@325  GROSQFT               9.  /* PRC_TTL_RESCOMM_SQFT: TOT.GROSS SF */
+@334  OWNOCCSF              9.  /* CTR_CNS_OOSF : OWNER OCC.SF */
+@343  GROCUFTGA           PD5.  /* PRC_ALT_UOM : GRS.CUBIC FT PER GAL */
+@348  RESSQFT             PD5.  /* PRC_RES_SQFT: TOTAL RESIDENTIAL SF */
+@353  COMSQFT             PD5.  /* PRC_COMM_SQFT: TOTAL COMMERCIAL SF */
+@358  FILLER1B         $CHAR3.  /* FILLER */
+@361  OFFCLS           $CHAR4.  /* CONSTRCDM.CNS_USRFLD_405: OFF.CLS */
+@365  COMPUNITYP       $CHAR5.  /* SUB_INC_UNIT_TYPE : COMP UNIT TYPE */
+@370  COMPUNIT              5.  /* SUB_INC_UNITS : COMPARATIVE UNIT */
+@375  TC               $CHAR2.  /* PRC_TAX_CLASS : TAX CLASS */
+@377  DIST             $CHAR6.  /* PRC_BATCH_NUM : DISTRICT */
+@383  COMNBHD          $CHAR6.  /* PRC_CMRCL_DIST : COMM. NGBHOR */
+     /* @389  CLT_GEOAREA   $CHAR11.   CLT : COMMERCIAL GEO.AREA */
+@389  OFFAREA          $CHAR2.  /* REDEFINE CLT_GEOAREA FOR OFFICE */
+      SLASH1           $CHAR1.  /* REDEFINE CLT_GEOAREA */
+      RETAREA          $CHAR2.  /* REDEFINE CLT_GEOAREA FOR RETAIL */
+      SLASH2           $CHAR1.  /* REDEFINE CLT_GEOAREA */
+      INDAREA          $CHAR2.  /* REDEFINE CLT_GEOAREA FOR INDUSTRIAL */
+      SLASH3           $CHAR1.  /* REDEFINE CLT_GEOAREA */
+      GARAREA          $CHAR2.  /* REDEFINE CLT_GEOAREA FOR GARAGE */
+      FILLER1C         $CHAR3.  /* FILLER */
+@403  REVIEWER        $CHAR10.  /* REM_CHANGED_BY : REVIEWER */
+@413  MRFDATE         $CHAR10.  /* REM_PRCL_STATUS_DATE */
+@423  FMV                  11.  /* PRC_TTL_ASSESS: APPRAISED TOT. VALUE */
+@434  FILLER0              11.  /* FILLER */
+@445  FMVMTHD          $CHAR1.  /* PRC_VALUE_SOURCE:VAL.SOURCE(METHOD)*/
+@446  VALCHGREAS1      $CHAR3.  /* RFC_TYPE */
+@449  VALCHGREAS2      $CHAR3.  /* RFC_ACCEPT_CODE */
+@452  PREVFMVMTHD      $CHAR1.  /* PREV.YR FMVMTHD : FR LAST YR DATA */
+@453  FILLER1C1        $CHAR7.  /* FILLER */
+@460  FILLER1C2        $CHAR3.  /* FILLER */
+@463  CAPOVRFLG        $CHAR2.  /* ILF_CAP_OVR */
+@465  OFMV                 11.  /* PRC_CURR_MKT_TOTAL(ORIG./PREV.YR FMV */
+@476  OFMVL                11.  /* PRC_CURR_MKT_LAND(ORIG./PREV.YR FMVL */
+@487  FILLER1C3        $CHAR1.  /* FILLER */
+@488  GIMOVRFLG        $CHAR2.  /* ILF_GIM_OVR */
+@490  GIM                   9.3 /* ILF_GIM */
+@499  NETFLG           $CHAR1.  /* ILF_LEASE_TYPE : 'NNN', 'Y' OR 'N' */
+@500  OVRDINC              11.  /* ILF_AGI */
+@511  FILLER1D         $CHAR1.  /* FILLER */
+@512  OVRDEXP              11.  /* ILF_EXP */
+@523  FILLER1E         $CHAR1.  /* FILLER */
+@524  PREVOVRDINC          11.  /* PREV.YR OVRDINC : FROM LAST YR DATA */
+@535  PREVOVRDEXP          11.  /* PREV.YR OVRDEXP : FROM LAST YR DATA */
+@546  PREVEFFTXRT           9.3 /* PREV.YR EFFTXRT : FROM LAST YR DATA */
+@555  PREVTOTCAPRT          9.3 /* PREV.YR TOTCAPRT : FROM LAST YR DATA */
+@564  FILLER1C4             9.3 /* FILLER */
+@573  LANDSIZE              9.  /* PRC_TTL_LND_AREA_ACRES: TOT.LAND SF */
+@582  EFFTXRT               9.3 /* ILF_EFF_TAX_RATE : EFFT.TAX RATE */
+@591  TOTCAPRT              9.3 /* ILF_TOT_CAP_RATE : TOTAL CAP.RATE */
+@600  FILLER2A         $CHAR1.  /* FILLER */
+@601  MAINTDT         $CHAR10.  /* REM_PRC_STATUS_DATE */
+@611  STREETNO        $CHAR15.  /* REM_PRCL_LOCN_NUM_CHAR : STREET NO */
+@626  STNAME          $CHAR25.  /* REM_PRCL_LOCN_STREET : STREET NAME */
+@651  APTNO           $CHAR12.  /* REM_PRCL_LOCN_APT */
+@663  SECDIST          $CHAR6.  /* PRC_SECONDARY_AREA */
+@669  BISCODE          $CHAR4.  /* CTR.CNS_BIS_CODE */
+@673  FILLER2B         $CHAR1.  /* FILLER */
+@674  TIEBACKID1      $CHAR15.  /* PRC_USRFLD_06 : TIEBACK ID 1 */
+@689  ECRATE           $CHAR6.  /* PRC_PF_03 : USERF13 */
+@695  FILLER2C         $CHAR1.  /* FILLER */
+@696  BLDNO                 5.  /* BLD_BLDG_NUM */
+@701  CTR_RU                5.  /* CTR.CNS_RES_UNITS */
+@706  CTR_CU                5.  /* CTR.CNS_COM_UNITS */
+@711  BLDSTAT          $CHAR4.  /* CTR.CNS_BLD_STATUS */
+@715  YRBUILT               4.  /* DEP.CNS_AYB */
+@719  FILLER2D         $CHAR4.  /* FILLER */
+@723  FILLER2E         $CHAR1.  /* FILLER */
+@724  YREST                 4.  /* DEP.CNS_EYB */
+@728  YRALTC1          $CHAR4.  /* CTR.CNS_ALT_CODE_1: YR ALTERED CODE1 */
+@732  YRALT1                4.  /* CTR.CNS_ALT_ISSUED_1 */
+@736  YRALTR1               4.  /* CTR.CNS_ALT_COMPLETE_1 */
+@740  YRALTC2          $CHAR4.  /* CTR.CNS_ALT_CODE_2: YR ALTERED CODE2 */
+@744  YRALT2                4.  /* CTR.CNS_ALT_ISSUED_2 */
+@748  YRALTR2               4.  /* CTR.CNS_ALT_COMPLETE_2 */
+@752  BLDFRONT              9.2 /* BLD_FRONTAGE */
+@761  BLDDEPTH              9.2 /* BLD_DEPTH */
+@770  BLDGPERIM             9.  /* BLD_PERIMETER */
+@779  STORY                 6.2 /* CONSTRCDM.CNS_STORIES */
+@785  BPROX            $CHAR4.  /* CONSTRCDM.CNS_EXT_WALL */
+@789  EXTEN            $CHAR4.  /* CONSTRCDM.CNS_EXT_CNDTN : EXTENSION */
+@793  PCTCOMP               5.  /* CNS_BIS_PCT : PERCENT COMPLETE */
+@798  CAMABIN         $CHAR10.  /* BLD_BIN : BIN NO. FROM VISION */
+@808  MODEL            $CHAR4.  /* CONSTR.CNS_MDL */
+@812  GRADE            $CHAR4.  /* CONSTRCDM.CNS_GRADE */
+@816  CONSTTYPE        $CHAR4.  /* CONSTRCDM.CSN_ROOF_COVER:CONSTRU.TYP */
+@820  FILLER2F         $CHAR1.  /* FILLER */
+@821  CROSST1         $CHAR25.  /* REM_CROSS_STREET_1 */
+@846  CROSST2         $CHAR25.  /* REM_CROSS_STREET_2 */
+@871  FILLER2G         $CHAR4.  /* FILLER */
+@875  CSNSUPER         $CHAR4.  /* CONSTRCDM.CSN_SUPPER */
+@879  OVRCND           $CHAR4.  /* DEP.CNS_EYB_CODE: DEPRECIATION CODE */
+@883  FILLER2H         $CHAR5.  /* FILLER */
+@888  FILLER2I         $CHAR5.  /* FILLER */
+@893  BLDOBS                5.  /* DEP.CNS_ECON_OBSOL: BLDG.OBSOLESCENC */
+@898  XTRF             $CHAR4.  /* CONSTRCDM.CNS_FOUNDATION */
+@902  DRVTYPE          $CHAR4.  /* CONSTRCDM.CNS_CONDO_APPEAL */
+@906  BLDGNAME        $CHAR25.  /* BLD_BLDG_NAME */
+@931  CPDIST           $CHAR3.
+@934  GEN_NBHCOD       $CHAR4.  /* GENERATED NBHCOD (LOGIC FROM CLT) */
+@938  NEIGHBOR        $CHAR25.  /* DECODED FROM GEN_NBHCOD */
+@963  SANDYADJFLG      $CHAR1.  /* 'Y' OR ' ' (FR VISION-NAN'S LISTS') */
+      STAGE1           $CHAR1.  /* '1': (DS) AV. MV.CHG, OR ' ' */
+      STAGE3           $CHAR1.  /* '1': (ES) AV. MV.CHG, OR ' ' */
+      STAGE4           $CHAR1.  /* '1': (DS) AV. MV.CHG, OR ' ' */
+@967  HOTELCLS         $CHAR4.  /* CONSTRCDM.CNS_USRFLD_406 */
+@971  CNS_BASERATE          7.2 /* CONSTRCDM.CNS_BASE_RATE */
+@978  CNS_ADJBSRAT          7.2 /* CONSTRCDM.CNS_ADJ_BASE_RATE */
+@985  STYLE            $CHAR4.  /* CNS_STYLE */
+@989  BEDRM1                4.  /* CONSTRCDM.CNS_NUM_PARK_EASEMENT */
+@993  BEDRM2                4.  /* CONSTRCDM.CNS_NUM_PARK_COMMON */
+@997  HALFBATH              4.  /* CONSTRCDM.CNS_NUM_PARK_DEEDED */
+@1001 FILLER3A         $CHAR4.  /* FILLER */
+@1005 CDU              $CHAR4.  /* DEP.CNS_EYB_CODE: COST&DESIGN RATING */
+@1009 CDUTIE           $CHAR4.  /* CONSTCDM.CNS_ROOF_STRUCT */
+@1013 BSMTYPE          $CHAR4.  /* CONSTCDM.CNS_USRFLD_81 : BSMENT TYPE */
+@1017 BSMTGRADE        $CHAR4.  /* CONSTCDM.CNS_REMOD_EXT : BSMNT GRADE */
+@1021 GARTY1           $CHAR4.
+@1025 GARSF1                9.  /* OXF_UNITS: CODE=FGR, TYPE=A */
+@1034 GARTY2           $CHAR4.
+@1038 GARSF2                9.  /* OXF_UNITS: CODE=FGR, TYPE=BI */
+@1047 GARTY3           $CHAR4.
+@1051 GARSF3                9.  /* OXF_UNITS: CODE=FGR, TYPE=B */
+@1060 GARTY4           $CHAR4.
+@1064 GARSF4                9.  /* OXF_UNITS: CODE=FCG, TYPE=A */
+@1073 GARTY5           $CHAR4.
+@1077 GARSF5                9.  /* OXF_UNITS: CODE=FGR, TYPE=M */
+@1086 BSMSFLA               9.  /* SUB_AREA_GROSS(FBM): BSMENT FL. AREA */
+@1095 F1SFLA                9.  /* SUB.AREA_GROSS(1ST): 1ST FLOOR AREA */
+@1104 F2SFLA                9.  /* SUB_AREA_GROSS(2ND): 2ND FLOOR AREA*/
+@1113 UPPSFLA               9.  /* SUB_AREA_GROSS(UPF): UPPER FL. AREA */
+@1122 ATTSFLA               9.  /* SUB_AREA_GROSS(PAF):PARTIAL FL. AREA */
+@1131 UNFAREA               9.  /* SUB_AREA_GROSS(UFA): UNFINISHED AREA */
+@1140 FILLER4A         $CHAR9.
+@1149 LTYP1            $CHAR2.  /* LL1.LND_LOT_TYPE : LAND SQFT - TYPE */
+@1151 LSIZE1                9.  /* LL1.LND_UNITS : LAND SQFT - SIZE */
+@1160 LPRICE1              11.2 /* LL1.LND_UNIT_PRICE : LAND SQFT-PRICE */
+@1171 LTYP2            $CHAR2.  /* LL2.LND_LOT_TYPE */
+@1173 LSIZE2                9.  /* LL2.LND_UNITS */
+@1182 LPRICE2              11.2 /* LL2.LND_UNIT_PRICE */
+@1193 LTYP3            $CHAR2.  /* LL3.LND_LOT_TYPE */
+@1195 LSIZE3                9.  /* LL3.LND_UNITS */
+@1204 LPRICE3              11.2 /* LL3.LND_UNIT_PRICE */
+@1215 MRFYEAR              10.  /* REX_FISCAL_YR */
+@1225 BLKSUF           $CHAR3.  /* REM_BLOCK_SUFFIX : BLOCK SUFFIX */
+@1228 STCODE          $CHAR20.  /* REM_ST_CODE */
+@1248 MCOD                  4.  /* REM_IS_SKELETAL */
+@1252 FILLER4         $CHAR37.  /* FILLER */
+@1289 HTLSF               PD5.  /* SUB_AREA_GROSS(HTL) : HOTEL SF */
+@1294 FDNSF               PD5.  /* SUB_AREA_GROSS(FDN): FOUNDATION */
+      LOFTSF              PD5.  /* SUB_AREA_GROSS(LOF): LOFT */
+      NONRESSF            PD5.  /* SUB_AREA_GROSS(NRS) : NON RES */
+      SGNBDSF             PD5.  /* SUB_AREA_GROSS(SBD: SIGN BILLBOARD */
+      UCASF               PD5.  /* SUB_AREA_GROSS(UCA):UNFIN RES COMAREA */
+      WAREHSESF           PD5.  /* SUB_AREA_GROSS(WHS) : WAREHOUSE */
+      CELLTWRSF           PD5.  /* SUB_AREA_GROSS(CLT) : CELL TOWER */
+@1329 BCAT             $CHAR4.  /* GEN.BY LOGIC, SET TO BLANK ON 11/7/16 */
+@1333 SUBBCAT          $CHAR2.  /* GEN.BY LOGIC, SET TO BLANK ON 11/7/16 */
+@1335 DBCAT           $CHAR29.  /* SET TO BLANK ON 11/7/16 */
+@1364 CONDREG          $CHAR1.  /* REGULATED FLAG FOR CONDO */
+@1365 FMVB                PD6.  /* PRC_TTL_ASSESS_BLDG: BUILDING VALUE */
+      SPFEATVAL           PD6.  /* PRC_TTL_ASSESS_XF: SPCIAL FEATURE VAL */
+      OUTBLGVAL           PD6.  /* PRC_TTL_ASSESS_OB: OUTBUILDING VALUE */
+@1383 FMVL                PD6.  /* PRC_TTL_ASSESS_LND: LAND VALUE */
+@1389 REGRVAL             PD6.  /* PRC_TTL_REGRESSION: REGRESSION VALUE */
+      CMPSALEVAL          PD6.  /* PRC_COMP_FINAL: MARKET COMP SALE VAL */
+      CMPAPPVAL           PD6.  /* PRC_TTL_COMP_APPORTN: COMP APPORT.VAL */
+      STRAPPVAL           PD6.  /* PRC_TTL_APPORTN: STRAIGHT APPORT.VAL */
+      INCOMEVAL           PD6.  /* PRC_TTL_INCOME: INCOME VALUE */
+      COSTVAL             PD6.  /* PRC_TTL_COST: COST VALUE */
+      TRENDVAL            PD6.  /* PRC_TREND_TOTAL: TREND VALUE */
+@1431 VBCAT            $CHAR4.  /* PRC_BLDG_CAT : BCAT IN VISION */
+      VSUBBCAT         $CHAR2.  /* PRC_BLDG_SUB_CAT : SUB.BCAT IN VISION */
+@1437 TXCOMFLG         $CHAR2.  /* REM_INET_SUPPRESS: TAX COMISSION FLAG */
+      POSTFLG          $CHAR4.  /* PRC_VALUE_POST : POST FLAG */
+      POSTDATE        $CHAR10.  /* PRC_VALUE_POST_DATE : POST DATE */
+@1453 VALFLG                2.  /* PRC_VALUED_FLAG */
+      VALBY            $CHAR5.  /* PRC_VALUED_BY */
+@1460 VALDATE         $CHAR10.  /* PRC_VALUED_DATE : */
+      /******** FROM   RPAD FILE (POS.1470 - 2002) ******/
+@1470   TOTLOT              9.  /* # LOTS WITHIN CONDO MAIN OR SUF */
+@1479   MIBLOCK             5.  /* LOWEST BLOCK */
+        MXBLOCK             5.  /* HIGHEST BLOCK*/
+@1489   MILOT               5.  /* LOWEST LOT */
+        MXLOT               5.  /* HIGHEST LOT */
+      /***** LAST YR   TENT. ************/
+@1499   OTAVL             PD6.  /* LAST YR TENT. TRAN. AV LAND */
+@1505   OTAVT             PD6.  /* LAST YR TENT. TRAN. AV TOTAL */
+        OTEXL             PD6.  /* LAST YR TENT. TRAN. EX LAND */
+@1517   OTEXT             PD6.  /* LAST YR TENT. TRAN. EX TOTAL */
+        OTAAVL            PD6.  /* LAST YR TENT. ACTUAL AV LAND */
+@1529   OTAAVT            PD6.  /* LAST YR TENT. ACTUAL AV TOTAL */
+        OTAEXL            PD6.  /* LAST YR TENT. ACTUAL EX LAND */
+@1541   OTAEXT            PD6.  /* LAST YR TENT. ACTUAL EX TOTAL */
+@1547   OTTXBL            PD6.  /* LAST YR TENT. TAXABLE BILL. AV */
+@1553   OTFMV             PD6.  /* LAST YR TENT. FULL MARKET VALUE */
+      /***** LAST YR FINAL ************/
+@1559   OFAVL             PD6.
+@1565   OFAVT             PD6.
+        OFEXL             PD6.
+@1577   OFEXT             PD6.
+        OFAAVL            PD6.
+@1589   OFAAVT            PD6.
+        OFAEXL            PD6.
+@1601   OFAEXT            PD6.
+@1607   OFTXBL            PD6.
+@1613   OFFMV             PD6.
+      /***** CURRENT YR TENT. *********/
+@1619   TAVL              PD6.
+@1625   TAVT              PD6.
+        TEXL              PD6.
+@1637   TEXT              PD6.
+        TAAVL             PD6.
+@1649   TAAVT             PD6.
+        TAEXL             PD6.
+@1661   TAEXT             PD6.
+@1667   TTXBL             PD6.
+@1673   TFMV              PD6.
+      /***** CURRENT YR FINAL *********/
+@1679   FAVL              PD6.
+@1685   FAVT              PD6.
+        FEXL              PD6.
+@1697   FEXT              PD6.
+        FAAVL             PD6.
+@1709   FAAVT             PD6.
+        FAEXL             PD6.
+@1721   FAEXT             PD6.
+@1727   FTXBL             PD6.
+@1733   FFMV              PD6.
+      /*** TENT : EQ & PHY. CHANGES ***/
+@1739   AVEQLL            PD6.  /* EQ. CHANGES - LAND */
+        AVEQLT            PD6.  /* TOTAL EQ. CHANGES */
+@1751   AVDECL            PD6.  /* PHYSICAL DECREASE - LAND */
+        AVINCL            PD6.  /* PHYSICAL INCREASE - LAND */
+@1763   AVDECT            PD6.  /* PHYSICAL DECREASE - TOTAL */
+        AVINCT            PD6.  /* PHYSICAL INCREASE - TOTAL */
+@1775   NETPHYCHG         PD6.  /* NET PHYSICAL CHANGES */
+@1781   CNTEQCHG            6.  /* COUNT EQ. CHANGES */
+        CNTPHYDEC           6.  /* COUNT PHYSICAL DECREASE CHANGES */
+        CNTPHYINC           6.  /* COUNT PHYSICAL INCREASE CHANGES */
+        CNTPHYCHG           6.  /* COUNT NET PHYSICAL CHANGES */
+      /*** CBN : EQ & PHY. CHANGES ****/
+@1805   AVIEQLL           PD6. /* EQ. CHANGES - LAND */
+        AVIEQLT           PD6. /* TOTAL EQ. CHANGES */
+@1817   AVIDECL           PD6. /* PHYSICAL DECREASE - LAND */
+        AVIINCL           PD6. /* PHYSICAL INCREASE - LAND */
+@1829   AVIDECT           PD6. /* PHYSICAL DECREASE - TOTAL */
+        AVIINCT           PD6. /* PHYSICAL INCREASE - TOTAL */
+@1841   NETIPHYCHG        PD6. /* NET PHYSICAL CHANGES */
+@1847   CNTIEQCHG           6. /* COUNT EQ. CHANGES */
+        CNTIPHYDEC          6. /* COUNT PHYSICAL DECREASE CHANGES */
+        CNTIPHYINC          6. /* COUNT PHYSICAL INCREASE CHANGES */
+        CNTIPHYCHG          6. /* COUNT NET PHYSICAL CHANGES */
+      /*** FINAL : EQ & PHY. CHANGES **/
+@1871   AVFEQLL           PD6. /* EQ. CHANGES - LAND */
+        AVFEQLT           PD6. /* TOTAL EQ. CHANGES */
+@1883   AVFDECL           PD6. /* PHYSICAL DECREASE - LAND */
+        AVFINCL           PD6. /* PHYSICAL INCREASE - LAND */
+@1895   AVFDECT           PD6. /* PHYSICAL DECREASE - TOTAL */
+        AVFINCT           PD6. /* PHYSICAL INCREASE - TOTAL */
+@1907   NETFPHYCHG        PD6. /* NET PHYSICAL CHANGES */
+@1913   CNTFEQCHG           6. /* COUNT EQ. CHANGES */
+        CNTFPHYDEC          6. /* COUNT PHYSICAL DECREASE CHANGES */
+        CNTFPHYINC          6. /* COUNT PHYSICAL INCREASE CHANGES */
+        CNTFPHYCHG          6. /* COUNT NET PHYSICAL CHANGES */
+      /*** REM : EQ & PHY. CHANGES ****/
+@1937   AVREQLL           PD6. /* EQ. CHANGES - LAND */
+        AVREQLT           PD6. /* TOTAL EQ. CHANGES */
+@1949   AVRDECL           PD6. /* PHYSICAL DECREASE - LAND */
+        AVRINCL           PD6. /* PHYSICAL INCREASE - LAND */
+@1961   AVRDECT           PD6. /* PHYSICAL DECREASE - TOTAL */
+        AVRINCT           PD6. /* PHYSICAL INCREASE - TOTAL */
+@1973   NETRPHYCHG        PD6. /* NET PHYSICAL CHANGES */
+@1979   CNTREQCHG           6. /* COUNT EQ. CHANGES */
+        CNTRPHYDEC          6. /* COUNT PHYSICAL DECREASE CHANGES */
+        CNTRPHYINC          6. /* COUNT PHYSICAL INCREASE CHANGES */
+        CNTRPHYCHG          6. /* COUNT NET PHYSICAL CHANGES */
+      /**** REPLACED WITH FILLER FOR TCAP INFO (POS.2003 - 2068) ****/
+@2003   TCAPFILLER    $CHAR66. /* FILLER */
+@2069   REDU17PCT      $CHAR1.   /* '1'= 17% REDU., OR ' ' */
+@2070   BREEZY         $CHAR1.   /* '1'= BREEZY REDU., OR ' ' */
+@2071   HURRZONE       $CHAR2.   /* HURRICANE EVACUATION ZONE: 1-6 */
+@2073   OLDTFMVL          PD6. /* FROM RPAD - PRIOR YR TENT FMVL */
+        OLDFFMVL          PD6. /* FROM RPAD - PRIOR YR FIN FMVL */
+@2085   NEWTFMVL          PD6. /* FROM RPAD - CURR YR TENT FMVL */
+        NEWFFMVL          PD6. /* FROM RPAD - CURR YR FIN FMVL */
+     /******** FROM VISION (POS.2097 - 2205) ******/
+@2097   HTLKEY              5. /* SUBAREA.SUB_INC_UNITS (TYPE=K) */
+@2102   HTLROOM             5. /* SUBAREA.SUB_INC_UNITS (TYPE=R) */
+@2107   HTLUNIT             5. /* SUBAREA.SUB_INC_UNITS(CODE=HTL) */
+@2112   FILLER5       $CHAR57. /* FILLER */
+@2169   UAFLAND            15.11 /* PRC_UAF_MKT_LAND: CONDO UAF LAND */
+@2184   UAFBLDG            15.11 /* PRC_UAF_MKT_BLDG: CONDO UAF BLDG */
+@2199   LUC            $CHAR7.; /* LAND.LND_OCC : LAND USE CODE */
+** END OF CONDBASE FILE **************************************;
+RUN;

@@ -46,6 +46,17 @@ The table below includes all FDW tables, but includes most complete information 
 #| warning: false
 
 DT::datatable(table_data_display, escape = FALSE, filter = 'top', rownames = FALSE,
-              options = list(paging = FALSE, scrollCollapse = TRUE, bAutoWidth = FALSE)
+              options = list(paging = FALSE, scrollCollapse = TRUE, bAutoWidth = FALSE,
+                                 columnDefs = list(
+                                 # width limit for table name
+                                 list(
+                                  targets = 0,
+                                  render = JS(
+                                    "function(data, type, row, meta) {",
+                                    "return type === 'display' && data.length > 23 ?",
+                                    "'<span title=\"' + data + '\">' + data.substr(0, 23) + '...</span>' : data;",
+                                    "}"))
+                                )),
+              
               )
 ```
