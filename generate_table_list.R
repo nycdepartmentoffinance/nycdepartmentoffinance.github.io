@@ -4,12 +4,31 @@ library(odbc)
 library(dplyr)
 library(stringr)
 
+library(R.utils)
+
 # read in env file
 readRenviron("C:/Users/BoydClaire/.Renviron")
 
 
+# functions
+get_record_count = function(con, schema, table){
+    print(paste0("counting rows in ", table))
+    query <- glue::glue("
+    SELECT count(*)
+      FROM {schema}.{table};
+    ")
+
+    count = dbGetQuery(con, query)
+    num <- as.numeric(count[1, 1])
+
+    print("done.")
+    return(num)
+}
+
+
 # GET PRODUCTION TABLES
 database = "production"
+
 con <- DBI::dbConnect(odbc::odbc(),
                       Driver   = "SQL Server",
                       Server   = Sys.getenv(paste0(database, "_server")),
@@ -123,21 +142,6 @@ query <-
 
 fdw_columns <- dbGetQuery(con, query)
 
-get_record_count = function(con, schema, table){
-    print(paste0("counting rows in ", table))
-    query <-
-        glue::glue("
-    SELECT count(*)
-      FROM {schema}.{table};
-    ")
-
-    count = dbGetQuery(con, query)
-    num = as.numeric(count[1])
-    print("done.")
-
-    return(num)
-}
-
 query <-
     glue::glue("
     SELECT *
@@ -149,8 +153,7 @@ query <-
 stats <- dbGetQuery(con, query)
 
 fdw_refresh <- stats %>%
-    filter(#SCHEMA_NM %in% c("FDW3NF", "IAS") &
-        DB_NM %in% c("DOFEDPRD"),
+    filter(DB_NM %in% c("DOFEDPRD"),
         !(PROJECT_NM %in% c("FDW_HIST"))) %>%
     group_by(DB_NM, SCHEMA_NM, TABLE_NM) %>%
     slice(1) %>%
@@ -160,7 +163,7 @@ fdw_refresh <- stats %>%
     rename(TABLE_CATALOG = DB_NM,
            TABLE_SCHEMA = SCHEMA_NM,
            TABLE_NAME = FDW_NAME) %>%
-    select(TABLE_CATALOG, TABLE_SCHEMA, TABLE_NAME, LAST_UPDATE)
+    select(TABLE_SCHEMA, TABLE_NAME, LAST_UPDATE)
 
 fdw_tables = fdw_columns %>%
     mutate(TABLE_CATALOG = "FDW") %>%
@@ -176,15 +179,16 @@ fdw_tables = fdw_columns %>%
            PRIMARY_KEYS = NA
     ) %>%
     rowwise() %>%
-    mutate(RECORDS = get_record_count(con, database_schema, TABLE_NAME)) %>%
-    left_join(fdw_refresh, by=c("TABLE_CATALOG", "TABLE_SCHEMA", "TABLE_NAME"))
+    mutate(RECORDS = get_record_count(con, database_schema, TABLE_NAME))
+
+fdw_tables_joined = fdw_tables %>%
+    select(-LAST_UPDATE) %>%
+    left_join(fdw_refresh, by=c("TABLE_SCHEMA", "TABLE_NAME"))
 
 DBI::dbDisconnect(con)
 
 write.csv(fdw_columns, "tables/fdw_columns.csv")
 write.csv(fdw_tables, "tables/fdw_tables.csv")
-
-
 
 
 # GET IAS TABLES
@@ -207,12 +211,11 @@ query <-
     SELECT *
       FROM ALL_TAB_COLUMNS
       WHERE OWNER = '{toupper(Sys.getenv(paste0(database, '_schema')))}'
-
         ;
     ")
 
 ias_columns <- dbGetQuery(con, query)
-
+write.csv(ias_columns, "tables/ias_columns.csv")
 
 ias_tables_without_records = ias_columns %>%
     mutate(TABLE_CATALOG = "IAS") %>%
@@ -226,16 +229,22 @@ ias_tables_without_records = ias_columns %>%
            first_col = NA,
            PRIMARY_KEYS = NA)
 
+write.csv(ias_tables_without_records, "tables/ias_tables_without_records.csv")
+
 # START HERE
+
+ias_tables_without_records = readr::read_csv("tables/ias_tables_without_records.csv") %>%
+    select(-1)
+
 
 ias_tables <- ias_tables_without_records %>%
     rowwise() %>%
-    mutate(RECORDS = get_record_count(con, database_schema, TABLE_NAME),
+    mutate(RECORDS = ifelse(!grepl("ADJ", TABLE_NAME), get_record_count(con, database_schema, TABLE_NAME), NA),
            LAST_UPDATE = NA)
 
 DBI::dbDisconnect(con)
 
-write.csv(ias_columns, "tables/ias_columns.csv")
+
 write.csv(ias_tables, "tables/ias_tables.csv")
 
 
