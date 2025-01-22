@@ -4,7 +4,9 @@ library(odbc)
 library(dplyr)
 library(stringr)
 library(readr)
+library(readxl)
 
+# GET ONLY PTS COLS FROM FDW TABLES
 
 fdw_columns <- readr::read_csv("tables/fdw_columns.csv") %>%
     select(-1)
@@ -27,29 +29,46 @@ aprval = readxl::read_excel("tables/pts_userfields.xlsx", sheet = "APRVAL")
 usrfield = readxl::read_excel("tables/pts_userfields.xlsx", sheet = "USRFIELD") %>%
     select(-TROWID)
 
-
-combined_table <- rbind(pardat, asmt, aprval, usrfield) %>%
+combined_table <- rbind(pardat, asmt, aprval) %>%
     rename(COLUMN_NAME = FLD,
            DESCRIPTION = FLDLABL) %>%
     mutate(TABLE_NAME = paste0("VW_PTS_", TBLE)) %>%
     select(TABLE_NAME, COLUMN_NAME, DESCRIPTION)
+
+
+userfield_combined <- usrfield %>%
+    rename(COLUMN_NAME = FLD,
+           DESCRIPTION = FLDLABL) %>%
+    mutate(TABLE_NAME = paste0("VW_PTS_", TBLE)) %>%
+    full_join(combined_table,  by=c("TABLE_NAME", "COLUMN_NAME")) %>%
+    mutate(DESCRIPTION = ifelse(!is.na(DESCRIPTION.x), DESCRIPTION.x, DESCRIPTION.y),
+           NOTES = NA) %>%
+    select(TABLE_NAME, COLUMN_NAME, DESCRIPTION, NOTES)
+
+
 
 # ground truth of new page - what we want descriptions for
 pts_columns <- fdw_columns %>%
     filter(TABLE_NAME %in% fdw_pts_tables) %>%
     rename(TYPE = DATA_TYPE) %>%
     select(OWNER, TABLE_NAME, COLUMN_NAME, TYPE) %>%
-    left_join(combined_table, by=c("TABLE_NAME", "COLUMN_NAME"))
-
-remaining_userfields <- pts_columns %>%
-    filter(grepl("USER", COLUMN_NAME) | grepl("FLAG", COLUMN_NAME))
+    left_join(userfield_combined, by=c("TABLE_NAME", "COLUMN_NAME")) %>%
+    arrange(TABLE_NAME, COLUMN_NAME)
 
 
-write_csv(pts_columns, "tables/pts_columns.csv", na="")
+# use manual to update main table
+pts_columns_manual <- readxl::read_excel("tables/pts_columns_manual_add.xlsx")
 
-query = "SELECT *
-    FROM ALL_TAB_COLUMNS
-    WHERE OWNER = 'FDW3NF' AND IDENTITY_COLUMN='YES'
-"
+updated = pts_columns %>%
+    full_join(pts_columns_manual) %>%
+    group_by(OWNER, TABLE_NAME, COLUMN_NAME) %>%
+    arrange(DESCRIPTION) %>%
+    slice(1)
 
-primary_keys = dbGetQuery(con, query)
+write.csv(updated, "tables/pts_columns.csv", na="")
+
+
+
+
+
+

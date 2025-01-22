@@ -27,6 +27,7 @@ website:
        contents:
         - fdw_crosswalk.qmd
         - production_columns.qmd
+        - pts_columns.qmd
         - all_tables.qmd
 
 format:

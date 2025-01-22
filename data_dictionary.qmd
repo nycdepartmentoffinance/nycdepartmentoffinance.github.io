@@ -8,6 +8,7 @@ Explore the following pages that help document the data resources available to D
 their matching CAMA table names if applicable, as well as the prefix used and relevant primary keys 
 for the table (*unit of observation*: table).
 -   [REAL_PROP Column Lookup](production_columns.html): A table that contains all columns for the most important REAL_PROP tables in the production database, including the column type, description, and if it is a primary key (*unit of observation*: column).
+-   [PTS Column Lookup](pts_columns.html): A table that contains information for columns for PTS tables in the FDW database as well as NEWBASE and CONDBASE, including the column type, description, and additional notes if relevant (*unit of observation*: column).
 -   [All Tables](all_tables.html): This is a comprehensive list of all database tables within Production, FDW, and IAS databases, including the prefix used, number of columns in the table, and primary keys where relevant (*unit of observation*: table).
 
 To download any of these datasets, visit the source data [here](https://github.com/nycdepartmentoffinance/nycdepartmentoffinance.github.io/tree/main/tables).

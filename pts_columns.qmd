@@ -1,0 +1,41 @@
+---
+title: "PTS Column Lookup"
+---
+
+```{r, include=FALSE}
+library(dplyr)
+library(readr)
+library(DT)
+library(magrittr)
+
+#re-run every now and then to update df - note: might take a few minutes (especially because of IAS)
+#source("generate_table_list.R")
+
+table_data <- readr::read_csv("tables/pts_columns.csv") %>% 
+    select(-1, -NOTES, -OWNER)
+
+```
+
+The table below includes a list of columns from core tables available in the `PTS` tables within the `FDW` database (`FDW3NF`). Use the search bar below to look for columns within a particular table (e.g. `ASMT`) or by column name (e.g. `CNS_PID`) to see which tables it appears in.
+
+For comprehensive information on these tables, visit the [PTS Documentation and User Guides](https://nyco365.sharepoint.com/sites/DOF-PropertyDivision/PTS/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FDOF%2DPropertyDivision%2FPTS%2FShared%20Documents%2FPTS%20Documentation%20and%20User%20Guides&viewid=1f671f8e%2D7586%2D4e62%2Db646%2De0fde9f3da7b&ovuser=32f56fc7%2D5f81%2D4e22%2Da95b%2D15da66513bef%2Cboydclaire%40finance%2Enyc%2Egov&OR=Teams%2DHL&CT=1737575630414&clickparams=eyJBcHBOYW1lIjoiVGVhbXMtRGVza3RvcCIsIkFwcFZlcnNpb24iOiI0OS8yNDEyMDEwMDIxNyIsIkhhc0ZlZGVyYXRlZFVzZXIiOmZhbHNlfQ%3D%3D) internal SharePoint site.
+
+```{r}
+#| echo: false
+#| warning: false
+
+DT::datatable(table_data, escape = FALSE, filter = 'top', rownames = FALSE,
+              options = list(paging = FALSE, scrollCollapse = TRUE,
+                             columnDefs = list(
+                                 # width limit for table name
+                                 list(
+                                  targets = 1,
+                                  render = JS(
+                                    "function(data, type, row, meta) {",
+                                    "return type === 'display' && data.length > 15 ?",
+                                    "'<span title=\"' + data + '\">' + data.substr(0, 15) + '...</span>' : data;",
+                                    "}"))
+                                )
+                             )
+              )
+```
