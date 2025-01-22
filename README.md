@@ -44,7 +44,18 @@ git commit -m "made updates to site"
 git push
 ```
 
-6. Our branch on github now contains commits past our main branch, so it's time for a pull request and merge. 
+6. Our branch on github now contains commits past our main branch, so it's time for a pull request and merge. If you go to your repository online, you should see something like the following. Click on **Compare & pull request**
 
+<img src="https://github.com/user-attachments/assets/d7870df4-5145-40bf-b3a2-e48a657ec2e1" style="width:600px;"/>
 
-For more detailed documentation on quarto websites, explore their website guide [here](https://quarto.org/docs/websites/).
+7. At the next screen, click on **Create pull request**
+
+<img src="https://github.com/user-attachments/assets/b10add6e-6b02-4e7a-add9-63353bafca73" style="width:600px;"/>
+
+8. Next, click on **Merge pull request**
+
+<img src="https://github.com/user-attachments/assets/c04b89b6-1dd2-4c8c-83a0-b3e297dcbbe5" style="width:600px;"/>
+
+Now, github will automatically start an action (on any push to the `main` branch) that will re-render our live website. 
+
+Our changes are complete!
