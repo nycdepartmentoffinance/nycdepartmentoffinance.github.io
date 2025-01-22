@@ -42,8 +42,7 @@ query <-
 stats <- dbGetQuery(con, query)
 
 fdw_refresh <- stats %>%
-    filter(#SCHEMA_NM %in% c("FDW3NF", "IAS") &
-               DB_NM %in% c("DOFEDPRD"),
+    filter(DB_NM %in% c("DOFEDPRD"),
                !(PROJECT_NM %in% c("FDW_HIST"))) %>%
     group_by(DB_NM, SCHEMA_NM, TABLE_NM) %>%
     slice(1) %>%
@@ -58,7 +57,6 @@ real_prop = production_tables %>%
     filter(TABLE_SCHEMA == "REAL_PROP")
 
 fdw_crosswalk = fdw_tables %>%
-    #filter(grepl("VW_CAMA_", TABLE_NAME)) %>%
     filter(TABLE_NAME != "CAMA_SALEHIST_HIST") %>%
     mutate(DB = ifelse(grepl("CAMA", TABLE_NAME), "CAMA",
                              ifelse(grepl("VW_PTS_", TABLE_NAME), "PTS",
@@ -78,7 +76,8 @@ fdw_crosswalk = fdw_tables %>%
     mutate(CAMA_NAME = ifelse(is.na(TABLE_CATALOG) & is.na(TABLE_SCHEMA), NA, CAMA_NAME),
            IN_CAMA = !is.na(CAMA_NAME)) %>%
     rename(CAMA_COLUMNS = COLUMNS,
-           CAMA_COLUMN_NAMES = COLUMN_NAMES) %>%
+           CAMA_COLUMN_NAMES = COLUMN_NAMES,
+           CAMA_LAST_UPDATE = LAST_UPDATE) %>%
     left_join(fdw_refresh, by=c("FDW_NAME"))
 
 
@@ -112,7 +111,10 @@ hist_tables_filtered = hist_tables %>%
 
 fdw_crosswalk_display = fdw_crosswalk %>%
     rows_update(hist_tables_filtered) %>%
-    select(FDW_NAME, FDW_LAST_UPDATE, CAMA_NAME, PREFIX, PRIMARY_KEYS, DB)
+    rename(COLS = FDW_COLUMNS) %>%
+    # transform date
+    mutate(LAST_UPDATE = as.Date(FDW_LAST_UPDATE)) %>%
+    select(FDW_NAME, LAST_UPDATE, CAMA_NAME, COLS, PREFIX, PRIMARY_KEYS, DB)
 
 write.csv(fdw_crosswalk_display, "tables/fdw_crosswalk.csv", na="")
 
