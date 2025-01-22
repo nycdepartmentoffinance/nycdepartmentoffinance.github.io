@@ -81,3 +81,19 @@ DBI::dbDisconnect(con)
 
 
 write.csv(ias_tables, "tables/ias_tables.csv")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
