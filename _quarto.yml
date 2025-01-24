@@ -4,7 +4,7 @@ project:
 
 website:
   title: Property Modeling
-  repo-url: https://github.com/nycdepartmentoffinance/nycdepartmentoffinance.github.io
+  repo-url: https://github.com/nycdepartmentoffinance
   repo-actions: [source, issue]
   favicon: "images/favicon/logo_favicon.png"
   navbar:
@@ -18,7 +18,7 @@ website:
         href: data_dictionary.qmd
     tools:
       - icon: github
-        href: https://github.com/nycdepartmentoffinance/nycdepartmentoffinance.github.io
+        href: https://github.com/nycdepartmentoffinance
 
   sidebar:
      style: "docked"

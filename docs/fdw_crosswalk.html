@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>FDW to Vision Table Crosswalk – Property Modeling</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./images/favicon/logo_favicon.png" rel="icon" type="image/png">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<link href="site_libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet">
+
+<script src="site_libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+
+<link href="site_libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet">
+
+<script src="site_libs/datatables-binding-0.33/datatables.js"></script>
+
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+
+<link href="site_libs/dt-core-1.13.6/css/jquery.dataTables.min.css" rel="stylesheet">
+
+<link href="site_libs/dt-core-1.13.6/css/jquery.dataTables.extra.css" rel="stylesheet">
+
+<script src="site_libs/dt-core-1.13.6/js/jquery.dataTables.min.js"></script>
+
+<link href="site_libs/nouislider-7.0.10/jquery.nouislider.min.css" rel="stylesheet">
+
+<script src="site_libs/nouislider-7.0.10/jquery.nouislider.min.js"></script>
+
+<link href="site_libs/selectize-0.12.0/selectize.bootstrap3.css" rel="stylesheet">
+
+<script src="site_libs/selectize-0.12.0/selectize.min.js"></script>
+
+<link href="site_libs/crosstalk-1.2.1/css/crosstalk.min.css" rel="stylesheet">
+
+<script src="site_libs/crosstalk-1.2.1/js/crosstalk.min.js"></script>
+
+
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-sidebar docked nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="./index.html" class="navbar-brand navbar-brand-logo">
+    <img src="./images/favicon/logo_transparent.png" alt="" class="navbar-logo">
+    </a>
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Property Modeling</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="./data_dictionary.html" aria-current="page"> 
+<span class="menu-text">Data Dictionary</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+    <a href="https://github.com/nycdepartmentoffinance/nycdepartmentoffinance.github.io" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-github"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./data_dictionary.html">Data Dictionary</a></li><li class="breadcrumb-item"><a href="./fdw_crosswalk.html">FDW to Vision Table Crosswalk</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./data_dictionary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Data Dictionary</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./fdw_crosswalk.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">FDW to Vision Table Crosswalk</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./production_columns.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">REAL_PROP Column Lookup</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./pts_columns.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">PDM/PTS Column Lookup</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./all_tables.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">All Tables</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./data_dictionary.html">Data Dictionary</a></li><li class="breadcrumb-item"><a href="./fdw_crosswalk.html">FDW to Vision Table Crosswalk</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">FDW to Vision Table Crosswalk</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>There are currently 227 tables within the Financial Data Warehouse (FDW) database from PTS, PDM, and CAMA.</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">Database</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Number of tables</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">PTS</td>
+<td style="text-align: right;">88</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">PDM</td>
+<td style="text-align: right;">73</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">CAMA</td>
+<td style="text-align: right;">65</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">1</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+<section id="crosswalk" class="level4">
+<h4 class="anchored" data-anchor-id="crosswalk">Crosswalk</h4>
+<p>The table below includes all FDW tables, but includes most complete information for those also in the <code>V8_NEWYORK_NY_LIVE</code> <code>REAL_PROP</code> schema. The primary keys column indicates the identifiers needed to obtain unique records in a database table.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="datatables html-widget html-fill-item" id="htmlwidget-2d2c4cf8e92d1046dfa4" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-2d2c4cf8e92d1046dfa4">{"x":{"filter":"top","vertical":false,"filterHTML":"<tr>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"date\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"1736121600000\" data-max=\"1737676800000\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"6\" data-max=\"500\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n<\/tr>","data":[["VW_CAMA_ABATEMENT","VW_CAMA_AHDATE","VW_CAMA_BLDG","VW_CAMA_BLDG_HIST","VW_CAMA_BUILDING_CATEGORY","VW_CAMA_CONSTR","VW_CAMA_CONSTRCDM","VW_CAMA_CONSTRCDM_HIST","VW_CAMA_CONSTRCDU","VW_CAMA_CONSTRCDU_HIST","VW_CAMA_CONSTRCOM","VW_CAMA_CONSTRCOM_HIST","VW_CAMA_CONSTRDEP","VW_CAMA_CONSTRDEP_HIST","VW_CAMA_CONSTRRES","VW_CAMA_CONSTRRES_HIST","VW_CAMA_CONSTR_HIST","VW_CAMA_CRSTORE","VW_CAMA_CSSTORE","VW_CAMA_EXTRACT","VW_CAMA_EXTRACT_MISSING_PID","VW_CAMA_INCOME","VW_CAMA_INCOME_AM_CURVE","VW_CAMA_INCOME_LF","VW_CAMA_INCOME_LF_APPROACH","VW_CAMA_INCOME_LF_HIST","VW_CAMA_INCOME_LF_INC_ACTUAL","VW_CAMA_INCOME_LF_INC_HOTEL","VW_CAMA_INC_LF_INC_ACTUAL_HIST","VW_CAMA_LA13","VW_CAMA_LAND","VW_CAMA_LAND_HIST","VW_CAMA_LOCNHIST","VW_CAMA_LOCNHIST_HIST","VW_CAMA_MUNICIP","VW_CAMA_NBHD","VW_CAMA_NOTES_HIST","VW_CAMA_OBXF","VW_CAMA_OBXF_HIST","VW_CAMA_OCC","VW_CAMA_OVRADJ","VW_CAMA_PARCEL","VW_CAMA_PARCEL_EXTENSIONS","VW_CAMA_PARCEL_EXTENSIONS_HIST","VW_CAMA_PARCEL_HIST","VW_CAMA_REALCFG","VW_CAMA_REALCFG_HIST","VW_CAMA_REALMAST","VW_CAMA_REALMAST_HIST","VW_CAMA_REIMAGES","VW_CAMA_RFC","VW_CAMA_RFC_HIST","VW_CAMA_SALEHIST","VW_CAMA_SALEHIST_HIST","VW_CAMA_STYLE","VW_CAMA_SUBAREA","VW_CAMA_SUBAREA_HIST","VW_CAMA_TAXCLASSCONFIG","VW_CAMA_USRAUDIT","VW_CAMA_USRAUDIT_HIST","VW_CAMA_VISITHST","VW_ETL_REFRESH_STATS","VW_PDM_CONDBASE","VW_PDM_CONDBASE_HIST","VW_PDM_DIM_ABANDONED","VW_PDM_DIM_BCAT","VW_PDM_DIM_BORO_EASE","VW_PDM_DIM_BUILD_CLASS","VW_PDM_DIM_CLASS_XREF","VW_PDM_DIM_COMM_NEIGHBORHOOD","VW_PDM_DIM_DATE","VW_PDM_DIM_DELCHG","VW_PDM_DIM_NEIGHBORHOOD","VW_PDM_DIM_NEIGHBORHOOD_XREF","VW_PDM_DIM_OFFICE_CLASS","VW_PDM_DIM_PROPERTY_TYPE","VW_PDM_DIM_PROTEST","VW_PDM_DIM_TAX_CLASS","VW_PDM_DIM_TAX_RATE","VW_PDM_DW_AVCHG","VW_PDM_DW_AVCHG_HIST","VW_PDM_DW_BBL176","VW_PDM_DW_CAMA","VW_PDM_DW_CAMA_BILL","VW_PDM_DW_CAMA_HIST","VW_PDM_DW_CAMA_NOTES","VW_PDM_DW_CONTAPTS","VW_PDM_DW_COOPDVLP","VW_PDM_DW_COOPFLAG","VW_PDM_DW_COOPUNIT","VW_PDM_DW_COOPUNIT_HIST","VW_PDM_DW_COOPUNIT_PIVOT","VW_PDM_DW_COUNTRY_CD","VW_PDM_DW_DHCR","VW_PDM_DW_DHCR_MASTER","VW_PDM_DW_DOB","VW_PDM_DW_DOB_MASTER","VW_PDM_DW_GEO","VW_PDM_DW_GEO_MASTER","VW_PDM_DW_HURRZONE","VW_PDM_DW_NEIGHBORHOOD_CD","VW_PDM_DW_OWNER","VW_PDM_DW_RED17PCT","VW_PDM_DW_RETSTRIP","VW_PDM_DW_RG_FILE","VW_PDM_DW_RPAD","VW_PDM_DW_RPAD_EXEMPT","VW_PDM_DW_RPAD_EXEMPT_HIST","VW_PDM_DW_RPAD_MASTER","VW_PDM_DW_RPAD_MASTER_HIST","VW_PDM_DW_RPAD_SUMM","VW_PDM_DW_RPAD_SUMM_HIST","VW_PDM_DW_RPAD_VALUES","VW_PDM_DW_RPAD_VALUES_HIST","VW_PDM_DW_SALES","VW_PDM_DW_SOA","VW_PDM_DW_STAGE","VW_PDM_DW_STARCAP","VW_PDM_DW_STARCAP_HIST","VW_PDM_DW_STAR_SSN","VW_PDM_DW_TAX_COMM_PETITION","VW_PDM_DW_TCAP","VW_PDM_DW_TCAP_HIST","VW_PDM_FCT_RPAD_VALUES","VW_PDM_FILE_RECEIVED","VW_PDM_MAMA_BBLE_SUMM_PIVOT","VW_PDM_MAMA_DASHBOARD_SUMM","VW_PDM_MAMA_DASHBOARD_SUMM_DD","VW_PDM_MAMA_RPT_DETAIL","VW_PDM_MAMA_RPT_DETAIL_EXEMPT","VW_PDM_MAMA_RPT_SUMM_NEW","VW_PDM_NCPD_PHYS_FIN","VW_PDM_NEWBASE","VW_PDM_NEWBASE_HIST","VW_PDM_NEWBASE_TC","VW_PDM_P8078_REPORT","VW_PDM_STG_DHCR","VW_PDM_STG_DOB","VW_PDM_STG_GEO","VW_PTS_ADDRINDX","VW_PTS_ADJUST","VW_PTS_ALTIDINDX","VW_PTS_APRVAL","VW_PTS_ASMT","VW_PTS_ASMTTRANSP","VW_PTS_ASMT_PDM_HIST","VW_PTS_COMNT","VW_PTS_COOPCHILD","VW_PTS_COOPCHILD_HIST","VW_PTS_COOPMAST","VW_PTS_COOPMAST_HIST","VW_PTS_COOPMTC_HIST","VW_PTS_COOPUEX","VW_PTS_COOPUEX_HIST","VW_PTS_COOPUNIT","VW_PTS_COOPUNITOWN","VW_PTS_COOPUNITOWN_HIST","VW_PTS_COOPUNIT_HIST","VW_PTS_COOPUTC","VW_PTS_COOPUTC_HIST","VW_PTS_EXAPP","VW_PTS_EXAPP_HIST","VW_PTS_EXCODE","VW_PTS_EXCODE_HIST","VW_PTS_EXDET","VW_PTS_EXDET_HIST","VW_PTS_HTCONDO","VW_PTS_HTCONDOVAL","VW_PTS_HTPAR","VW_PTS_HTVAL","VW_PTS_IASW_V_PPDETASSET","VW_PTS_IERENT","VW_PTS_LEGDAT","VW_PTS_LOADVAL","VW_PTS_NOTICE_SOA","VW_PTS_NOTICE_SOA_HIST","VW_PTS_NYC_ABATEDET","VW_PTS_NYC_ABATEDET_HIST","VW_PTS_NYC_ABATEMENT","VW_PTS_NYC_ABATEMENT_HIST","VW_PTS_NYC_ASMTCHG","VW_PTS_NYC_ASMTCHG_HIST","VW_PTS_NYC_EXDETAIL","VW_PTS_NYC_EXDETAIL_HIST","VW_PTS_NYC_OPENBALANCE","VW_PTS_NYC_PROPMAST","VW_PTS_NYC_PROPMAST_HIST","VW_PTS_NYC_RPIEE","VW_PTS_NYC_RPIEE_HIST","VW_PTS_NYC_RPIEH","VW_PTS_NYC_RPIEH_HIST","VW_PTS_NYC_RPIEW","VW_PTS_NYC_RPIEW_HIST","VW_PTS_NYC_SALES","VW_PTS_NYC_SALES_HIST","VW_PTS_NYC_TCAP","VW_PTS_NYC_TCAP_HIST","VW_PTS_NYC_TCP","VW_PTS_NYC_TCP_HIST","VW_PTS_OWNALT","VW_PTS_OWNALT_HIST","VW_PTS_OWNALT_PDM_HIST","VW_PTS_OWNDAT","VW_PTS_OWNDAT_HIST","VW_PTS_OWNDAT_PDM_HIST","VW_PTS_OWNMLT","VW_PTS_OWNMLT_HIST","VW_PTS_OWNMLT_PDM_HIST","VW_PTS_PARDAT","VW_PTS_PARDAT_HIST","VW_PTS_PPADMN","VW_PTS_PPVAL","VW_PTS_PPVALSUM","VW_PTS_PRETAX","VW_PTS_REMISSYR_NYC","VW_PTS_SPLCOM","VW_PTS_SRVCHILD","VW_PTS_SRVMAST","VW_PTS_SRVPARENT","VW_PTS_TAXREF","VW_PTS_TAXREFDET","VW_PTS_TCAPP","VW_PTS_TCAPP_HIST","VW_PTS_TCDEF","VW_PTS_TCDEF_HIST","VW_PTS_TCDET","VW_PTS_TCDET_HIST"],["2025-01-24","2025-01-24","2025-01-24",null,"2025-01-24","2025-01-24","2025-01-24",null,"2025-01-24",null,"2025-01-24",null,"2025-01-24",null,"2025-01-24",null,null,"2025-01-24","2025-01-24","2025-01-24","2025-01-24","2025-01-24","2025-01-24","2025-01-24","2025-01-24",null,"2025-01-24","2025-01-24",null,"2025-01-24","2025-01-24",null,"2025-01-24",null,"2025-01-24","2025-01-24",null,"2025-01-24",null,"2025-01-24","2025-01-24","2025-01-24","2025-01-24",null,null,"2025-01-24",null,"2025-01-24",null,"2025-01-24","2025-01-24",null,"2025-01-24",null,"2025-01-24","2025-01-24",null,"2025-01-24","2025-01-24",null,"2025-01-24",null,"2025-01-24",null,"2025-01-24","2025-01-24","2025-01-24","2025-01-24","2025-01-24","2025-01-24",null,"2025-01-24","2025-01-24","2025-01-24","2025-01-24","2025-01-24","2025-01-24","2025-01-24","2025-01-24","2025-01-24",null,"2025-01-24","2025-01-24","2025-01-24",null,null,"2025-01-24","2025-01-24","2025-01-24","2025-01-24",null,null,"2025-01-24","2025-01-24","2025-01-24","2025-01-24","2025-01-24","2025-01-24","2025-01-24","2025-01-24","2025-01-24","2025-01-24","2025-01-24","2025-01-24","2025-01-24","2025-01-24","2025-01-24",null,"2025-01-24",null,"2025-01-24",null,"2025-01-24",null,"2025-01-24","2025-01-24","2025-01-24","2025-01-24",null,"2025-01-24","2025-01-24","2025-01-24",null,"2025-01-24",null,null,null,null,null,null,null,null,"2025-01-24",null,null,null,"2025-01-24","2025-01-24","2025-01-24","2025-01-24","2025-01-24","2025-01-24","2025-01-24","2025-01-24","2025-01-24",null,"2025-01-24","2025-01-24",null,"2025-01-24",null,null,"2025-01-24",null,"2025-01-24","2025-01-24",null,null,"2025-01-24",null,"2025-01-24",null,"2025-01-24",null,"2025-01-24",null,"2025-01-24","2025-01-24","2025-01-24","2025-01-24","2025-01-24","2025-01-24","2025-01-24","2025-01-24","2025-01-24",null,"2025-01-24",null,"2025-01-24",null,"2025-01-24",null,"2025-01-24",null,"2025-01-06","2025-01-24",null,"2025-01-24",null,"2025-01-24",null,"2025-01-24",null,"2025-01-24",null,"2025-01-24",null,"2025-01-24",null,"2025-01-24","2025-01-24",null,"2025-01-24","2025-01-24",null,"2025-01-24","2025-01-24",null,"2025-01-24",null,"2025-01-24","2025-01-24","2025-01-24","2025-01-24","2025-01-24","2025-01-24","2025-01-24","2025-01-24","2025-01-24","2025-01-24","2025-01-24","2025-01-24",null,null,null,"2025-01-24",null],["ABATEMENT","AHDATE","BLDG",null,"BUILDING_CATEGORY","CONSTR","CONSTRCDM",null,"CONSTRCDU",null,"CONSTRCOM",null,"CONSTRDEP",null,"CONSTRRES",null,null,"CRSTORE","CSSTORE",null,null,"INCOME","INCOME_AM_CURVE","INCOME_LF","INCOME_LF_APPROACH",null,"INCOME_LF_INC_ACTUAL","INCOME_LF_INC_HOTEL",null,"LA13","LAND",null,"LOCNHIST",null,"MUNICIP","NBHD",null,"OBXF",null,"OCC","OVRADJ","PARCEL","PARCEL_EXTENSION",null,null,"REALCFG",null,"REALMAST",null,"REIMAGES","RFC",null,"SALEHIST",null,"STYLE","SUBAREA",null,"TAXCLASSCONFIG","USRAUDIT",null,"VISITHST",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[47,103,31,32,6,62,72,73,157,158,136,137,37,38,137,138,63,53,49,256,99,88,12,95,86,96,40,16,41,66,120,121,23,31,39,7,20,52,52,51,14,334,104,105,335,159,160,81,82,21,22,23,53,70,31,16,17,29,15,15,19,10,279,281,13,13,15,16,12,17,35,13,13,12,13,14,13,15,15,35,37,8,260,11,262,13,12,85,13,158,160,227,8,19,20,13,14,22,23,8,8,55,9,9,17,296,76,78,136,138,29,31,30,32,65,51,10,14,15,63,59,271,273,66,23,158,15,12,61,22,119,287,362,365,354,99,18,12,21,71,59,16,198,328,204,329,20,43,44,148,149,10,70,71,121,92,93,122,34,35,338,339,67,68,206,207,24,77,303,431,158,69,113,43,49,50,26,27,132,133,31,32,110,111,48,158,159,44,45,70,71,134,135,50,51,220,221,58,59,132,132,133,153,153,154,153,153,154,246,228,181,61,33,38,85,129,58,251,63,82,38,239,240,500,500,61,64],["ABT","AHD","BLD","BLD","BCT","CNS","CNS","CNS","CNS","CNS","CNS","CNS","CNS","CNS","CNS","CNS","CNS","CRS","CSS",null,null,"INC","IAC","ILF","ILA","ILF","ILI","IIH","ILI","L13","LND","LND","LOC","LOC","MNC","NBH",null,"OXF","OXF","OCC","OVR","PRC","PRX",null,"PRC","REX","REX","REM","REM","RIM","RFC","RFC","SLH","SLH","STY","SUB","SUB","STY","AUD","AUD","VIH",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],["ABT_PID, ABT_LINE_NUM","AHD_PID, AHD_SAVE_NUM","BLD_PID, BLD_BID","BLD_PID, BLD_BID, DATE_KEY","BCT_CODE","CNS_PID, CNS_BID_IDENT","CNS_PID, CNS_BID_IDENT, CNS_SECT_IDENT","CNS_PID, CNS_BID_IDENT, CNS_SECT_IDENT, DATE_KEY","CNS_PID, CNS_BID_IDENT, CNS_SECT_IDENT","CNS_PID, CNS_BID_IDENT, CNS_SECT_IDENT, DATE_KEY","CNS_PID, CNS_BID_IDENT, CNS_SECT_IDENT","CNS_PID, CNS_BID_IDENT, CNS_SECT_IDENT, DATE_KEY","CNS_PID, CNS_BID_IDENT, CNS_SECT_IDENT","CNS_PID, CNS_BID_IDENT, CNS_SECT_IDENT, DATE_KEY","CNS_PID, CNS_BID_IDENT, CNS_SECT_IDENT","CNS_PID, CNS_BID_IDENT, CNS_SECT_IDENT, DATE_KEY","CNS_PID, CNS_BID_IDENT, DATE_KEY","CRS_PID","CSS_PID",null,null,"INC_PID, INC_IS_XPER, INC_INCOME_YR","IAC_BLDG_CAT, IAC_BLDG_SUB_CAT, IAC_POINT_NAME","ILF_PID, ILF_BID, ILF_SECT_NUM, ILF_YEAR","ILA_PID, ILA_BID, ILA_SECT_NUM, ILA_BLDG_CAT, ILA_BLDG_SUB_CAT, ILA_YEAR, ILA_TYPE","ILF_PID, ILF_BID, ILF_SECT_NUM, ILF_YEAR, DATE_KEY","ILI_PID, ILI_BID, ILI_SECT_NUM, ILI_YEAR, ILI_INC_TYPE, ILI_LINE_NUM","IIH_YEAR, IIH_LINE_NUM, IIH_PID","ILI_PID, ILI_BID, ILI_SECT_NUM, ILI_YEAR, ILI_INC_TYPE, ILI_LINE_NUM, DATE_KEY","L13_PID, L13_FISCAL_YR, L13_LINE_NUM","LND_PID, LND_LINE_ID","LND_PID, LND_LINE_ID, DATE_KEY","LOC_PID, LOC_LINE_NUM",null,"MNC_CODE","NBH_CODE",null,"OXF_PID, OXF_LINE_NUM, OXF_IS_OB",null,"OCC_CODE","OVR_PID, OVR_BID, OVR_CODE","PRC_PID","PRX_PID",null,"PRC_PID, DATE_KEY",null,null,"REM_PID","REM_PID, DATE_KEY","RIM_PID, RIM_BID, RIM_ID","RFC_PID, RFC_LINE_NUM","RFC_PID, RFC_LINE_NUM, DATE_KEY","SLH_PID, SLH_LINE_NUM",null,"STY_CODE","SUB_PID, SUB_BID, SUB_SECT_NUM, SUB_CODE","SUB_PID, SUB_BID, SUB_SECT_NUM, SUB_CODE, DATE_KEY","STY_TAX_BLDG_CLASS","AUD_ID",null,"VIH_PID, VIH_LINE_NUM, VIH_BID",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>FDW_NAME<\/th>\n      <th>LAST_UPDATE<\/th>\n      <th>CAMA_NAME<\/th>\n      <th>COLS<\/th>\n      <th>PREFIX<\/th>\n      <th>PRIMARY_KEYS<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"paging":false,"scrollCollapse":true,"bAutoWidth":false,"columnDefs":[{"targets":0,"render":"function(data, type, row, meta) {\nreturn type === 'display' && data.length > 23 ?\n'<span title=\"' + data + '\">' + data.substr(0, 23) + '...<\/span>' : data;\n}"},{"className":"dt-right","targets":3},{"name":"FDW_NAME","targets":0},{"name":"LAST_UPDATE","targets":1},{"name":"CAMA_NAME","targets":2},{"name":"COLS","targets":3},{"name":"PREFIX","targets":4},{"name":"PRIMARY_KEYS","targets":5}],"order":[],"autoWidth":false,"orderClasses":false,"orderCellsTop":true}},"evals":["options.columnDefs.0.render"],"jsHooks":[]}</script>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions"><ul><li><a href="https://github.com/nycdepartmentoffinance/nycdepartmentoffinance.github.io/blob/main/fdw_crosswalk.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/nycdepartmentoffinance/nycdepartmentoffinance.github.io/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
