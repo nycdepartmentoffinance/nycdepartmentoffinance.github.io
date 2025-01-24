@@ -1,5 +1,7 @@
 ---
 title: "Data Dictionary"
+
+repo-url: https://github.com/nycdepartmentoffinance/nycdepartmentoffinance.github.io
 ---
 
 Explore the following pages that help document the data resources available to DOF's property modeling team:
