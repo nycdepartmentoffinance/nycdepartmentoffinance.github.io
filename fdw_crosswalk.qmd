@@ -10,7 +10,7 @@ library(DT)
 library(knitr)
 
 #re-run every now and then to update df - note: might take a few minutes (especially because of IAS)
-#source("generate_table_list.R")
+source("generate_fdw_crosswalk.R")
 
 table_data <- readr::read_csv("tables/fdw_crosswalk.csv") %>% 
     select(-1)
