@@ -1,0 +1,512 @@
+select(DB, FDW_CATALOG, FDW_SCHEMA, FDW_NAME, CAMA_NAME, HIST_CAMA_NAME, FDW_COLUMNS, FDW_COLUMN_NAMES) %>%
+# EXCEPTIONS FOR JOINING
+mutate(CAMA_NAME = ifelse(CAMA_NAME == "PARCEL_EXTENSIONS", "PARCEL_EXTENSION", CAMA_NAME)) %>%
+left_join(real_prop, by=c("CAMA_NAME"="TABLE_NAME")) %>%
+mutate(CAMA_NAME = ifelse(is.na(TABLE_CATALOG) & is.na(TABLE_SCHEMA), NA, CAMA_NAME),
+IN_CAMA = !is.na(CAMA_NAME)) %>%
+rename(CAMA_COLUMNS = COLUMNS,
+CAMA_COLUMN_NAMES = COLUMN_NAMES) %>%
+select(DB, FDW_NAME, IN_CAMA, CAMA_NAME, PREFIX, PRIMARY_KEYS, FDW_COLUMNS, CAMA_COLUMNS, FDW_COLUMN_NAMES, CAMA_COLUMN_NAMES)
+fdw_crosswalk = fdw_tables %>%
+#filter(grepl("VW_CAMA_", TABLE_NAME)) %>%
+filter(TABLE_NAME == "CAMA_SALE_HIST") %>%
+mutate(DB = ifelse(grepl("CAMA", TABLE_NAME), "CAMA",
+ifelse(grepl("VW_PTS_", TABLE_NAME), "PTS",
+ifelse(grepl("VW_PDM_", TABLE_NAME), "PDM", NA))),
+CAMA_NAME = sub(".*VW_CAMA_", "", TABLE_NAME),
+HIST_CAMA_NAME = ifelse(grepl("_HIST", TABLE_NAME),
+sub("_HIST", "", sub(".*VW_CAMA_", "", TABLE_NAME)), NA)) %>%
+rename(FDW_NAME = TABLE_NAME,
+FDW_CATALOG = TABLE_CATALOG,
+FDW_SCHEMA = TABLE_SCHEMA,
+FDW_COLUMNS = COLUMNS,
+FDW_COLUMN_NAMES = COLUMN_NAMES) %>%
+select(DB, FDW_CATALOG, FDW_SCHEMA, FDW_NAME, CAMA_NAME, HIST_CAMA_NAME, FDW_COLUMNS, FDW_COLUMN_NAMES) %>%
+# EXCEPTIONS FOR JOINING
+mutate(CAMA_NAME = ifelse(CAMA_NAME == "PARCEL_EXTENSIONS", "PARCEL_EXTENSION", CAMA_NAME)) %>%
+left_join(real_prop, by=c("CAMA_NAME"="TABLE_NAME")) %>%
+mutate(CAMA_NAME = ifelse(is.na(TABLE_CATALOG) & is.na(TABLE_SCHEMA), NA, CAMA_NAME),
+IN_CAMA = !is.na(CAMA_NAME)) %>%
+rename(CAMA_COLUMNS = COLUMNS,
+CAMA_COLUMN_NAMES = COLUMN_NAMES) %>%
+select(DB, FDW_NAME, IN_CAMA, CAMA_NAME, PREFIX, PRIMARY_KEYS, FDW_COLUMNS, CAMA_COLUMNS, FDW_COLUMN_NAMES, CAMA_COLUMN_NAMES)
+fdw_crosswalk = fdw_tables %>%
+#filter(grepl("VW_CAMA_", TABLE_NAME)) %>%
+filter(FDW_NAME == "CAMA_SALEHIST_HIST") %>%
+mutate(DB = ifelse(grepl("CAMA", TABLE_NAME), "CAMA",
+ifelse(grepl("VW_PTS_", TABLE_NAME), "PTS",
+ifelse(grepl("VW_PDM_", TABLE_NAME), "PDM", NA))),
+CAMA_NAME = sub(".*VW_CAMA_", "", TABLE_NAME),
+HIST_CAMA_NAME = ifelse(grepl("_HIST", TABLE_NAME),
+sub("_HIST", "", sub(".*VW_CAMA_", "", TABLE_NAME)), NA)) %>%
+rename(FDW_NAME = TABLE_NAME,
+FDW_CATALOG = TABLE_CATALOG,
+FDW_SCHEMA = TABLE_SCHEMA,
+FDW_COLUMNS = COLUMNS,
+FDW_COLUMN_NAMES = COLUMN_NAMES) %>%
+select(DB, FDW_CATALOG, FDW_SCHEMA, FDW_NAME, CAMA_NAME, HIST_CAMA_NAME, FDW_COLUMNS, FDW_COLUMN_NAMES) %>%
+# EXCEPTIONS FOR JOINING
+mutate(CAMA_NAME = ifelse(CAMA_NAME == "PARCEL_EXTENSIONS", "PARCEL_EXTENSION", CAMA_NAME)) %>%
+left_join(real_prop, by=c("CAMA_NAME"="TABLE_NAME")) %>%
+mutate(CAMA_NAME = ifelse(is.na(TABLE_CATALOG) & is.na(TABLE_SCHEMA), NA, CAMA_NAME),
+IN_CAMA = !is.na(CAMA_NAME)) %>%
+rename(CAMA_COLUMNS = COLUMNS,
+CAMA_COLUMN_NAMES = COLUMN_NAMES) %>%
+select(DB, FDW_NAME, IN_CAMA, CAMA_NAME, PREFIX, PRIMARY_KEYS, FDW_COLUMNS, CAMA_COLUMNS, FDW_COLUMN_NAMES, CAMA_COLUMN_NAMES)
+fdw_crosswalk = fdw_tables %>%
+#filter(grepl("VW_CAMA_", TABLE_NAME)) %>%
+filter(TABLE_NAME == "CAMA_SALEHIST_HIST") %>%
+mutate(DB = ifelse(grepl("CAMA", TABLE_NAME), "CAMA",
+ifelse(grepl("VW_PTS_", TABLE_NAME), "PTS",
+ifelse(grepl("VW_PDM_", TABLE_NAME), "PDM", NA))),
+CAMA_NAME = sub(".*VW_CAMA_", "", TABLE_NAME),
+HIST_CAMA_NAME = ifelse(grepl("_HIST", TABLE_NAME),
+sub("_HIST", "", sub(".*VW_CAMA_", "", TABLE_NAME)), NA)) %>%
+rename(FDW_NAME = TABLE_NAME,
+FDW_CATALOG = TABLE_CATALOG,
+FDW_SCHEMA = TABLE_SCHEMA,
+FDW_COLUMNS = COLUMNS,
+FDW_COLUMN_NAMES = COLUMN_NAMES) %>%
+select(DB, FDW_CATALOG, FDW_SCHEMA, FDW_NAME, CAMA_NAME, HIST_CAMA_NAME, FDW_COLUMNS, FDW_COLUMN_NAMES) %>%
+# EXCEPTIONS FOR JOINING
+mutate(CAMA_NAME = ifelse(CAMA_NAME == "PARCEL_EXTENSIONS", "PARCEL_EXTENSION", CAMA_NAME)) %>%
+left_join(real_prop, by=c("CAMA_NAME"="TABLE_NAME")) %>%
+mutate(CAMA_NAME = ifelse(is.na(TABLE_CATALOG) & is.na(TABLE_SCHEMA), NA, CAMA_NAME),
+IN_CAMA = !is.na(CAMA_NAME)) %>%
+rename(CAMA_COLUMNS = COLUMNS,
+CAMA_COLUMN_NAMES = COLUMN_NAMES) %>%
+select(DB, FDW_NAME, IN_CAMA, CAMA_NAME, PREFIX, PRIMARY_KEYS, FDW_COLUMNS, CAMA_COLUMNS, FDW_COLUMN_NAMES, CAMA_COLUMN_NAMES)
+fdw_crosswalk = fdw_tables %>%
+#filter(grepl("VW_CAMA_", TABLE_NAME)) %>%
+filter(TABLE_NAME != "CAMA_SALEHIST_HIST") %>%
+mutate(DB = ifelse(grepl("CAMA", TABLE_NAME), "CAMA",
+ifelse(grepl("VW_PTS_", TABLE_NAME), "PTS",
+ifelse(grepl("VW_PDM_", TABLE_NAME), "PDM", NA))),
+CAMA_NAME = sub(".*VW_CAMA_", "", TABLE_NAME),
+HIST_CAMA_NAME = ifelse(grepl("_HIST", TABLE_NAME),
+sub("_HIST", "", sub(".*VW_CAMA_", "", TABLE_NAME)), NA)) %>%
+rename(FDW_NAME = TABLE_NAME,
+FDW_CATALOG = TABLE_CATALOG,
+FDW_SCHEMA = TABLE_SCHEMA,
+FDW_COLUMNS = COLUMNS,
+FDW_COLUMN_NAMES = COLUMN_NAMES) %>%
+select(DB, FDW_CATALOG, FDW_SCHEMA, FDW_NAME, CAMA_NAME, HIST_CAMA_NAME, FDW_COLUMNS, FDW_COLUMN_NAMES) %>%
+# EXCEPTIONS FOR JOINING
+mutate(CAMA_NAME = ifelse(CAMA_NAME == "PARCEL_EXTENSIONS", "PARCEL_EXTENSION", CAMA_NAME)) %>%
+left_join(real_prop, by=c("CAMA_NAME"="TABLE_NAME")) %>%
+mutate(CAMA_NAME = ifelse(is.na(TABLE_CATALOG) & is.na(TABLE_SCHEMA), NA, CAMA_NAME),
+IN_CAMA = !is.na(CAMA_NAME)) %>%
+rename(CAMA_COLUMNS = COLUMNS,
+CAMA_COLUMN_NAMES = COLUMN_NAMES) %>%
+select(DB, FDW_NAME, IN_CAMA, CAMA_NAME, PREFIX, PRIMARY_KEYS, FDW_COLUMNS, CAMA_COLUMNS, FDW_COLUMN_NAMES, CAMA_COLUMN_NAMES)
+fdw_crosswalk$FDW_COLUMN_NAMES[0]
+fdw_crosswalk$FDW_COLUMN_NAMES
+fdw_crosswalk$FDW_COLUMN_NAMES[1]
+sep(fdw_crosswalk$FDW_COLUMN_NAMES[1]. ", "
+sep(fdw_crosswalk$FDW_COLUMN_NAMES[1], ", "
+)
+strsplit(fdw_crosswalk$FDW_COLUMN_NAMES[1])
+strsplit(fdw_crosswalk$FDW_COLUMN_NAMES[1], split=", ")
+fdw_crosswalk = fdw_tables %>%
+#filter(grepl("VW_CAMA_", TABLE_NAME)) %>%
+filter(TABLE_NAME != "CAMA_SALEHIST_HIST") %>%
+mutate(DB = ifelse(grepl("CAMA", TABLE_NAME), "CAMA",
+ifelse(grepl("VW_PTS_", TABLE_NAME), "PTS",
+ifelse(grepl("VW_PDM_", TABLE_NAME), "PDM", NA))),
+CAMA_NAME = sub(".*VW_CAMA_", "", TABLE_NAME),
+HIST_CAMA_NAME = ifelse(grepl("_HIST", TABLE_NAME),
+sub("_HIST", "", sub(".*VW_CAMA_", "", TABLE_NAME)), NA)) %>%
+rename(FDW_NAME = TABLE_NAME,
+FDW_CATALOG = TABLE_CATALOG,
+FDW_SCHEMA = TABLE_SCHEMA,
+FDW_COLUMNS = COLUMNS,
+FDW_COLUMN_NAMES = COLUMN_NAMES) %>%
+select(DB, FDW_CATALOG, FDW_SCHEMA, FDW_NAME, CAMA_NAME, HIST_CAMA_NAME, FDW_COLUMNS, FDW_COLUMN_NAMES) %>%
+# EXCEPTIONS FOR JOINING
+mutate(CAMA_NAME = ifelse(CAMA_NAME == "PARCEL_EXTENSIONS", "PARCEL_EXTENSION", CAMA_NAME)) %>%
+left_join(real_prop, by=c("CAMA_NAME"="TABLE_NAME")) %>%
+mutate(CAMA_NAME = ifelse(is.na(TABLE_CATALOG) & is.na(TABLE_SCHEMA), NA, CAMA_NAME),
+IN_CAMA = !is.na(CAMA_NAME)) %>%
+rename(CAMA_COLUMNS = COLUMNS,
+CAMA_COLUMN_NAMES = COLUMN_NAMES) %>%
+mutate(
+FDW_COLUMN_NAMES = strsplit(FDW_COLUMN_NAMES, split=", "),
+CAMA_COLUMN_NAMES = strsplit(CAMA_COLUMN_NAMES, split=", "),
+COMMON_COLUMNS = length(intersect(FDW_COLUMN_NAMES, CAMA_COLUMN_NAMES)),
+COMMON_COLUMN_NAMES = intersect(FDW_COLUMN_NAMES, CAMA_COLUMN_NAMES)
+) %>%
+select(DB, FDW_NAME, IN_CAMA, CAMA_NAME, PREFIX, PRIMARY_KEYS, FDW_COLUMNS, CAMA_COLUMNS, COMMON_COLUMNS, FDW_COLUMN_NAMES, CAMA_COLUMN_NAMES) %>%
+# %>%
+#left_join(real_prop, by=c("HIST_CAMA_NAME"="TABLE_NAME"))
+#
+# fdw_crosswalk = fdw_tables %>%
+#     filter(grepl("VW_CAMA_", TABLE_NAME) & grepl("_HIST", TABLE_NAME))
+write.csv(fdw_crosswalk, "tables/fdw_crosswalk.csv", na="")
+fdw_crosswalk = fdw_tables %>%
+#filter(grepl("VW_CAMA_", TABLE_NAME)) %>%
+filter(TABLE_NAME != "CAMA_SALEHIST_HIST") %>%
+mutate(DB = ifelse(grepl("CAMA", TABLE_NAME), "CAMA",
+ifelse(grepl("VW_PTS_", TABLE_NAME), "PTS",
+ifelse(grepl("VW_PDM_", TABLE_NAME), "PDM", NA))),
+CAMA_NAME = sub(".*VW_CAMA_", "", TABLE_NAME),
+HIST_CAMA_NAME = ifelse(grepl("_HIST", TABLE_NAME),
+sub("_HIST", "", sub(".*VW_CAMA_", "", TABLE_NAME)), NA)) %>%
+rename(FDW_NAME = TABLE_NAME,
+FDW_CATALOG = TABLE_CATALOG,
+FDW_SCHEMA = TABLE_SCHEMA,
+FDW_COLUMNS = COLUMNS,
+FDW_COLUMN_NAMES = COLUMN_NAMES) %>%
+select(DB, FDW_CATALOG, FDW_SCHEMA, FDW_NAME, CAMA_NAME, HIST_CAMA_NAME, FDW_COLUMNS, FDW_COLUMN_NAMES) %>%
+# EXCEPTIONS FOR JOINING
+mutate(CAMA_NAME = ifelse(CAMA_NAME == "PARCEL_EXTENSIONS", "PARCEL_EXTENSION", CAMA_NAME)) %>%
+left_join(real_prop, by=c("CAMA_NAME"="TABLE_NAME")) %>%
+mutate(CAMA_NAME = ifelse(is.na(TABLE_CATALOG) & is.na(TABLE_SCHEMA), NA, CAMA_NAME),
+IN_CAMA = !is.na(CAMA_NAME)) %>%
+rename(CAMA_COLUMNS = COLUMNS,
+CAMA_COLUMN_NAMES = COLUMN_NAMES) %>%
+mutate(
+FDW_COLUMN_NAMES = strsplit(FDW_COLUMN_NAMES, split=", "),
+CAMA_COLUMN_NAMES = strsplit(CAMA_COLUMN_NAMES, split=", "),
+COMMON_COLUMNS = length(intersect(FDW_COLUMN_NAMES, CAMA_COLUMN_NAMES))
+) %>%
+select(DB, FDW_NAME, IN_CAMA, CAMA_NAME, PREFIX, PRIMARY_KEYS, FDW_COLUMNS, CAMA_COLUMNS, COMMON_COLUMNS, FDW_COLUMN_NAMES, CAMA_COLUMN_NAMES) %>%
+# %>%
+#left_join(real_prop, by=c("HIST_CAMA_NAME"="TABLE_NAME"))
+#
+# fdw_crosswalk = fdw_tables %>%
+#     filter(grepl("VW_CAMA_", TABLE_NAME) & grepl("_HIST", TABLE_NAME))
+write.csv(fdw_crosswalk, "tables/fdw_crosswalk.csv", na="")
+fdw_crosswalk = fdw_tables %>%
+#filter(grepl("VW_CAMA_", TABLE_NAME)) %>%
+filter(TABLE_NAME != "CAMA_SALEHIST_HIST") %>%
+mutate(DB = ifelse(grepl("CAMA", TABLE_NAME), "CAMA",
+ifelse(grepl("VW_PTS_", TABLE_NAME), "PTS",
+ifelse(grepl("VW_PDM_", TABLE_NAME), "PDM", NA))),
+CAMA_NAME = sub(".*VW_CAMA_", "", TABLE_NAME),
+HIST_CAMA_NAME = ifelse(grepl("_HIST", TABLE_NAME),
+sub("_HIST", "", sub(".*VW_CAMA_", "", TABLE_NAME)), NA)) %>%
+rename(FDW_NAME = TABLE_NAME,
+FDW_CATALOG = TABLE_CATALOG,
+FDW_SCHEMA = TABLE_SCHEMA,
+FDW_COLUMNS = COLUMNS,
+FDW_COLUMN_NAMES = COLUMN_NAMES) %>%
+select(DB, FDW_CATALOG, FDW_SCHEMA, FDW_NAME, CAMA_NAME, HIST_CAMA_NAME, FDW_COLUMNS, FDW_COLUMN_NAMES) %>%
+# EXCEPTIONS FOR JOINING
+mutate(CAMA_NAME = ifelse(CAMA_NAME == "PARCEL_EXTENSIONS", "PARCEL_EXTENSION", CAMA_NAME)) %>%
+left_join(real_prop, by=c("CAMA_NAME"="TABLE_NAME")) %>%
+mutate(CAMA_NAME = ifelse(is.na(TABLE_CATALOG) & is.na(TABLE_SCHEMA), NA, CAMA_NAME),
+IN_CAMA = !is.na(CAMA_NAME)) %>%
+rename(CAMA_COLUMNS = COLUMNS,
+CAMA_COLUMN_NAMES = COLUMN_NAMES) %>%
+mutate(
+FDW_COLUMN_NAMES = strsplit(FDW_COLUMN_NAMES, split=", "),
+CAMA_COLUMN_NAMES = strsplit(CAMA_COLUMN_NAMES, split=", "),
+COMMON_COLUMNS = length(intersect(FDW_COLUMN_NAMES, CAMA_COLUMN_NAMES))
+) %>%
+select(DB, FDW_NAME, IN_CAMA, CAMA_NAME, PREFIX, PRIMARY_KEYS, FDW_COLUMNS, CAMA_COLUMNS, COMMON_COLUMNS, FDW_COLUMN_NAMES, CAMA_COLUMN_NAMES) %>%
+# %>%
+#left_join(real_prop, by=c("HIST_CAMA_NAME"="TABLE_NAME"))
+#
+# fdw_crosswalk = fdw_tables %>%
+#     filter(grepl("VW_CAMA_", TABLE_NAME) & grepl("_HIST", TABLE_NAME))
+write.csv(fdw_crosswalk, "tables/fdw_crosswalk.csv", na="")
+fdw_crosswalk = fdw_tables %>%
+#filter(grepl("VW_CAMA_", TABLE_NAME)) %>%
+filter(TABLE_NAME != "CAMA_SALEHIST_HIST") %>%
+mutate(DB = ifelse(grepl("CAMA", TABLE_NAME), "CAMA",
+ifelse(grepl("VW_PTS_", TABLE_NAME), "PTS",
+ifelse(grepl("VW_PDM_", TABLE_NAME), "PDM", NA))),
+CAMA_NAME = sub(".*VW_CAMA_", "", TABLE_NAME),
+HIST_CAMA_NAME = ifelse(grepl("_HIST", TABLE_NAME),
+sub("_HIST", "", sub(".*VW_CAMA_", "", TABLE_NAME)), NA)) %>%
+rename(FDW_NAME = TABLE_NAME,
+FDW_CATALOG = TABLE_CATALOG,
+FDW_SCHEMA = TABLE_SCHEMA,
+FDW_COLUMNS = COLUMNS,
+FDW_COLUMN_NAMES = COLUMN_NAMES) %>%
+select(DB, FDW_CATALOG, FDW_SCHEMA, FDW_NAME, CAMA_NAME, HIST_CAMA_NAME, FDW_COLUMNS, FDW_COLUMN_NAMES) %>%
+# EXCEPTIONS FOR JOINING
+mutate(CAMA_NAME = ifelse(CAMA_NAME == "PARCEL_EXTENSIONS", "PARCEL_EXTENSION", CAMA_NAME)) %>%
+left_join(real_prop, by=c("CAMA_NAME"="TABLE_NAME")) %>%
+mutate(CAMA_NAME = ifelse(is.na(TABLE_CATALOG) & is.na(TABLE_SCHEMA), NA, CAMA_NAME),
+IN_CAMA = !is.na(CAMA_NAME)) %>%
+rename(CAMA_COLUMNS = COLUMNS,
+CAMA_COLUMN_NAMES = COLUMN_NAMES) %>%
+mutate(
+FDW_COLUMN_NAMES = strsplit(FDW_COLUMN_NAMES, split=", "),
+CAMA_COLUMN_NAMES = strsplit(CAMA_COLUMN_NAMES, split=", "),
+COMMON_COLUMNS = length(intersect(FDW_COLUMN_NAMES, CAMA_COLUMN_NAMES))
+) %>%
+select(DB, FDW_NAME, IN_CAMA, CAMA_NAME, PREFIX, PRIMARY_KEYS, FDW_COLUMNS, CAMA_COLUMNS, COMMON_COLUMNS, FDW_COLUMN_NAMES, CAMA_COLUMN_NAMES) %>%
+fdw_crosswalk = fdw_tables %>%
+#filter(grepl("VW_CAMA_", TABLE_NAME)) %>%
+filter(TABLE_NAME != "CAMA_SALEHIST_HIST") %>%
+mutate(DB = ifelse(grepl("CAMA", TABLE_NAME), "CAMA",
+ifelse(grepl("VW_PTS_", TABLE_NAME), "PTS",
+ifelse(grepl("VW_PDM_", TABLE_NAME), "PDM", NA))),
+CAMA_NAME = sub(".*VW_CAMA_", "", TABLE_NAME),
+HIST_CAMA_NAME = ifelse(grepl("_HIST", TABLE_NAME),
+sub("_HIST", "", sub(".*VW_CAMA_", "", TABLE_NAME)), NA)) %>%
+rename(FDW_NAME = TABLE_NAME,
+FDW_CATALOG = TABLE_CATALOG,
+FDW_SCHEMA = TABLE_SCHEMA,
+FDW_COLUMNS = COLUMNS,
+FDW_COLUMN_NAMES = COLUMN_NAMES) %>%
+select(DB, FDW_CATALOG, FDW_SCHEMA, FDW_NAME, CAMA_NAME, HIST_CAMA_NAME, FDW_COLUMNS, FDW_COLUMN_NAMES) %>%
+# EXCEPTIONS FOR JOINING
+mutate(CAMA_NAME = ifelse(CAMA_NAME == "PARCEL_EXTENSIONS", "PARCEL_EXTENSION", CAMA_NAME)) %>%
+left_join(real_prop, by=c("CAMA_NAME"="TABLE_NAME")) %>%
+mutate(CAMA_NAME = ifelse(is.na(TABLE_CATALOG) & is.na(TABLE_SCHEMA), NA, CAMA_NAME),
+IN_CAMA = !is.na(CAMA_NAME)) %>%
+rename(CAMA_COLUMNS = COLUMNS,
+CAMA_COLUMN_NAMES = COLUMN_NAMES) %>%
+mutate(
+FDW_COLUMN_NAMES = strsplit(FDW_COLUMN_NAMES, split=", "),
+CAMA_COLUMN_NAMES = strsplit(CAMA_COLUMN_NAMES, split=", "),
+COMMON_COLUMNS = length(intersect(FDW_COLUMN_NAMES, CAMA_COLUMN_NAMES))
+)
+fdw_crosswalk = fdw_tables %>%
+#filter(grepl("VW_CAMA_", TABLE_NAME)) %>%
+filter(TABLE_NAME != "CAMA_SALEHIST_HIST") %>%
+mutate(DB = ifelse(grepl("CAMA", TABLE_NAME), "CAMA",
+ifelse(grepl("VW_PTS_", TABLE_NAME), "PTS",
+ifelse(grepl("VW_PDM_", TABLE_NAME), "PDM", NA))),
+CAMA_NAME = sub(".*VW_CAMA_", "", TABLE_NAME),
+HIST_CAMA_NAME = ifelse(grepl("_HIST", TABLE_NAME),
+sub("_HIST", "", sub(".*VW_CAMA_", "", TABLE_NAME)), NA)) %>%
+rename(FDW_NAME = TABLE_NAME,
+FDW_CATALOG = TABLE_CATALOG,
+FDW_SCHEMA = TABLE_SCHEMA,
+FDW_COLUMNS = COLUMNS,
+FDW_COLUMN_NAMES = COLUMN_NAMES) %>%
+select(DB, FDW_CATALOG, FDW_SCHEMA, FDW_NAME, CAMA_NAME, HIST_CAMA_NAME, FDW_COLUMNS, FDW_COLUMN_NAMES) %>%
+# EXCEPTIONS FOR JOINING
+mutate(CAMA_NAME = ifelse(CAMA_NAME == "PARCEL_EXTENSIONS", "PARCEL_EXTENSION", CAMA_NAME)) %>%
+left_join(real_prop, by=c("CAMA_NAME"="TABLE_NAME")) %>%
+mutate(CAMA_NAME = ifelse(is.na(TABLE_CATALOG) & is.na(TABLE_SCHEMA), NA, CAMA_NAME),
+IN_CAMA = !is.na(CAMA_NAME)) %>%
+rename(CAMA_COLUMNS = COLUMNS,
+CAMA_COLUMN_NAMES = COLUMN_NAMES) %>%
+mutate(
+FDW_COLUMN_NAMES = strsplit(FDW_COLUMN_NAMES, split=", "),
+CAMA_COLUMN_NAMES = strsplit(CAMA_COLUMN_NAMES, split=", "),
+COMMON_COLUMNS = intersect(FDW_COLUMN_NAMES, CAMA_COLUMN_NAMES)
+) # %>%
+fdw_crosswalk = fdw_tables %>%
+#filter(grepl("VW_CAMA_", TABLE_NAME)) %>%
+filter(TABLE_NAME != "CAMA_SALEHIST_HIST") %>%
+mutate(DB = ifelse(grepl("CAMA", TABLE_NAME), "CAMA",
+ifelse(grepl("VW_PTS_", TABLE_NAME), "PTS",
+ifelse(grepl("VW_PDM_", TABLE_NAME), "PDM", NA))),
+CAMA_NAME = sub(".*VW_CAMA_", "", TABLE_NAME),
+HIST_CAMA_NAME = ifelse(grepl("_HIST", TABLE_NAME),
+sub("_HIST", "", sub(".*VW_CAMA_", "", TABLE_NAME)), NA)) %>%
+rename(FDW_NAME = TABLE_NAME,
+FDW_CATALOG = TABLE_CATALOG,
+FDW_SCHEMA = TABLE_SCHEMA,
+FDW_COLUMNS = COLUMNS,
+FDW_COLUMN_NAMES = COLUMN_NAMES) %>%
+select(DB, FDW_CATALOG, FDW_SCHEMA, FDW_NAME, CAMA_NAME, HIST_CAMA_NAME, FDW_COLUMNS, FDW_COLUMN_NAMES) %>%
+# EXCEPTIONS FOR JOINING
+mutate(CAMA_NAME = ifelse(CAMA_NAME == "PARCEL_EXTENSIONS", "PARCEL_EXTENSION", CAMA_NAME)) %>%
+left_join(real_prop, by=c("CAMA_NAME"="TABLE_NAME")) %>%
+mutate(CAMA_NAME = ifelse(is.na(TABLE_CATALOG) & is.na(TABLE_SCHEMA), NA, CAMA_NAME),
+IN_CAMA = !is.na(CAMA_NAME)) %>%
+rename(CAMA_COLUMNS = COLUMNS,
+CAMA_COLUMN_NAMES = COLUMN_NAMES) %>%
+mutate(
+FDW_COLUMN_NAMES = strsplit(FDW_COLUMN_NAMES, split=", "),
+CAMA_COLUMN_NAMES = strsplit(CAMA_COLUMN_NAMES, split=", ")
+) # %>%
+View(fdw_crosswalk)
+View(fdw_crosswalk)
+fdw_crosswalk = fdw_tables %>%
+#filter(grepl("VW_CAMA_", TABLE_NAME)) %>%
+filter(TABLE_NAME != "CAMA_SALEHIST_HIST") %>%
+mutate(DB = ifelse(grepl("CAMA", TABLE_NAME), "CAMA",
+ifelse(grepl("VW_PTS_", TABLE_NAME), "PTS",
+ifelse(grepl("VW_PDM_", TABLE_NAME), "PDM", NA))),
+CAMA_NAME = sub(".*VW_CAMA_", "", TABLE_NAME),
+HIST_CAMA_NAME = ifelse(grepl("_HIST", TABLE_NAME),
+sub("_HIST", "", sub(".*VW_CAMA_", "", TABLE_NAME)), NA)) %>%
+rename(FDW_NAME = TABLE_NAME,
+FDW_CATALOG = TABLE_CATALOG,
+FDW_SCHEMA = TABLE_SCHEMA,
+FDW_COLUMNS = COLUMNS,
+FDW_COLUMN_NAMES = COLUMN_NAMES) %>%
+select(DB, FDW_CATALOG, FDW_SCHEMA, FDW_NAME, CAMA_NAME, HIST_CAMA_NAME, FDW_COLUMNS, FDW_COLUMN_NAMES) %>%
+# EXCEPTIONS FOR JOINING
+mutate(CAMA_NAME = ifelse(CAMA_NAME == "PARCEL_EXTENSIONS", "PARCEL_EXTENSION", CAMA_NAME)) %>%
+left_join(real_prop, by=c("CAMA_NAME"="TABLE_NAME")) %>%
+mutate(CAMA_NAME = ifelse(is.na(TABLE_CATALOG) & is.na(TABLE_SCHEMA), NA, CAMA_NAME),
+IN_CAMA = !is.na(CAMA_NAME)) %>%
+rename(CAMA_COLUMNS = COLUMNS,
+CAMA_COLUMN_NAMES = COLUMN_NAMES) %>%
+mutate(
+FDW_COLUMN_NAMES_list = strsplit(FDW_COLUMN_NAMES, split=", "),
+CAMA_COLUMN_NAMES_list = strsplit(CAMA_COLUMN_NAMES, split=", ")
+) # %>%
+intersect(fdw_crosswalk$FDW_COLUMN_NAMES_list, fdw_crosswalk$CAMA_COLUMN_NAMES_list)
+intersect(fdw_crosswalk$FDW_COLUMN_NAMES_list[1], fdw_crosswalk$CAMA_COLUMN_NAMES_list[1])
+fdw_crosswalk$FDW_COLUMN_NAMES_list[1]
+fdw_crosswalk$CAMA_COLUMN_NAMES_list[1]
+intersect(fdw_crosswalk$FDW_COLUMN_NAMES_list[1], fdw_crosswalk$CAMA_COLUMN_NAMES_list[1])
+intersect(list(fdw_crosswalk$FDW_COLUMN_NAMES_list[1]), list(fdw_crosswalk$CAMA_COLUMN_NAMES_list[1]))
+type(fdw_crosswalk$FDW_COLUMN_NAMES_list[1])
+typeof(fdw_crosswalk$FDW_COLUMN_NAMES_list[1])
+dplyr::intersect(list(fdw_crosswalk$FDW_COLUMN_NAMES_list[1]), list(fdw_crosswalk$CAMA_COLUMN_NAMES_list[1]))
+base::intersect(list(fdw_crosswalk$FDW_COLUMN_NAMES_list[1]), list(fdw_crosswalk$CAMA_COLUMN_NAMES_list[1]))
+fdw_crosswalk = fdw_tables %>%
+#filter(grepl("VW_CAMA_", TABLE_NAME)) %>%
+filter(TABLE_NAME != "CAMA_SALEHIST_HIST") %>%
+mutate(DB = ifelse(grepl("CAMA", TABLE_NAME), "CAMA",
+ifelse(grepl("VW_PTS_", TABLE_NAME), "PTS",
+ifelse(grepl("VW_PDM_", TABLE_NAME), "PDM", NA))),
+CAMA_NAME = sub(".*VW_CAMA_", "", TABLE_NAME),
+HIST_CAMA_NAME = ifelse(grepl("_HIST", TABLE_NAME),
+sub("_HIST", "", sub(".*VW_CAMA_", "", TABLE_NAME)), NA)) %>%
+rename(FDW_NAME = TABLE_NAME,
+FDW_CATALOG = TABLE_CATALOG,
+FDW_SCHEMA = TABLE_SCHEMA,
+FDW_COLUMNS = COLUMNS,
+FDW_COLUMN_NAMES = COLUMN_NAMES) %>%
+select(DB, FDW_CATALOG, FDW_SCHEMA, FDW_NAME, CAMA_NAME, HIST_CAMA_NAME, FDW_COLUMNS, FDW_COLUMN_NAMES) %>%
+# EXCEPTIONS FOR JOINING
+mutate(CAMA_NAME = ifelse(CAMA_NAME == "PARCEL_EXTENSIONS", "PARCEL_EXTENSION", CAMA_NAME)) %>%
+left_join(real_prop, by=c("CAMA_NAME"="TABLE_NAME")) %>%
+mutate(CAMA_NAME = ifelse(is.na(TABLE_CATALOG) & is.na(TABLE_SCHEMA), NA, CAMA_NAME),
+IN_CAMA = !is.na(CAMA_NAME)) %>%
+rename(CAMA_COLUMNS = COLUMNS,
+CAMA_COLUMN_NAMES = COLUMN_NAMES) %>%
+mutate(
+FDW_COLUMN_NAMES_list = c(strsplit(FDW_COLUMN_NAMES, split=", ")),
+CAMA_COLUMN_NAMES_list = c(strsplit(CAMA_COLUMN_NAMES, split=", "))
+) # %>%
+dplyr::intersect(list(fdw_crosswalk$FDW_COLUMN_NAMES_list[1]), list(fdw_crosswalk$CAMA_COLUMN_NAMES_list[1]))
+fdw_crosswalk = fdw_tables %>%
+#filter(grepl("VW_CAMA_", TABLE_NAME)) %>%
+filter(TABLE_NAME != "CAMA_SALEHIST_HIST") %>%
+mutate(DB = ifelse(grepl("CAMA", TABLE_NAME), "CAMA",
+ifelse(grepl("VW_PTS_", TABLE_NAME), "PTS",
+ifelse(grepl("VW_PDM_", TABLE_NAME), "PDM", NA))),
+CAMA_NAME = sub(".*VW_CAMA_", "", TABLE_NAME),
+HIST_CAMA_NAME = ifelse(grepl("_HIST", TABLE_NAME),
+sub("_HIST", "", sub(".*VW_CAMA_", "", TABLE_NAME)), NA)) %>%
+rename(FDW_NAME = TABLE_NAME,
+FDW_CATALOG = TABLE_CATALOG,
+FDW_SCHEMA = TABLE_SCHEMA,
+FDW_COLUMNS = COLUMNS,
+FDW_COLUMN_NAMES = COLUMN_NAMES) %>%
+select(DB, FDW_CATALOG, FDW_SCHEMA, FDW_NAME, CAMA_NAME, HIST_CAMA_NAME, FDW_COLUMNS, FDW_COLUMN_NAMES) %>%
+# EXCEPTIONS FOR JOINING
+mutate(CAMA_NAME = ifelse(CAMA_NAME == "PARCEL_EXTENSIONS", "PARCEL_EXTENSION", CAMA_NAME)) %>%
+left_join(real_prop, by=c("CAMA_NAME"="TABLE_NAME")) %>%
+mutate(CAMA_NAME = ifelse(is.na(TABLE_CATALOG) & is.na(TABLE_SCHEMA), NA, CAMA_NAME),
+IN_CAMA = !is.na(CAMA_NAME)) %>%
+rename(CAMA_COLUMNS = COLUMNS,
+CAMA_COLUMN_NAMES = COLUMN_NAMES) %>%
+mutate(
+FDW_COLUMN_NAMES_list = as.vector(strsplit(FDW_COLUMN_NAMES, split=", ")),
+CAMA_COLUMN_NAMES_list = as.vector(strsplit(CAMA_COLUMN_NAMES, split=", "))
+) # %>%
+dplyr::intersect(list(fdw_crosswalk$FDW_COLUMN_NAMES_list[1]), list(fdw_crosswalk$CAMA_COLUMN_NAMES_list[1]))
+fdw_list = fdw_crosswalk$FDW_COLUMN_NAMES_list[0]
+fdw_list = fdw_crosswalk$FDW_COLUMN_NAMES_list[1]
+fdw_list = fdw_crosswalk$FDW_COLUMN_NAMES_list[1][1]
+fdw_list = unlist(fdw_crosswalk$FDW_COLUMN_NAMES_list[1])
+fdw_crosswalk = fdw_tables %>%
+#filter(grepl("VW_CAMA_", TABLE_NAME)) %>%
+filter(TABLE_NAME != "CAMA_SALEHIST_HIST") %>%
+mutate(DB = ifelse(grepl("CAMA", TABLE_NAME), "CAMA",
+ifelse(grepl("VW_PTS_", TABLE_NAME), "PTS",
+ifelse(grepl("VW_PDM_", TABLE_NAME), "PDM", NA))),
+CAMA_NAME = sub(".*VW_CAMA_", "", TABLE_NAME),
+HIST_CAMA_NAME = ifelse(grepl("_HIST", TABLE_NAME),
+sub("_HIST", "", sub(".*VW_CAMA_", "", TABLE_NAME)), NA)) %>%
+rename(FDW_NAME = TABLE_NAME,
+FDW_CATALOG = TABLE_CATALOG,
+FDW_SCHEMA = TABLE_SCHEMA,
+FDW_COLUMNS = COLUMNS,
+FDW_COLUMN_NAMES = COLUMN_NAMES) %>%
+select(DB, FDW_CATALOG, FDW_SCHEMA, FDW_NAME, CAMA_NAME, HIST_CAMA_NAME, FDW_COLUMNS, FDW_COLUMN_NAMES) %>%
+# EXCEPTIONS FOR JOINING
+mutate(CAMA_NAME = ifelse(CAMA_NAME == "PARCEL_EXTENSIONS", "PARCEL_EXTENSION", CAMA_NAME)) %>%
+left_join(real_prop, by=c("CAMA_NAME"="TABLE_NAME")) %>%
+mutate(CAMA_NAME = ifelse(is.na(TABLE_CATALOG) & is.na(TABLE_SCHEMA), NA, CAMA_NAME),
+IN_CAMA = !is.na(CAMA_NAME)) %>%
+rename(CAMA_COLUMNS = COLUMNS,
+CAMA_COLUMN_NAMES = COLUMN_NAMES) %>%
+mutate(
+FDW_COLUMN_NAMES_list = unlist(strsplit(FDW_COLUMN_NAMES, split=", ")),
+CAMA_COLUMN_NAMES_list = unlist(strsplit(CAMA_COLUMN_NAMES, split=", "))
+) # %>%
+fdw_crosswalk = fdw_tables %>%
+#filter(grepl("VW_CAMA_", TABLE_NAME)) %>%
+filter(TABLE_NAME != "CAMA_SALEHIST_HIST") %>%
+mutate(DB = ifelse(grepl("CAMA", TABLE_NAME), "CAMA",
+ifelse(grepl("VW_PTS_", TABLE_NAME), "PTS",
+ifelse(grepl("VW_PDM_", TABLE_NAME), "PDM", NA))),
+CAMA_NAME = sub(".*VW_CAMA_", "", TABLE_NAME),
+HIST_CAMA_NAME = ifelse(grepl("_HIST", TABLE_NAME),
+sub("_HIST", "", sub(".*VW_CAMA_", "", TABLE_NAME)), NA)) %>%
+rename(FDW_NAME = TABLE_NAME,
+FDW_CATALOG = TABLE_CATALOG,
+FDW_SCHEMA = TABLE_SCHEMA,
+FDW_COLUMNS = COLUMNS,
+FDW_COLUMN_NAMES = COLUMN_NAMES) %>%
+select(DB, FDW_CATALOG, FDW_SCHEMA, FDW_NAME, CAMA_NAME, HIST_CAMA_NAME, FDW_COLUMNS, FDW_COLUMN_NAMES) %>%
+# EXCEPTIONS FOR JOINING
+mutate(CAMA_NAME = ifelse(CAMA_NAME == "PARCEL_EXTENSIONS", "PARCEL_EXTENSION", CAMA_NAME)) %>%
+left_join(real_prop, by=c("CAMA_NAME"="TABLE_NAME")) %>%
+mutate(CAMA_NAME = ifelse(is.na(TABLE_CATALOG) & is.na(TABLE_SCHEMA), NA, CAMA_NAME),
+IN_CAMA = !is.na(CAMA_NAME)) %>%
+rename(CAMA_COLUMNS = COLUMNS,
+CAMA_COLUMN_NAMES = COLUMN_NAMES) %>%
+mutate(
+FDW_COLUMN_NAMES_list = strsplit(FDW_COLUMN_NAMES, split=", "),
+CAMA_COLUMN_NAMES_list = strsplit(CAMA_COLUMN_NAMES, split=", "),
+COMMON_COLS = intersect(unlist(FDW_COLUMN_NAMES_list), unlist(CAMA_COLUMN_NAMES_list))
+) # %>%
+setDiff(fdw_crosswalk$FDW_COLUMN_NAMES_list, fdw_crosswalk$CAMA_COLUMN_NAMES_list)
+dplyr::setDiff(fdw_crosswalk$FDW_COLUMN_NAMES_list, fdw_crosswalk$CAMA_COLUMN_NAMES_list)
+dplyr::setdiff(fdw_crosswalk$FDW_COLUMN_NAMES_list, fdw_crosswalk$CAMA_COLUMN_NAMES_list)
+dplyr::setequal(fdw_crosswalk$FDW_COLUMN_NAMES_list, fdw_crosswalk$CAMA_COLUMN_NAMES_list)
+dplyr::intersect(fdw_crosswalk$FDW_COLUMN_NAMES_list, fdw_crosswalk$CAMA_COLUMN_NAMES_list)
+database = "fdw"
+database_schema = toupper(Sys.getenv(paste0(database, "_schema")))
+# create database connection, by reading in the correct env variables
+con <- DBI::dbConnect(odbc::odbc(),
+Driver   = "Oracle in OraClient19Home1",
+DBQ   = Sys.getenv(paste0(database, "_path")),
+DATABASE = Sys.getenv(paste0(database, "_schema")),
+UID      = Sys.getenv(paste0(database, "_username")),
+PWD      = Sys.getenv(paste0(database, "_password")),
+TrustServerCertificate="no",
+Port     = 1433)
+# create database connection, by reading in the correct env variables
+con <- DBI::dbConnect(odbc::odbc(),
+Driver   = "Oracle in OraClient19Home1",
+DBQ   = Sys.getenv(paste0(database, "_path")),
+DATABASE = Sys.getenv(paste0(database, "_schema")),
+UID      = Sys.getenv(paste0(database, "_username")),
+PWD      = Sys.getenv(paste0(database, "_password")),
+TrustServerCertificate="no",
+Port     = 1433)
+readRenviron("C:/Users/BoydClaire/.Renviron")
+production_tables <- readr::read_csv("tables/production_tables.csv") %>%
+select(-1)
+fdw_tables <- readr::read_csv("tables/fdw_tables.csv") %>%
+select(-1)
+database = "fdw"
+database_schema = toupper(Sys.getenv(paste0(database, "_schema")))
+# create database connection, by reading in the correct env variables
+con <- DBI::dbConnect(odbc::odbc(),
+Driver   = "Oracle in OraClient19Home1",
+DBQ   = Sys.getenv(paste0(database, "_path")),
+DATABASE = Sys.getenv(paste0(database, "_schema")),
+UID      = Sys.getenv(paste0(database, "_username")),
+PWD      = Sys.getenv(paste0(database, "_password")),
+TrustServerCertificate="no",
+Port     = 1433)
+Sys.getenv("production_username")
+Sys.getenv("fdw_username")

@@ -1,0 +1,50 @@
+"0","library(dplyr)"
+"0","library(readr)"
+"0","library(DT)"
+"0","library(knitr)"
+"0",""
+"0","#re-run every now and then to update df - note: might take a few minutes (especially because of IAS)"
+"0","source(""generate_fdw_crosswalk.R"")"
+"2","New names:"
+"2","[1mRows: [22m[34m4149[39m [1mColumns: [22m[34m11[39m"
+"2","[36m──[39m [1mColumn specification[22m [36m───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────[39m
+[1mDelimiter:[22m "",""
+[31mchr[39m  (7): TABLE_CATALOG, TABLE_SCHEMA, TABLE_NAME, COLUMN_NAMES, first_col, PREFIX, PRIMARY_KEYS
+[32mdbl[39m  (3): ...1, COLUMNS, RECORDS
+[34mdttm[39m (1): LAST_UPDATE"
+"2","
+[36mℹ[39m Use `spec()` to retrieve the full column specification for this data.
+[36mℹ[39m Specify the column types or set `show_col_types = FALSE` to quiet this message."
+"2","New names:"
+"2","[1mRows: [22m[34m228[39m [1mColumns: [22m[34m11[39m"
+"2","[36m──[39m [1mColumn specification[22m [36m───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────[39m
+[1mDelimiter:[22m "",""
+[31mchr[39m  (6): TABLE_CATALOG, TABLE_SCHEMA, TABLE_NAME, COLUMN_NAMES, first_col, PREFIX
+[32mdbl[39m  (3): ...1, COLUMNS, RECORDS
+[33mlgl[39m  (1): PRIMARY_KEYS
+[34mdttm[39m (1): FDW_LAST_UPDATE"
+"2","
+[36mℹ[39m Use `spec()` to retrieve the full column specification for this data.
+[36mℹ[39m Specify the column types or set `show_col_types = FALSE` to quiet this message."
+"2","Matching, by = ""FDW_NAME"""
+"0","table_data <- readr::read_csv(""tables/fdw_crosswalk.csv"") %>% "
+"0","    select(-1)"
+"2","New names:"
+"2","[1mRows: [22m[34m227[39m [1mColumns: [22m[34m8[39m"
+"2","[36m──[39m [1mColumn specification[22m [36m───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────[39m
+[1mDelimiter:[22m "",""
+[31mchr[39m  (5): FDW_NAME, CAMA_NAME, PREFIX, PRIMARY_KEYS, DB
+[32mdbl[39m  (2): ...1, COLS
+[34mdate[39m (1): LAST_UPDATE"
+"2","
+[36mℹ[39m Use `spec()` to retrieve the full column specification for this data.
+[36mℹ[39m Specify the column types or set `show_col_types = FALSE` to quiet this message."
+"0","table_summary = table_data %>% "
+"0","    group_by(DB) %>% "
+"0","    summarize(`Number of tables` = n()) %>% "
+"0","    rename(Database = DB) %>% "
+"0","    arrange(desc(`Number of tables`))"
+"0",""
+"0","table_data_display = table_data %>% "
+"0","    select(-DB) %>% "
+"0","    arrange(FDW_NAME)"

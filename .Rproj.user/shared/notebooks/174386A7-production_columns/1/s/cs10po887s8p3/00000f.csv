@@ -1,0 +1,25 @@
+"0","library(dplyr)"
+"0","library(readr)"
+"0","library(DT)"
+"0","library(magrittr)"
+"0",""
+"0","source(""generate_production_columns.R"")"
+"2","New names:"
+"2","[1mRows: [22m[34m150334[39m [1mColumns: [22m[34m24[39m"
+"2","[36m──[39m [1mColumn specification[22m [36m───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────[39m
+[1mDelimiter:[22m "",""
+[31mchr[39m (8): TABLE_CATALOG, TABLE_SCHEMA, TABLE_NAME, COLUMN_NAME, IS_NULLABLE, DATA_TYPE, CHARACTER_SET_NAME, COLLATION_NAME
+[32mdbl[39m (8): ...1, ORDINAL_POSITION, CHARACTER_MAXIMUM_LENGTH, CHARACTER_OCTET_LENGTH, NUMERIC_PRECISION, NUMERIC_PRECISION_RADIX, NUMERIC_SCALE, DATETIME_PRECISION
+[33mlgl[39m (8): COLUMN_DEFAULT, CHARACTER_SET_CATALOG, CHARACTER_SET_SCHEMA, COLLATION_CATALOG, COLLATION_SCHEMA, DOMAIN_CATALOG, DOMAIN_SCHEMA, DOMAIN_NAME"
+"2","
+[36mℹ[39m Use `spec()` to retrieve the full column specification for this data.
+[36mℹ[39m Specify the column types or set `show_col_types = FALSE` to quiet this message."
+"0","table_data <- readr::read_csv(""tables/production_columns_joined.csv"") "
+"2","[1mRows: [22m[34m20922[39m [1mColumns: [22m[34m5[39m"
+"2","[36m──[39m [1mColumn specification[22m [36m───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────[39m
+[1mDelimiter:[22m "",""
+[31mchr[39m (4): TABLE_NAME, COLUMN_NAME, TYPE, DESCRIPTION
+[33mlgl[39m (1): PRIMARY_KEY"
+"2","
+[36mℹ[39m Use `spec()` to retrieve the full column specification for this data.
+[36mℹ[39m Specify the column types or set `show_col_types = FALSE` to quiet this message."
