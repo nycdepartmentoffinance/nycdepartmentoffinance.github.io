@@ -65,7 +65,28 @@ updated = pts_columns %>%
     arrange(DESCRIPTION) %>%
     slice(1)
 
-write.csv(updated, "tables/pts_columns.csv", na="")
+
+# add condbase and newbase in
+
+
+text_table_converted <- readxl::read_excel("tables/text_table_converted.xlsx")
+
+
+
+condbase_newbase <- fdw_columns %>%
+    filter(TABLE_NAME %in% c("VW_PDM_CONDBASE", "VW_PDM_NEWBASE")) %>%
+    left_join(text_table_converted, by=c("TABLE_NAME", "COLUMN_NAME")) %>%
+    select(OWNER, TABLE_NAME, COLUMN_NAME, DATA_TYPE, DESCRIPTION) %>%
+    rename(TYPE=DATA_TYPE)
+
+
+updated_with_condbase_newbase <- rbind(updated, condbase_newbase) %>%
+    ungroup() %>%
+    select(-NOTES, -OWNER) %>%
+    arrange(TABLE_NAME, COLUMN_NAME)
+
+
+write.csv(updated_with_condbase_newbase, "tables/pts_columns.csv", na="")
 
 
 

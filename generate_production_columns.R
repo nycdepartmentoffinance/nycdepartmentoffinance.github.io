@@ -69,7 +69,7 @@ production_columns_joined <- production_columns  %>%
                !grepl("CCV_", TABLE_NAME) & !grepl("_bkup", TABLE_NAME) & !grepl("_changelog", TABLE_NAME)
            & !grepl("knTest01", TABLE_NAME)) %>%
     arrange(TABLE_NAME, DESCRIPTION) %>%
-    select(TABLE_NAME, COLUMN_NAME, DESCRIPTION, TYPE, PRIMARY_KEY)
+    select(TABLE_NAME, COLUMN_NAME, TYPE, DESCRIPTION, PRIMARY_KEY)
 
 
 write_csv(production_columns_joined, "tables/production_columns_joined.csv")

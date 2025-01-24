@@ -1,5 +1,5 @@
 ---
-title: "PTS Column Lookup"
+title: "PDM/PTS Column Lookup"
 ---
 
 ```{r, include=FALSE}
@@ -8,15 +8,16 @@ library(readr)
 library(DT)
 library(magrittr)
 
-#re-run every now and then to update df - note: might take a few minutes (especially because of IAS)
-#source("generate_table_list.R")
+source("generate_pts_columns.R")
 
 table_data <- readr::read_csv("tables/pts_columns.csv") %>% 
-    select(-1, -NOTES, -OWNER)
+    select(-1)
 
 ```
 
-The table below includes a list of columns from core tables available in the `PTS` tables within the `FDW` database (`FDW3NF`). Use the search bar below to look for columns within a particular table (e.g. `ASMT`) or by column name (e.g. `CNS_PID`) to see which tables it appears in.
+The table below includes a list of columns from core tables available in the `PDM` tables (including `CONDBASE` and `NEWBASE`) and `PTS` tables (including `ASMT`, `PARDAT`, and `APRVAL`) within the `FDW` database (`FDW3NF`). 
+
+Use the search bar below to look for columns within a particular table (e.g. `ASMT`) or by column name (e.g. `CNS_PID`) to see which tables it appears in.
 
 For comprehensive information on these tables, visit the [PTS Documentation and User Guides](https://nyco365.sharepoint.com/sites/DOF-PropertyDivision/PTS/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FDOF%2DPropertyDivision%2FPTS%2FShared%20Documents%2FPTS%20Documentation%20and%20User%20Guides&viewid=1f671f8e%2D7586%2D4e62%2Db646%2De0fde9f3da7b&ovuser=32f56fc7%2D5f81%2D4e22%2Da95b%2D15da66513bef%2Cboydclaire%40finance%2Enyc%2Egov&OR=Teams%2DHL&CT=1737575630414&clickparams=eyJBcHBOYW1lIjoiVGVhbXMtRGVza3RvcCIsIkFwcFZlcnNpb24iOiI0OS8yNDEyMDEwMDIxNyIsIkhhc0ZlZGVyYXRlZFVzZXIiOmZhbHNlfQ%3D%3D) internal SharePoint site.
 

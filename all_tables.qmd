@@ -12,7 +12,8 @@ library(magrittr)
 #source("generate_table_list.R")
 
 table_data <- readr::read_csv("tables/table_list.csv") %>% 
-    select(-1)
+    select(-1) %>% 
+    rename(ROWS = RECORDS)
 
 table_summary = table_data %>% 
     group_by(DATABASE) %>% 
@@ -55,9 +56,9 @@ DT::datatable(table_data, escape = FALSE, filter = 'top', rownames = FALSE,
                                     "return type === 'display' && data.length > 15 ?",
                                     "'<span title=\"' + data + '\">' + data.substr(0, 15) + '...</span>' : data;",
                                     "}"))
-                                )
-                             )
+                             ))
               ) %>% 
-    formatStyle(columns = "PREFIX", `max-width` = '30px') %>% 
-    formatStyle(columns = "COLS", `max-width` = '30px')
+    formatStyle(columns = "PREFIX", `max-width` = '15px') %>% 
+    formatStyle(columns = "COLS", `max-width` = '15px') %>% 
+    formatStyle(columns = "PRIMARY_KEYS", `max-width` = '35px')
 ```
