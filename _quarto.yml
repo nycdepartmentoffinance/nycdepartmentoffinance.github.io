@@ -3,20 +3,22 @@ project:
   output-dir: docs
 
 website:
-  title: NYC DOF Property Modeling
+  title: Property Modeling
   repo-url: https://github.com/nycdepartmentoffinance/nycdepartmentoffinance.github.io
   repo-actions: [source, issue]
+  favicon: "images/favicon/logo_favicon.png"
   navbar:
     background: light
     search: true
+    logo: "images/favicon/logo_transparent.png"
     left:
+      - text: "Home"
+        href: index.qmd
       - text: "Data Dictionary"
         href: data_dictionary.qmd
     tools:
       - icon: github
         href: https://github.com/nycdepartmentoffinance/nycdepartmentoffinance.github.io
-
-
 
   sidebar:
      style: "docked"
@@ -32,7 +34,7 @@ website:
 
 format:
   html:
-    theme: cosmo
+    theme: default
     css: styles.css
     toc: true
 
