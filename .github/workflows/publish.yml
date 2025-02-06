@@ -14,6 +14,8 @@ jobs:
 
       - name: Set up ODBC driver
         uses: Yarden-zamir/install-mssql-odbc@main
+        with:
+          ODBC_VERSION: 17
 
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2
