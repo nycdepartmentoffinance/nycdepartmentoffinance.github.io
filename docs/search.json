@@ -12,16 +12,22 @@
     ]
   },
   {
-    "objectID": "fdw_crosswalk.html",
-    "href": "fdw_crosswalk.html",
-    "title": "FDW to Vision Table Crosswalk",
+    "objectID": "data_dictionary.html",
+    "href": "data_dictionary.html",
+    "title": "Data Dictionary",
     "section": "",
-    "text": "There are currently 227 tables within the Financial Data Warehouse (FDW) database from PTS, PDM, and CAMA.\n\n\n\n\n\nDatabase\nNumber of tables\n\n\n\n\nPTS\n88\n\n\nPDM\n73\n\n\nCAMA\n65\n\n\nNA\n1\n\n\n\n\n\n\n\n\nCrosswalk\nThe table below includes all FDW tables, but includes most complete information for those also in the V8_NEWYORK_NY_LIVE REAL_PROP schema. The primary keys column indicates the identifiers needed to obtain unique records in a database table.",
+    "text": "Explore the following pages that help document the data resources available to DOF’s property modeling team:\n\nFDW to Vision Crosswalk: A table that contains FDW table names and their matching CAMA table names if applicable, as well as the prefix used and relevant primary keys for the table (unit of observation: table).\nREAL_PROP Column Lookup: A table that contains all columns for the most important REAL_PROP tables in the production database, including the column type, description, and if it is a primary key (unit of observation: column).\nPDM/PTS Column Lookup: A table that contains information for columns for PDM tables (notably: NEWBASE, CONDBASE) and PTS tables (notably: ASMT, PARDAT, and APRVAL) available in the FDW database (FDW3NF), including the column type, description, and additional notes if relevant (unit of observation: column).\nAll Tables: This is a comprehensive list of all database tables within Production, FDW, and IAS databases, including the prefix used, number of columns in the table, and primary keys where relevant (unit of observation: table).\n\nTo download any of these data sets, visit the source data here.",
     "crumbs": [
       "Home",
-      "Data Dictionary",
-      "FDW to Vision Table Crosswalk"
+      "Data Dictionary"
     ]
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "About this site\n\n1 + 1\n\n[1] 2"
   },
   {
     "objectID": "all_tables.html",
@@ -36,21 +42,15 @@
     ]
   },
   {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About",
+    "objectID": "fdw_crosswalk.html",
+    "href": "fdw_crosswalk.html",
+    "title": "FDW to Vision Table Crosswalk",
     "section": "",
-    "text": "About this site\n\n1 + 1\n\n[1] 2"
-  },
-  {
-    "objectID": "data_dictionary.html",
-    "href": "data_dictionary.html",
-    "title": "Data Dictionary",
-    "section": "",
-    "text": "Explore the following pages that help document the data resources available to DOF’s property modeling team:\n\nFDW to Vision Crosswalk: A table that contains FDW table names and their matching CAMA table names if applicable, as well as the prefix used and relevant primary keys for the table (unit of observation: table).\nREAL_PROP Column Lookup: A table that contains all columns for the most important REAL_PROP tables in the production database, including the column type, description, and if it is a primary key (unit of observation: column).\nPDM/PTS Column Lookup: A table that contains information for columns for PDM tables (notably: NEWBASE, CONDBASE) and PTS tables (notably: ASMT, PARDAT, and APRVAL) available in the FDW database (FDW3NF), including the column type, description, and additional notes if relevant (unit of observation: column).\nAll Tables: This is a comprehensive list of all database tables within Production, FDW, and IAS databases, including the prefix used, number of columns in the table, and primary keys where relevant (unit of observation: table).\n\nTo download any of these data sets, visit the source data here.",
+    "text": "There are currently 227 tables within the Financial Data Warehouse (FDW) database from PTS, PDM, and CAMA.\n\n\n\n\n\nDatabase\nNumber of tables\n\n\n\n\nPTS\n88\n\n\nPDM\n73\n\n\nCAMA\n65\n\n\nNA\n1\n\n\n\n\n\n\n\n\nCrosswalk\nThe table below includes all FDW tables, but includes most complete information for those also in the V8_NEWYORK_NY_LIVE REAL_PROP schema. The primary keys column indicates the identifiers needed to obtain unique records in a database table.",
     "crumbs": [
       "Home",
-      "Data Dictionary"
+      "Data Dictionary",
+      "FDW to Vision Table Crosswalk"
     ]
   },
   {
