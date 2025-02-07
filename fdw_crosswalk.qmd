@@ -15,7 +15,7 @@ library(knitr)
 source("generate_fdw_crosswalk.R")
 
 table_data <- readr::read_csv("tables/fdw_crosswalk.csv") %>% 
-    select(-1)
+    select(-1, -LAST_UPDATE)
 
 table_summary = table_data %>% 
     group_by(DB) %>% 
