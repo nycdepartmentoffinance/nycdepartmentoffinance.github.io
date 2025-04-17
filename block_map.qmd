@@ -1,0 +1,64 @@
+---
+title: "Co-op Sales Model: Manhattan Block Map"
+
+repo-url: https://github.com/nycdepartmentoffinance/nycdepartmentoffinance.github.io
+---
+
+```{r, include=FALSE}
+library(readxl)
+library(stringr)
+library(readr)
+library(ggplot2)
+library(dplyr)
+library(sf)
+
+library(maps)
+library(leaflet)
+
+block_metrics = readr::read_csv("tables/manhattan_block_metrics.csv") %>% 
+    mutate(block = as.numeric(block))
+
+block_shapefile = sf::st_read("tables/TAX_BLOCK_POLYGON_LAYER/TAX_BLOCK_POLYGON_LAYER.shp") %>% 
+    st_transform(crs=4326) %>% 
+    filter(BORO == "1") %>% 
+    select(BLOCK, geometry) %>% 
+    left_join(block_metrics, by=c("BLOCK"="block"))
+
+# Define a color palette (from blue to red) using colorNumeric
+color_pal <- leaflet::colorNumeric(
+  palette = c("red", "green"),  # You can customize this to other colors
+  domain = block_shapefile$r  # Domain of values for the color scale
+)
+```
+
+The map below shows block-level metrics for the current co-op sales-based model, 
+helping to identify outliers and potential anomalies.
+
+```{r, echo=FALSE}
+
+leaflet(data = block_shapefile) %>%
+  addTiles() %>%
+  setView(-74.00, 40.71, zoom = 11) %>%
+  addProviderTiles("CartoDB.Positron") %>% 
+  addPolygons(
+    fillColor = ~color_pal(r),  # Fill color based on value
+    fillOpacity = 0.7,
+    color = "white",                # Border color
+    weight = 1,
+    popup = ~paste("Block:", BLOCK, "<br> <br>",
+               "number of sales:", n, "<br>",
+               "median_sales_ratio:", median_sales_ratio, "<br>",
+               "r:", r, "<br>",
+               "spearmans:", spearmans, "<br>",
+               "cod:", cod, "<br>",
+               "prd:", prd, "<br>",
+               "prb:", prb, "<br>",
+               "clapp:", clapp, "<br>",
+               "gini:", gini, "<br>",
+               "ci:", ci, "<br>",
+               "ki:", ki, "<br>",
+               "mki:", mki, "<br>"
+               )
+  )
+```
+

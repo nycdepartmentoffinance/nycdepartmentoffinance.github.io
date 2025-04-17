@@ -10,7 +10,7 @@ library(readr)
 library(DT)
 library(magrittr)
 
-source("generate_pts_columns.R")
+#source("generate_pts_columns.R")
 
 table_data <- readr::read_csv("tables/pts_columns.csv") %>% 
     select(-1)

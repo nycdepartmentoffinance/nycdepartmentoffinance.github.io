@@ -10,7 +10,7 @@ library(readr)
 library(DT)
 library(magrittr)
 
-source("generate_production_columns.R")
+#source("generate_production_columns.R")
 
 table_data <- readr::read_csv("tables/production_columns_joined.csv") 
 
