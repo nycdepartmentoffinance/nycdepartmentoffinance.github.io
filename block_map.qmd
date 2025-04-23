@@ -14,6 +14,7 @@ library(sf)
 
 library(maps)
 library(leaflet)
+library(scales)
 
 block_metrics = readr::read_csv("tables/manhattan_block_metrics.csv") %>% 
     mutate(block = as.numeric(block))
@@ -24,41 +25,138 @@ block_shapefile = sf::st_read("tables/TAX_BLOCK_POLYGON_LAYER/TAX_BLOCK_POLYGON_
     select(BLOCK, geometry) %>% 
     left_join(block_metrics, by=c("BLOCK"="block"))
 
-# Define a color palette (from blue to red) using colorNumeric
-color_pal <- leaflet::colorNumeric(
-  palette = c("red", "green"),  # You can customize this to other colors
-  domain = block_shapefile$r  # Domain of values for the color scale
-)
 ```
 
 The map below shows block-level metrics for the current co-op sales-based model, 
 helping to identify outliers and potential anomalies.
 
-```{r, echo=FALSE}
+```{r, include=FALSE}
+# Define a color palette (from blue to red) using colorNumeric
+color_pal_r <- function(x) {
+  sapply(x, function(val) {
+    if (is.na(val)) return("#999999")  # gray for NA
 
-leaflet(data = block_shapefile) %>%
+    if (val >= 1) {
+      return("green")  # pure green, consistent with others
+    } else if (val >= 0.7 && val < 1) {
+      # Green to Yellow: R goes from 0 → 1, G stays at 1
+      intensity <- rescale(val, from = c(0.7, 1), to = c(1, 0))  # reverse scale
+      return(rgb(intensity, 1, 0))  # green to yellow
+    } else if (val >= 0.4 && val < 0.7) {
+      # Yellow to Red: G goes from 1 → 0, R stays at 1
+      intensity <- rescale(val, from = c(0.4, 0.7), to = c(0, 1))
+      return(rgb(1, intensity, 0))  # yellow to red
+    } else {
+      return("red")  # solid red for <0.4
+    }
+  })
+}
+
+
+color_pal_cod <- function(x) {
+  sapply(x, function(val) {
+    if (is.na(val)) return("#999999")  # gray for NA
+
+    if (val >= 5 & val <= 10) {
+      return("green")  # Still using green for the "ideal" zone
+    } else if (val < 5) {
+      # Values < 5: interpolate from yellow (at 5) to orange (at 0)
+      # Yellow = rgb(1, 1, 0), Orange = rgb(1, 0.5, 0)
+      intensity <- scales::rescale(val, from = c(0, 5), to = c(0.5, 1))  # Green component goes from 0.5 to 1
+      return(rgb(1, intensity, 0))
+    } else {
+      # Interpolate from yellow (10) to red (20), capped at red for >20
+      capped_val <- min(val, 20)
+      intensity <- rescale(capped_val, from = c(10, 20), to = c(1, 0))  # G goes from 1 to 0
+      return(rgb(1, intensity, 0))  # Yellow to Red
+    }
+  })
+}
+
+color_pal_prd <- function(x) {
+  sapply(x, function(val) {
+    if (is.na(val)) return("#999999")  # gray for NA
+
+    if (val >= 0.98 & val <= 1.03) {
+      return("green")  # Ideal range
+    } else if (val < 0.98) {
+      # Interpolate from yellow (0.98) to red (~0.90)
+      capped_val <- max(val, 0.90)  # cap lower bound
+      intensity <- rescale(capped_val, from = c(0.90, 0.98), to = c(0, 1))  # G from 0 to 1
+      return(rgb(1, intensity, 0))  # Red to Yellow
+    } else {
+      # Interpolate from yellow (1.03) to red (~1.10)
+      capped_val <- min(val, 1.10)  # cap upper bound
+      intensity <- rescale(capped_val, from = c(1.03, 1.10), to = c(1, 0))  # G from 1 to 0
+      return(rgb(1, intensity, 0))  # Yellow to Red
+    }
+  })
+}
+```
+
+
+```{r, echo=FALSE}
+leaflet(data = block_shapefile, height=800) %>%
   addTiles() %>%
-  setView(-74.00, 40.71, zoom = 11) %>%
+  setView(-73.96, 40.78, zoom = 12) %>%
   addProviderTiles("CartoDB.Positron") %>% 
+  
+  # r layer
   addPolygons(
-    fillColor = ~color_pal(r),  # Fill color based on value
+    group = "By r",
+    fillColor = ~color_pal_r(r),
     fillOpacity = 0.7,
-    color = "white",                # Border color
+    color = "white",          
     weight = 1,
-    popup = ~paste("Block:", BLOCK, "<br> <br>",
-               "number of sales:", n, "<br>",
+    popup = ~paste("Block:", BLOCK, "<br>",
+               "n:", n, "<br>",
                "median_sales_ratio:", median_sales_ratio, "<br>",
                "r:", r, "<br>",
                "spearmans:", spearmans, "<br>",
                "cod:", cod, "<br>",
-               "prd:", prd, "<br>",
-               "prb:", prb, "<br>",
-               "clapp:", clapp, "<br>",
-               "gini:", gini, "<br>",
-               "ci:", ci, "<br>",
-               "ki:", ki, "<br>",
-               "mki:", mki, "<br>"
+               "prd:", prd, "<br>"
                )
-  )
+    ) %>% 
+  # cod layer
+  addPolygons(
+    group = "By COD",
+    fillColor = ~color_pal_cod(cod), 
+    fillOpacity = 0.7,
+    color = "white",
+    weight = 1,
+    popup = ~paste("Block:", BLOCK, "<br>",
+               "n:", n, "<br>",
+               "median_sales_ratio:", median_sales_ratio, "<br>",
+               "r:", r, "<br>",
+               "spearmans:", spearmans, "<br>",
+               "cod:", cod, "<br>",
+               "prd:", prd, "<br>"
+               )
+  ) %>% 
+  # prd layer  
+  addPolygons(
+    group = "By PRD",
+    fillColor = ~color_pal_prd(prd), 
+    fillOpacity = 0.7,
+    color = "white",
+    weight = 1,
+    popup = ~paste("Block:", BLOCK, "<br>",
+               "n:", n, "<br>",
+               "median_sales_ratio:", median_sales_ratio, "<br>",
+               "r:", r, "<br>",
+               "spearmans:", spearmans, "<br>",
+               "cod:", cod, "<br>",
+               "prd:", prd, "<br>"
+               )
+  ) %>% 
+    
+  # Add control to switch between the two (overlayGroups with exclusiveGroups)
+  addLayersControl(
+    baseGroups = c("By r", "By COD", "By PRD"),
+    options = layersControlOptions(collapsed = FALSE)
+  ) %>%
+
+  # Only show one group by default
+  hideGroup("By r")
 ```
 
