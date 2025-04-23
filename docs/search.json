@@ -42,11 +42,15 @@
     "text": "About this site\n\n1 + 1\n\n[1] 2"
   },
   {
-    "objectID": "block_map.html",
-    "href": "block_map.html",
-    "title": "Co-op Sales Model: Manhattan Block Map",
+    "objectID": "coop_sales_model.html",
+    "href": "coop_sales_model.html",
+    "title": "Co-op Sales Model: Manhattan Results",
     "section": "",
-    "text": "The map below shows block-level metrics for the current co-op sales-based model, helping to identify outliers and potential anomalies."
+    "text": "The map below shows block-level metrics for the current co-op sales-based model in Manhattan, helping to identify outliers and potential anomalies.\n\n\n\n\n\n\nThis map shows the sales in the model with sales_ratio values that are greater than 1.",
+    "crumbs": [
+      "Home",
+      "Models"
+    ]
   },
   {
     "objectID": "fdw_crosswalk.html",

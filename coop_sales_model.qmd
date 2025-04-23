@@ -1,5 +1,5 @@
 ---
-title: "Co-op Sales Model: Manhattan Block Map"
+title: "Co-op Sales Model: Manhattan Results"
 
 repo-url: https://github.com/nycdepartmentoffinance/nycdepartmentoffinance.github.io
 ---
@@ -27,7 +27,7 @@ block_shapefile = sf::st_read("tables/TAX_BLOCK_POLYGON_LAYER/TAX_BLOCK_POLYGON_
 
 ```
 
-The map below shows block-level metrics for the current co-op sales-based model, 
+The map below shows block-level metrics for the current co-op sales-based model in Manhattan, 
 helping to identify outliers and potential anomalies.
 
 ```{r, include=FALSE}
@@ -158,5 +158,78 @@ leaflet(data = block_shapefile, height=800) %>%
 
   # Only show one group by default
   hideGroup("By r")
+```
+
+This map shows the sales in the model with sales_ratio values that are greater than 1.
+
+```{r, include=FALSE}
+# get original x/y coordinates
+sales_with_xy = readr::read_csv("C:/Users/BoydClaire/workspace_local/coop_sales_model/data/sales_for_modeling.csv") %>% 
+    select(PID, xCentroid, yCentroid) %>% 
+    group_by(PID) %>% 
+    slice(1) %>% 
+    ungroup()
+
+train_df = readr::read_csv("C:/Users/BoydClaire/workspace_local/coop_sales_model/model_results/grosscon_psqft_boro_2pt/mixed_model_block/train_with_yhat.csv") %>% 
+    select(-xCentroid, -yCentroid) %>% 
+    left_join(sales_with_xy, by="PID")
+
+train <- sf::st_as_sf(train_df, coords= c("xCentroid","yCentroid"), crs=2263) %>% 
+    st_transform(crs=4326) %>% 
+    filter(BORO == "1")
+```
+
+```{r, echo=FALSE}
+# Create color palettes
+pal_grosscon <- colorNumeric(palette = "Blues", domain = train$GROSSCON)
+pal_sales_ratio <- colorNumeric(palette = "Reds", domain = train$sales_ratio)
+
+leaflet(train) %>%
+  addTiles() %>%
+  setView(-73.96, 40.78, zoom = 13) %>%
+  addProviderTiles("CartoDB.Positron") %>%
+
+  # Layer 1: Shade by GROSSCON
+  addCircleMarkers(
+    data = train,
+    group = "By GROSSCON",
+    fillColor = ~pal_grosscon(GROSSCON),
+    color = "black",
+    weight = 1,
+    radius = 6,
+    fillOpacity = 0.7,
+    stroke = TRUE,
+    popup = ~paste0("PID: ", PID, "<br>",
+              "SALEKEY: ", SALEKEY, "<br>",            
+              "GROSSCON: $", scales::comma(GROSSCON), "<br>",
+              "prediction: $", scales::comma(round(prediction)), "<br>",
+              "sales ratio: ", round(sales_ratio, digits=3))
+  ) %>%
+
+  # Layer 2: Shade by sales_ratio
+  addCircleMarkers(
+    data = train,
+    group = "By sales_ratio",
+    fillColor = ~pal_sales_ratio(sales_ratio),
+    color = "black",
+    weight = 1,
+    radius = 6,
+    fillOpacity = 0.7,
+    stroke = TRUE,
+    popup = ~paste0("PID: ", PID, "<br>",
+              "SALEKEY: ", SALEKEY, "<br>",            
+              "GROSSCON: $", scales::comma(GROSSCON), "<br>",
+              "prediction: $", scales::comma(round(prediction)), "<br>",
+              "sales ratio: ", round(sales_ratio, digits=3))
+  ) %>%
+
+  # Add control to switch between the two (overlayGroups with exclusiveGroups)
+  addLayersControl(
+    baseGroups = c("By GROSSCON", "By sales_ratio"),  # Use baseGroups for exclusivity
+    options = layersControlOptions(collapsed = FALSE)
+  ) %>%
+
+  # Only show GROSSCON group by default
+  hideGroup("By sales_ratio")
 ```
 
