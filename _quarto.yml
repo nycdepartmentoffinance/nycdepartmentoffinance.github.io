@@ -15,9 +15,9 @@ website:
       - text: "Home"
         href: index.qmd
       - text: "Data Dictionary"
-        href: data_dictionary.qmd
+        href: data_dictionary/index.qmd
       - text: "Models"
-        href: coop_sales_model.qmd
+        href: models/index.qmd
     tools:
       - icon: github
         href: https://github.com/nycdepartmentoffinance
@@ -25,16 +25,7 @@ website:
   sidebar:
      style: "docked"
      search: true
-     contents:
-     - section: "Models"
-       href: coop_sales_model.qmd
-     - section: "Data Dictionary"
-       href: data_dictionary.qmd
-       contents:
-        - fdw_crosswalk.qmd
-        - production_columns.qmd
-        - pts_columns.qmd
-        - all_tables.qmd
+     contents: auto
 
 format:
   html:
