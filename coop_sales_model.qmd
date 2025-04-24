@@ -92,6 +92,38 @@ color_pal_prd <- function(x) {
     }
   })
 }
+
+color_pal_sales_ratio <- function(x) {
+  sapply(x, function(val) {
+    if (is.na(val)) return("#999999")  # gray for NA
+
+    if (val >= 0.9 & val <= 1.1) {
+      return("green")  # Ideal range
+    } else if (val < 0.9) {
+      # Fade from yellow (0.9) to red (0.6)
+      capped_val <- max(val, 0.6)
+      intensity <- rescale(capped_val, from = c(0.6, 0.9), to = c(0, 1))  # G from 0 to 1
+      return(rgb(1, intensity, 0))  # Red to Yellow
+    } else {
+      # Fade from yellow (1.1) to red (1.4)
+      capped_val <- min(val, 1.4)
+      intensity <- rescale(capped_val, from = c(1.1, 1.4), to = c(1, 0))  # G from 1 to 0
+      return(rgb(1, intensity, 0))  # Yellow to Red
+    }
+  })
+}
+
+color_pal_grosscon <- function(x){
+ 
+  clamped <- pmin(pmax(x, 200000), 5000000)
+    
+  pal = colorNumeric(
+      palette = "Blues",  # You can also use c("#deebf7", "#3182bd") for more control
+      domain = c(200000, 5000000),  # fixed scale
+      na.color = "#999999"  # gray for NA
+  )
+  return(pal(clamped))
+}
 ```
 
 
@@ -157,10 +189,8 @@ leaflet(data = block_shapefile, height=800) %>%
   ) %>%
 
   # Only show one group by default
-  hideGroup("By r")
+  hideGroup(c("By COD", "By PRD"))
 ```
-
-This map shows the sales in the model with sales_ratio values that are greater than 1.
 
 ```{r, include=FALSE}
 # get original x/y coordinates
@@ -179,12 +209,13 @@ train <- sf::st_as_sf(train_df, coords= c("xCentroid","yCentroid"), crs=2263) %>
     filter(BORO == "1")
 ```
 
+
+
+This map shows the `r scales::comma(nrow(train))` Manhattan sales in the model, displaying either the sale price or the sales ratio.
+
 ```{r, echo=FALSE}
 # Create color palettes
-pal_grosscon <- colorNumeric(palette = "Blues", domain = train$GROSSCON)
-pal_sales_ratio <- colorNumeric(palette = "Reds", domain = train$sales_ratio)
-
-leaflet(train) %>%
+leaflet(train, height = 800) %>%
   addTiles() %>%
   setView(-73.96, 40.78, zoom = 13) %>%
   addProviderTiles("CartoDB.Positron") %>%
@@ -192,8 +223,8 @@ leaflet(train) %>%
   # Layer 1: Shade by GROSSCON
   addCircleMarkers(
     data = train,
-    group = "By GROSSCON",
-    fillColor = ~pal_grosscon(GROSSCON),
+    group = "By Sale Price",
+    fillColor = ~color_pal_grosscon(GROSSCON),
     color = "black",
     weight = 1,
     radius = 6,
@@ -201,16 +232,16 @@ leaflet(train) %>%
     stroke = TRUE,
     popup = ~paste0("PID: ", PID, "<br>",
               "SALEKEY: ", SALEKEY, "<br>",            
-              "GROSSCON: $", scales::comma(GROSSCON), "<br>",
-              "prediction: $", scales::comma(round(prediction)), "<br>",
-              "sales ratio: ", round(sales_ratio, digits=3))
+              "Sale Price (real value): $", scales::comma(GROSSCON), "<br>",
+              "Predicted Sale Price (modeled value): $", scales::comma(round(prediction)), "<br>",
+              "Sales Ratio: ", round(sales_ratio, digits=3))
   ) %>%
 
   # Layer 2: Shade by sales_ratio
   addCircleMarkers(
     data = train,
-    group = "By sales_ratio",
-    fillColor = ~pal_sales_ratio(sales_ratio),
+    group = "By Sales Ratio",
+    fillColor = ~color_pal_sales_ratio(sales_ratio),
     color = "black",
     weight = 1,
     radius = 6,
@@ -218,18 +249,18 @@ leaflet(train) %>%
     stroke = TRUE,
     popup = ~paste0("PID: ", PID, "<br>",
               "SALEKEY: ", SALEKEY, "<br>",            
-              "GROSSCON: $", scales::comma(GROSSCON), "<br>",
-              "prediction: $", scales::comma(round(prediction)), "<br>",
-              "sales ratio: ", round(sales_ratio, digits=3))
+              "Sale Price (real value): $", scales::comma(GROSSCON), "<br>",
+              "Predicted Sale Price (modeled value): $", scales::comma(round(prediction)), "<br>",
+              "Sales Ratio: ", round(sales_ratio, digits=3))
   ) %>%
 
   # Add control to switch between the two (overlayGroups with exclusiveGroups)
   addLayersControl(
-    baseGroups = c("By GROSSCON", "By sales_ratio"),  # Use baseGroups for exclusivity
+    baseGroups = c("By Sale Price", "By Sales Ratio"),  # Use baseGroups for exclusivity
     options = layersControlOptions(collapsed = FALSE)
   ) %>%
 
-  # Only show GROSSCON group by default
+  # Only show Sale Price group by default
   hideGroup("By sales_ratio")
 ```
 
