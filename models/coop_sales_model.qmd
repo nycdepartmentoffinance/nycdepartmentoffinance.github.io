@@ -231,7 +231,9 @@ leaflet(train, height = 800) %>%
               "Sales Ratio: ", round(sales_ratio, digits=3),  "<br>",
               "<br>",
               "Dependent variables (normalized):", "<br>",
-              "Distance to Park: ", Park_5a_dist, "<br>",
+              "Building Class: ", BC, "<br>",
+              "Distance to Park: ", park_dist, "<br>",
+              "Distance to Cultural Facility: ", park_dist, "<br>",
               "Stories in bulding: ", stories, "<br>",
               "Affordable housing flag: ", affordable, "<br>",
               "Bedrooms: ", BEDROOMS, "<br>",
@@ -258,7 +260,9 @@ leaflet(train, height = 800) %>%
               "Sales Ratio: ", round(sales_ratio, digits=3),  "<br>",
               "<br>",
               "Dependent variables (normalized):", "<br>",
-              "Distance to Park: ", Park_5a_dist, "<br>",
+              "Building Class: ", BC, "<br>",
+              "Distance to Park: ", park_dist, "<br>",
+              "Distance to Cultural Facility: ", park_dist, "<br>",
               "Stories in bulding: ", stories, "<br>",
               "Affordable housing flag: ", affordable, "<br>",
               "Bedrooms: ", BEDROOMS, "<br>",
@@ -275,6 +279,6 @@ leaflet(train, height = 800) %>%
   ) %>%
 
   # Only show Sale Price group by default
-  hideGroup("By sales_ratio")
+  hideGroup("By sales_ratio") 
 ```
 
