@@ -228,7 +228,17 @@ leaflet(train, height = 800) %>%
               "SALEKEY: ", SALEKEY, "<br>",            
               "Sale Price (real value): $", scales::comma(GROSSCON), "<br>",
               "Predicted Sale Price (modeled value): $", scales::comma(round(prediction)), "<br>",
-              "Sales Ratio: ", round(sales_ratio, digits=3))
+              "Sales Ratio: ", round(sales_ratio, digits=3),  "<br>",
+              "<br>",
+              "Dependent variables (normalized):", "<br>",
+              "Distance to Park: ", Park_5a_dist, "<br>",
+              "Stories in bulding: ", stories, "<br>",
+              "Affordable housing flag: ", affordable, "<br>",
+              "Bedrooms: ", BEDROOMS, "<br>",
+              "Bathrooms: ", BATHROOMS, "<br>",
+              "Floor: ", floor, "<br>",
+              "Sqft (logged): ", log_sqft
+              )
   ) %>%
 
   # Layer 2: Shade by sales_ratio
@@ -245,7 +255,17 @@ leaflet(train, height = 800) %>%
               "SALEKEY: ", SALEKEY, "<br>",            
               "Sale Price (real value): $", scales::comma(GROSSCON), "<br>",
               "Predicted Sale Price (modeled value): $", scales::comma(round(prediction)), "<br>",
-              "Sales Ratio: ", round(sales_ratio, digits=3))
+              "Sales Ratio: ", round(sales_ratio, digits=3),  "<br>",
+              "<br>",
+              "Dependent variables (normalized):", "<br>",
+              "Distance to Park: ", Park_5a_dist, "<br>",
+              "Stories in bulding: ", stories, "<br>",
+              "Affordable housing flag: ", affordable, "<br>",
+              "Bedrooms: ", BEDROOMS, "<br>",
+              "Bathrooms: ", BATHROOMS, "<br>",
+              "Floor: ", floor, "<br>",
+              "Sqft (logged): ", log_sqft
+              )
   ) %>%
 
   # Add control to switch between the two (overlayGroups with exclusiveGroups)
