@@ -354,7 +354,7 @@ The interactive map below visualizes key assessment accuracy metrics at the neig
 
 ***Note:** Neighborhoods with less than 10 sales used to train the model do not display any accuracy metrics.*
 
-```{r, cache=TRUE}
+```{r}
 create_metrics_map(
   data = neighborhood_shapefile, 
   by = "NBHD_NAME",
@@ -368,7 +368,7 @@ create_metrics_map(
 
 The map below displays the model's performance in Manhattan at the block level. Toggle between the layers to display different accuracy metrics or click on a block to more carefully inspect how well the model performs on sales on that block.
 
-```{r, cache=TRUE}
+```{r}
 create_metrics_map(
   data = block_shapefile, 
   by = "BLOCK",
@@ -380,7 +380,7 @@ create_metrics_map(
 
 <br> This map shows a breakdown of the `r scales::comma(nrow(train[train$boro == 1,]))` Manhattan sales used to train the model, shaded by either the sale price, predicted sale price, or the sales ratio. Clicking on a sale reveals a popup with the sale's characteristics used by the model to determined it's predicted value (dependent variables).
 
-```{r, cache=TRUE}
+```{r}
 create_point_map(
   data = train[train$boro == 1,],
   dependent_variables = c("BC", "park_dist", "cultural_facility_dist", 
