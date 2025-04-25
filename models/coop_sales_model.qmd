@@ -1,10 +1,14 @@
 ---
 title: "Co-op Sales Model"
 
-repo-url: https://github.com/nycdepartmentoffinance/coop_sales_model
+repo-url: https://github.com/nycdepartmentoffinance/nycdepartmentoffinance.github.io
 ---
 
 ```{r, include=FALSE}
+# read env file to get proxy set up to work
+readRenviron("C:/Users/BoydClaire/.Renviron")
+options(scipen=99999)
+
 library(readxl)
 library(stringr)
 library(readr)
@@ -15,32 +19,18 @@ library(sf)
 library(maps)
 library(leaflet)
 library(scales)
-
-block_metrics = readr::read_csv("data/manhattan_block_metrics.csv") %>% 
-    mutate(block = as.numeric(block))
-
-block_shapefile = sf::st_read("data/TAX_BLOCK_POLYGON_LAYER/TAX_BLOCK_POLYGON_LAYER.shp") %>% 
-    st_transform(crs=4326) %>% 
-    filter(BORO == "1") %>% 
-    select(BLOCK, geometry) %>% 
-    left_join(block_metrics, by=c("BLOCK"="block"))
-
+library(DT)
 ```
 
-### Manhattan Results
-
-The map below shows block-level metrics for the current co-op sales-based model in Manhattan, 
-helping to identify outliers and potential anomalies.
-
-```{r, include=FALSE}
-# Define a color palette (from blue to red) using colorNumeric
+```{r functions, include=FALSE, cache=TRUE}
+# color palettes to use across plots/maps
 color_pal_r <- function(x) {
   sapply(x, function(val) {
     if (is.na(val)) return("#999999")  # gray for NA
 
-    if (val >= 1) {
-      return("green")  # pure green, consistent with others
-    } else if (val >= 0.7 && val < 1) {
+    if (val >= 0.95) {
+      return("#00FF00")  # pure green, consistent with others
+    } else if (val >= 0.7 && val < 0.95) {
       # Green to Yellow: R goes from 0 → 1, G stays at 1
       intensity <- rescale(val, from = c(0.7, 1), to = c(1, 0))  # reverse scale
       return(rgb(intensity, 1, 0))  # green to yellow
@@ -49,18 +39,17 @@ color_pal_r <- function(x) {
       intensity <- rescale(val, from = c(0.4, 0.7), to = c(0, 1))
       return(rgb(1, intensity, 0))  # yellow to red
     } else {
-      return("red")  # solid red for <0.4
+      return("#FF0000")  # solid red for <0.4
     }
   })
 }
-
 
 color_pal_cod <- function(x) {
   sapply(x, function(val) {
     if (is.na(val)) return("#999999")  # gray for NA
 
     if (val >= 5 & val <= 10) {
-      return("green")  # Still using green for the "ideal" zone
+      return("#00FF00")  # Still using green for the "ideal" zone
     } else if (val < 5) {
       # Values < 5: interpolate from yellow (at 5) to orange (at 0)
       # Yellow = rgb(1, 1, 0), Orange = rgb(1, 0.5, 0)
@@ -80,7 +69,7 @@ color_pal_prd <- function(x) {
     if (is.na(val)) return("#999999")  # gray for NA
 
     if (val >= 0.98 & val <= 1.03) {
-      return("green")  # Ideal range
+      return("#00FF00")  # Ideal range
     } else if (val < 0.98) {
       # Interpolate from yellow (0.98) to red (~0.90)
       capped_val <- max(val, 0.90)  # cap lower bound
@@ -126,159 +115,277 @@ color_pal_grosscon <- function(x){
   )
   return(pal(clamped))
 }
-```
 
-
-```{r, echo=FALSE}
-leaflet(data = block_shapefile, height=800) %>%
-  addTiles() %>%
-  setView(-73.96, 40.78, zoom = 12) %>%
-  addProviderTiles("CartoDB.Positron") %>% 
+#table formatting
+format_metrics_table <- function(data, palettes, opacity = 0.2, exclude_cols = c("ci", "gini")) {
+  # Add color columns using provided palettes and opacity
+  data <- data %>%
+    mutate(across(
+      .cols = names(palettes),
+      .fns = ~ hex_with_opacity(palettes[[cur_column()]](.x), opacity),
+      .names = "color_{.col}"
+    ))
   
-  # r layer
-  addPolygons(
-    group = "By r",
-    fillColor = ~color_pal_r(r),
-    fillOpacity = 0.7,
-    color = "white",          
-    weight = 1,
-    popup = ~paste("Block:", BLOCK, "<br>",
-               "n:", n, "<br>",
-               "median_sales_ratio:", median_sales_ratio, "<br>",
-               "r:", r, "<br>",
-               "spearmans:", spearmans, "<br>",
-               "cod:", cod, "<br>",
-               "prd:", prd, "<br>"
-               )
-    ) %>% 
-  # cod layer
-  addPolygons(
-    group = "By COD",
-    fillColor = ~color_pal_cod(cod), 
-    fillOpacity = 0.7,
-    color = "white",
-    weight = 1,
-    popup = ~paste("Block:", BLOCK, "<br>",
-               "n:", n, "<br>",
-               "median_sales_ratio:", median_sales_ratio, "<br>",
-               "r:", r, "<br>",
-               "spearmans:", spearmans, "<br>",
-               "cod:", cod, "<br>",
-               "prd:", prd, "<br>"
-               )
-  ) %>% 
-  # prd layer  
-  addPolygons(
-    group = "By PRD",
-    fillColor = ~color_pal_prd(prd), 
-    fillOpacity = 0.7,
-    color = "white",
-    weight = 1,
-    popup = ~paste("Block:", BLOCK, "<br>",
-               "n:", n, "<br>",
-               "median_sales_ratio:", median_sales_ratio, "<br>",
-               "r:", r, "<br>",
-               "spearmans:", spearmans, "<br>",
-               "cod:", cod, "<br>",
-               "prd:", prd, "<br>"
-               )
-  ) %>% 
-    
-  # Add control to switch between the two (overlayGroups with exclusiveGroups)
-  addLayersControl(
-    baseGroups = c("By r", "By COD", "By PRD"),
-    options = layersControlOptions(collapsed = FALSE)
-  ) %>%
+  # Determine which columns to show
+  visible_cols <- setdiff(names(data), c(paste0("color_", names(palettes)), exclude_cols))
+  
+  # Build the datatable
+  dt <- datatable(
+    data[, visible_cols],
+    options = list(pageLength = 6, scrollX = TRUE)
+  )
+  
+  # Apply conditional formatting
+  for (metric in names(palettes)) {
+    dt <- dt %>% formatStyle(
+      metric,
+      backgroundColor = styleEqual(
+        data[[metric]],
+        data[[paste0("color_", metric)]]
+      )
+    )
+  }
+  
+  return(dt)
+}
 
-  # Only show one group by default
-  hideGroup(c("By COD", "By PRD"))
+
+# map functions
+create_metrics_map <- function(data, by, center_lng = -73.96, center_lat = 40.78, zoom_level = 12) {
+  
+  leaflet(data = data, height=800) %>%
+    addTiles() %>%
+    setView(center_lng, center_lat, zoom = zoom_level) %>%
+    addProviderTiles("CartoDB.Positron") %>% 
+    {
+      map <- .
+      
+          # Create popup content using get() to dynamically access the ID field
+          popup_content <- eval(parse(text = paste0(
+            "~paste('<strong>", by, ":</strong> ', get('", by, "'), '<br>',",
+            "'<strong>n:</strong> ', n, '<br>',",
+            "'<strong>median_sales_ratio:</strong> ', median_sales_ratio, '<br>',",
+            "'<strong>r:</strong> ', r, '<br>',",
+            "'<strong>spearmans:</strong> ', spearmans, '<br>',",
+            "'<strong>cod:</strong> ', cod, '<br>',",
+            "'<strong>prd:</strong> ', prd, '<br>',",
+            "'<strong>prb:</strong> ', prb, '<br>',",
+            "'<strong>clapp:</strong> ', clapp, '<br>',",
+            "'<strong>ki:</strong> ', ki, '<br>',",
+            "'<strong>mki:</strong> ', mki, '<br>')"
+          )))
+    
+      
+      # Define function to add polygon layers
+      add_polygon_layer <- function(m, group_name, var_name, color_fn) {
+        m %>% addPolygons(
+          group = group_name,
+          fillColor = ~color_fn(get(var_name)),
+          fillOpacity = 0.7,
+          color = "white",
+          weight = 1,
+          popup = popup_content
+        )
+      }
+      
+      # Add all layers using the function
+      map %>%
+        add_polygon_layer("By R", "r", color_pal_r) %>%
+        add_polygon_layer("By Spearman's Rank", "spearmans", color_pal_r) %>%
+        add_polygon_layer("By COD", "cod", color_pal_cod) %>%
+        add_polygon_layer("By PRD", "prd", color_pal_prd) %>%
+        add_polygon_layer("By MKI", "mki", color_pal_r)
+    } %>%
+    
+    # Add control to switch between layers
+    addLayersControl(
+      baseGroups = c("By R", "By Spearman's Rank","By COD", "By PRD", "By MKI"),
+      options = layersControlOptions(collapsed = FALSE)
+    ) %>%
+    
+    # Only show one group by default
+    hideGroup(c("By Spearman's Rank","By COD", "By PRD","By MKI"))
+}
+
+create_point_map <- function(data, 
+                             dependent_variables,
+                             layers =
+                              list(
+                                list(group = "By Sale Price", var = "GROSSCON", color_pal = color_pal_grosscon),
+                                list(group = "By Predicted Sale Price", var = "prediction", color_pal = color_pal_grosscon),
+                                list(group = "By Sales Ratio", var = "sales_ratio", color_pal = color_pal_sales_ratio)
+                              ), 
+                             center_lng = -73.96, 
+                             center_lat = 40.78, 
+                             zoom_level = 13) {
+
+  # Required top-level fields, formatted
+  popup_content <- sapply(seq_len(nrow(data)), function(i) {
+    row <- data[i, ]
+
+    main_info <- paste0(
+      "<strong>PID:</strong> ", row[["PID"]], "<br>",
+      "<strong>SALEKEY:</strong> ", row[["SALEKEY"]], "<br>",
+      "<strong>Sale Price (real value):</strong> $", scales::comma(round(row[["GROSSCON"]])), "<br>",
+      "<strong>Predicted Sale Price:</strong> $", scales::comma(round(row[["prediction"]])), "<br>",
+      "<strong>Sales Ratio:</strong> ", round(row[["sales_ratio"]], 3), "<br><br>"
+    )
+
+    dependent_vars <- paste0(
+      "<strong>Dependent Variables:</strong><br>",
+      paste0(
+        lapply(dependent_variables, function(var) {
+          paste0("<strong>", var, ":</strong> ", row[[var]])
+        }),
+        collapse = "<br>"
+      )
+    )
+
+    paste0(main_info, dependent_vars)
+  })
+
+  map <- leaflet(data = data, height = 800) %>%
+    addTiles() %>%
+    setView(lng = center_lng, lat = center_lat, zoom = zoom_level) %>%
+    addProviderTiles("CartoDB.Positron")
+
+  for (layer in layers) {
+    group_name <- layer$group
+    var_name <- layer$var
+    color_fn <- layer$color_pal
+
+    map <- map %>%
+      addCircleMarkers(
+        data = data,
+        group = group_name,
+        fillColor = ~color_fn(get(var_name)),
+        color = "black",
+        weight = 1,
+        radius = 6,
+        fillOpacity = 0.7,
+        stroke = TRUE,
+        popup = popup_content
+      )
+  }
+
+  map %>%
+    addLayersControl(
+      baseGroups = sapply(layers, function(l) l$group),
+      options = layersControlOptions(collapsed = FALSE)
+    ) %>%
+    hideGroup(sapply(layers[-1], function(l) l$group))
+}
+
+
+hex_with_opacity <- function(hex, alpha = 1) {
+  hex <- gsub("#", "", hex)  # Remove '#' if present
+
+  # Convert alpha (0–1) to 2-digit hex
+  alpha_hex <- toupper(sprintf("%02X", round(alpha * 255)))
+
+  paste0("#", hex, alpha_hex)
+}
+
 ```
 
-```{r, include=FALSE}
-# get original x/y coordinates
-train_df = readr::read_csv("data/train_with_yhat.csv")
+```{r data_ingestion, include=FALSE, cache=TRUE}
+source_folder = "C:/Users/BoydClaire/workspace_local/coop_sales_model/model_results/grosscon_psqft_boro_2pt/mixed_model_block"
+
+# model metrics
+boro_metrics = readr::read_csv(glue::glue("{source_folder}/metrics.csv")) %>% 
+    mutate(across(
+        .cols = -c(boro, predicted, actual, n, accuracy, uniformity, vertical_equity), 
+        .fns = ~round(.x, 4)
+      )) %>% 
+    select(-predicted, -actual)
+
+neighborhood_metrics = readr::read_csv(glue::glue("{source_folder}/neighborhood_metrics.csv")) 
+
+block_metrics = readr::read_csv(glue::glue("{source_folder}/manhattan_block_metrics.csv")) %>% 
+    mutate(block = as.numeric(block))
+
+train_df = readr::read_csv(glue::glue("{source_folder}/train_with_yhat.csv"))
+
+# shapefiles // geographic transformations
+neighborhood_shapefile = sf::st_read("data/DOF_NBHD_Dissolved/DOF_NBHD_Dissolved.shp") %>% 
+    st_transform(crs=4326) %>% 
+    left_join(neighborhood_metrics, by=c("CODE"="NEIGHBORHOOD"))
+
+block_shapefile = sf::st_read("data/TAX_BLOCK_POLYGON_LAYER/TAX_BLOCK_POLYGON_LAYER.shp") %>% 
+    st_transform(crs=4326) %>% 
+    filter(BORO == "1") %>% 
+    select(BLOCK, geometry) %>% 
+    left_join(block_metrics, by=c("BLOCK"="block"))
 
 train <- sf::st_as_sf(train_df, coords= c("xcoord","ycoord"), crs=2263) %>% 
-    st_transform(crs=4326) %>% 
-    filter(BORO == "1")
+    st_transform(crs=4326) 
 ```
 
+Using sales to predict the sale price of co-ops across NYC, the most successful model to date is the following:
 
+```{r, results='hide'}
+log_grosscon ~ NEIGHBORHOOD + xcoord_norm + ycoord_norm + BC + 
+    park_dist + cultural_facility_dist + 
+    (1 | boro) + 
+    (1 + stories + affordable | block) + 
+    (1 + BEDROOMS + BATHROOMS + floor + log_sqft | COOPID)
+```
 
-This map shows the `r scales::comma(nrow(train))` Manhattan sales in the model, displaying either the sale price or the sales ratio.
+### City-wide
+
+To assess variation in model performance across the city, key assessment accuracy metrics are summarized at the borough level in the table below.
 
 ```{r, echo=FALSE}
-# Create color palettes
-leaflet(train, height = 800) %>%
-  addTiles() %>%
-  setView(-73.96, 40.78, zoom = 13) %>%
-  addProviderTiles("CartoDB.Positron") %>%
+metric_palettes <- list(
+  r = color_pal_r,
+  spearmans = color_pal_r,
+  cod = color_pal_cod,
+  prd = color_pal_prd,
+  mki = color_pal_r
+)
 
-  # Layer 1: Shade by GROSSCON
-  addCircleMarkers(
-    data = train,
-    group = "By Sale Price",
-    fillColor = ~color_pal_grosscon(GROSSCON),
-    color = "black",
-    weight = 1,
-    radius = 6,
-    fillOpacity = 0.7,
-    stroke = TRUE,
-    popup = ~paste0("PID: ", PID, "<br>",
-              "SALEKEY: ", SALEKEY, "<br>",            
-              "Sale Price (real value): $", scales::comma(GROSSCON), "<br>",
-              "Predicted Sale Price (modeled value): $", scales::comma(round(prediction)), "<br>",
-              "Sales Ratio: ", round(sales_ratio, digits=3),  "<br>",
-              "<br>",
-              "Dependent variables (normalized):", "<br>",
-              "Building Class: ", BC, "<br>",
-              "Distance to Park: ", park_dist, "<br>",
-              "Distance to Cultural Facility: ", cultural_facility_dist, "<br>",
-              "Stories in bulding: ", stories, "<br>",
-              "Affordable housing flag: ", affordable, "<br>",
-              "Bedrooms: ", BEDROOMS, "<br>",
-              "Bathrooms: ", BATHROOMS, "<br>",
-              "Floor: ", floor, "<br>",
-              "Sqft (logged): ", log_sqft
-              )
-  ) %>%
-
-  # Layer 2: Shade by sales_ratio
-  addCircleMarkers(
-    data = train,
-    group = "By Sales Ratio",
-    fillColor = ~color_pal_sales_ratio(sales_ratio),
-    color = "black",
-    weight = 1,
-    radius = 6,
-    fillOpacity = 0.7,
-    stroke = TRUE,
-    popup = ~paste0("PID: ", PID, "<br>",
-              "SALEKEY: ", SALEKEY, "<br>",            
-              "Sale Price (real value): $", scales::comma(GROSSCON), "<br>",
-              "Predicted Sale Price (modeled value): $", scales::comma(round(prediction)), "<br>",
-              "Sales Ratio: ", round(sales_ratio, digits=3),  "<br>",
-              "<br>",
-              "Dependent variables (normalized):", "<br>",
-              "Building Class: ", BC, "<br>",
-              "Distance to Park: ", park_dist, "<br>",
-              "Distance to Cultural Facility: ", cultural_facility_dist, "<br>",
-              "Stories in bulding: ", stories, "<br>",
-              "Affordable housing flag: ", affordable, "<br>",
-              "Bedrooms: ", BEDROOMS, "<br>",
-              "Bathrooms: ", BATHROOMS, "<br>",
-              "Floor: ", floor, "<br>",
-              "Sqft (logged): ", log_sqft
-              )
-  ) %>%
-
-  # Add control to switch between the two (overlayGroups with exclusiveGroups)
-  addLayersControl(
-    baseGroups = c("By Sale Price", "By Sales Ratio"),  # Use baseGroups for exclusivity
-    options = layersControlOptions(collapsed = FALSE)
-  ) %>%
-
-  # Only show Sale Price group by default
-  hideGroup("By sales_ratio") 
+format_metrics_table(boro_metrics, palettes = metric_palettes, opacity = 0.2)
 ```
 
+<br>
+
+The interactive map below visualizes key assessment accuracy metrics at the neighborhood level across New York City. Toggle between the different layers which shade neighborhoods by different performance indicators, such as: R, Spearman's Rank, Coefficient of Dispersion (COD), Price-related Differential (PRD), and Modified Kakwani Index (MKI). Clicking on a neighborhood reveals a popup with detailed statistics for that area.
+
+***Note:** Neighborhoods with less than 10 sales used to train the model do not display any accuracy metrics.*
+
+```{r, cache=TRUE}
+create_metrics_map(
+  data = neighborhood_shapefile, 
+  by = "NBHD_NAME",
+  center_lng = -73.99, 
+  center_lat = 40.76, 
+  zoom_level = 11
+)
+```
+
+### Manhattan
+
+The map below displays the model's performance in Manhattan at the block level. Toggle between the layers to display different accuracy metrics or click on a block to more carefully inspect how well the model performs on sales on that block.
+
+```{r, cache=TRUE}
+create_metrics_map(
+  data = block_shapefile, 
+  by = "BLOCK",
+  center_lng = -73.96, 
+  center_lat = 40.78, 
+  zoom_level = 12
+)
+```
+
+<br> This map shows a breakdown of the `r scales::comma(nrow(train[train$boro == 1,]))` Manhattan sales used to train the model, shaded by either the sale price, predicted sale price, or the sales ratio. Clicking on a sale reveals a popup with the sale's characteristics used by the model to determined it's predicted value (dependent variables).
+
+```{r, cache=TRUE}
+create_point_map(
+  data = train[train$boro == 1,],
+  dependent_variables = c("BC", "park_dist", "cultural_facility_dist", 
+    "stories", "affordable", "BEDROOMS", "BATHROOMS", "floor", "log_sqft"),
+  center_lng = -73.96, 
+  center_lat = 40.78, 
+  zoom_level = 12
+)
+```
