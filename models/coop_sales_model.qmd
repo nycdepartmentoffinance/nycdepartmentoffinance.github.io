@@ -69,17 +69,17 @@ color_pal_prd <- function(x) {
     if (is.na(val)) return("#999999")  # gray for NA
 
     if (val >= 0.98 & val <= 1.03) {
-      return("#00FF00")  # Ideal range
+      return("#00FF00")  # ideal green
     } else if (val < 0.98) {
-      # Interpolate from yellow (0.98) to red (~0.90)
-      capped_val <- max(val, 0.90)  # cap lower bound
-      intensity <- rescale(capped_val, from = c(0.90, 0.98), to = c(0, 1))  # G from 0 to 1
-      return(rgb(1, intensity, 0))  # Red to Yellow
+      # Light blue (0.98) to dark blue (~0.90): blue stays 1, R & G go from 0.8 to 0
+      capped_val <- max(val, 0.90)
+      intensity <- scales::rescale(capped_val, from = c(0.90, 0.98), to = c(0, 0.8))
+      return(rgb(intensity, intensity, 1))  # light to dark blue
     } else {
-      # Interpolate from yellow (1.03) to red (~1.10)
-      capped_val <- min(val, 1.10)  # cap upper bound
-      intensity <- rescale(capped_val, from = c(1.03, 1.10), to = c(1, 0))  # G from 1 to 0
-      return(rgb(1, intensity, 0))  # Yellow to Red
+      # Light red (1.03) to dark red (~1.10): red stays 1, G & B go from 0.8 to 0
+      capped_val <- min(val, 1.10)
+      intensity <- scales::rescale(capped_val, from = c(1.03, 1.10), to = c(0.8, 0))
+      return(rgb(1, intensity, intensity))  # light to dark red
     }
   })
 }
@@ -91,18 +91,19 @@ color_pal_sales_ratio <- function(x) {
     if (val >= 0.9 & val <= 1.1) {
       return("green")  # Ideal range
     } else if (val < 0.9) {
-      # Fade from yellow (0.9) to red (0.6)
+      # Light blue (0.9) to dark blue (0.6): blue stays 1, R & G fade from 0.6 to 0
       capped_val <- max(val, 0.6)
-      intensity <- rescale(capped_val, from = c(0.6, 0.9), to = c(0, 1))  # G from 0 to 1
-      return(rgb(1, intensity, 0))  # Red to Yellow
+      intensity <- scales::rescale(capped_val, from = c(0.6, 0.9), to = c(0, 0.6))
+      return(rgb(intensity, intensity, 1))  # Light blue to dark blue
     } else {
-      # Fade from yellow (1.1) to red (1.4)
+      # Light red (1.1) to dark red (1.4): red stays 1, G & B fade from 0.6 to 0
       capped_val <- min(val, 1.4)
-      intensity <- rescale(capped_val, from = c(1.1, 1.4), to = c(1, 0))  # G from 1 to 0
-      return(rgb(1, intensity, 0))  # Yellow to Red
+      intensity <- scales::rescale(capped_val, from = c(1.1, 1.4), to = c(0.6, 0))
+      return(rgb(1, intensity, intensity))  # Light red to dark red
     }
   })
 }
+
 
 color_pal_grosscon <- function(x){
  
@@ -333,7 +334,7 @@ log_grosscon ~ NEIGHBORHOOD + xcoord_norm + ycoord_norm + BC +
 
 ### City-wide
 
-To assess variation in model performance across the city, key assessment accuracy metrics are summarized at the borough level in the table below.
+To assess variation in model performance across the city, key assessment accuracy metrics are summarized at the borough level in the table below. For an overview of how all the visuals are shaded, see [notes](#notes).
 
 ```{r, echo=FALSE}
 metric_palettes <- list(
@@ -389,3 +390,56 @@ create_point_map(
   zoom_level = 12
 )
 ```
+
+### Notes
+
+The table below summarizes how the visuals are all uniformly shaded.
+
+```{r, echo=FALSE}
+# Create the summary data frame
+color_pal_summary <- data.frame(
+  palette = c(
+    "color_pal_r", 
+    "color_pal_cod", 
+    "color_pal_prd", 
+    "color_pal_sales_ratio", 
+    "color_pal_grosscon"
+  ),
+  green_range = c(
+    "≥ 0.95", 
+    "5–10", 
+    "0.98–1.03", 
+    "0.9–1.1", 
+    "N/A"
+  ),
+  below_range = c(
+    "0.4–0.95: Red to Yellow to Green", 
+    "0–5: Red to Yellow", 
+    "0.90–0.98: Dark Blue to Light Blue (Progressive)", 
+    "0.6–0.9: Dark Blue to Light Blue (Progressive)", 
+    "N/A"
+  ),
+  above_range = c(
+    "N/A", 
+    "10–20: Yellow to Red", 
+    "1.03–1.10: Light to Dark Red (Regressive)", 
+    "1.1–1.4: Light to Dark Red (Regressive)", 
+    "Blue gradient ($200K–$5M)"
+  ),
+  stringsAsFactors = FALSE
+)
+
+# Display table with minimal formatting
+datatable(
+  color_pal_summary,
+  options = list(
+    dom = 't',
+    ordering = FALSE
+  ),
+  rownames = FALSE
+)
+
+```
+
+
+
