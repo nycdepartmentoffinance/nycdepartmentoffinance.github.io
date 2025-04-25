@@ -289,7 +289,7 @@ hex_with_opacity <- function(hex, alpha = 1) {
 
 ```
 
-```{r data_ingestion, include=FALSE, cache=TRUE}
+```{r data_ingestion, include=FALSE}
 source_folder = "C:/Users/BoydClaire/workspace_local/coop_sales_model/model_results/grosscon_psqft_boro_2pt/mixed_model_block"
 
 # model metrics
