@@ -5,3 +5,4 @@ title: "Models"
 Explore the following pages that help document model results for different types of properties in NYC:
 
 -   [Co-op Sales Model](coop_sales_model.html)
+-   [Condo Sales Model](QuartoCondosR.html)

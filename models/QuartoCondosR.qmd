@@ -312,9 +312,9 @@ neighborhood_metrics = readr::read_csv(glue::glue("{source_folder}/NBHDNameJoin.
 #train_df = readr::read_csv(glue::glue("{source_folder}/train_with_yhat.csv"))
 
 # shapefiles // geographic transformations
-neighborhood_shapefile = sf::st_read("C:/QuartoCondos/QuartoCondosR/nyc_dof_neighborhoods_final.shp") %>% 
+neighborhood_shapefile = sf::st_read("data/DOF_NBHD_Dissolved/DOF_NBHD_Dissolved.shp") %>% 
     st_transform(crs=4326) %>%
-    left_join(neighborhood_metrics, by=c("nbhdcaps" = "FullNbhdName")) %>%
+    left_join(neighborhood_metrics, by=c("CODE" = "nbhd")) %>%
   filter(!is.na(n)) %>%
   filter(n!=1)
 
@@ -346,7 +346,7 @@ This map displays every neighborhood with at least two qualified sales in the bo
 
 create_metrics_map(
   data = neighborhood_shapefile, 
-  by = "nbhdcaps",
+  by = "FullNbhdName",
   center_lng = -73.99, 
   center_lat = 40.76, 
   zoom_level = 11
@@ -363,7 +363,7 @@ min10 <- neighborhood_shapefile %>%
 ```{r}
 create_metrics_map(
   data = min10, 
-  by = "nbhdcaps",
+  by = "FullNbhdName",
   center_lng = -73.99, 
   center_lat = 40.76, 
   zoom_level = 11
