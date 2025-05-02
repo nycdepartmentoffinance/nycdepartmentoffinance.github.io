@@ -6,7 +6,7 @@ repo-url: https://github.com/nycdepartmentoffinance/nycdepartmentoffinance.githu
 
 ```{r, include=FALSE}
 # read env file to get proxy set up to work
-readRenviron("C:/Users/BoydClaire/.Renviron")
+readRenviron("Data/.Renviron")
 options(scipen=99999)
 
 library(readxl)
@@ -15,7 +15,7 @@ library(readr)
 library(ggplot2)
 library(dplyr)
 library(sf)
-
+library(rmarkdown)
 library(maps)
 library(leaflet)
 library(scales)
@@ -290,7 +290,7 @@ hex_with_opacity <- function(hex, alpha = 1) {
 ```
 
 ```{r data_ingestion, include=FALSE}
-source_folder = "C:/Users/BoydClaire/workspace_local/coop_sales_model/model_results/grosscon_psqft_boro_2pt/mixed_model_block"
+source_folder = "Data/Coop/MixedModel"
 
 # model metrics
 boro_metrics = readr::read_csv(glue::glue("{source_folder}/metrics.csv")) %>% 
@@ -395,7 +395,7 @@ create_point_map(
 ## Geo-weighted Regression
 
 ```{r, include=FALSE}
-source_folder = "C:/Users/BoydClaire/workspace_local/coop_sales_model/model_results/grosscon_psqft_boro_2pt/gwr"
+source_folder = "Data/Coop/gwr"
 
 # model metrics
 boro_metrics = readr::read_csv(glue::glue("{source_folder}/metrics.csv")) %>%
@@ -439,7 +439,6 @@ log_grosscon ~ BC +
     
 ```
 
-
 ### City-wide
 
 The following table captures the performance of the geo-weighted regression by borough, using 350 as the optimized bandwidth.
@@ -447,7 +446,6 @@ The following table captures the performance of the geo-weighted regression by b
 ```{r, echo=FALSE}
 format_metrics_table(boro_metrics, palettes = metric_palettes, opacity = 0.2)
 ```
-
 
 The following map captures the performance of the geo-weighted regression by neighborhood.
 
@@ -461,8 +459,7 @@ create_metrics_map(
 )
 ```
 
-
-## Notes
+## Notes {#notes}
 
 The table below summarizes how the tables and maps are shaded.
 
@@ -511,6 +508,3 @@ datatable(
 )
 
 ```
-
-
-
