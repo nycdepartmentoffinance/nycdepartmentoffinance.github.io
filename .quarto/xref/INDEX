@@ -55,5 +55,8 @@
   },
   "models/index.qmd": {
     "index.html": "8b6221ac"
+  },
+  "models/QuartoCondosR.qmd": {
+    "QuartoCondosR.html": "5809ec09"
   }
 }

@@ -5,12 +5,13 @@ repo-url: https://github.com/nycdepartmentoffinance/nycdepartmentoffinance.githu
 ---
 
 ```{r, include=FALSE}
-basedata <- read.csv("UAFElevBCATJoin.csv")
-nbhdmetrics <- read.csv("NBHDMetrics.csv")
+
+basedata <- read.csv("Data/Condo/UAFElevBCATJoin.csv")
+nbhdmetrics <- read.csv("Data/Condo/NBHDMetrics.csv")
 
 
 # read env file to get proxy set up to work
-readRenviron("C:/Users/RosenbaumE/.Renviron")
+readRenviron("Data/.Renviron")
 options(scipen=99999)
 
 library(readxl)
@@ -294,7 +295,9 @@ hex_with_opacity <- function(hex, alpha = 1) {
 ```
 
 ```{r data_ingestion, include=FALSE}
-source_folder = "C:/QuartoCondos/QuartoCondosR"
+
+source_folder = "Data/Condo"
+
 # 
 # # model metrics
 # boro_metrics = readr::read_csv(glue::glue("{source_folder}/borometrics.csv")) %>% 
@@ -312,9 +315,11 @@ neighborhood_metrics = readr::read_csv(glue::glue("{source_folder}/NBHDNameJoin.
 #train_df = readr::read_csv(glue::glue("{source_folder}/train_with_yhat.csv"))
 
 # shapefiles // geographic transformations
-neighborhood_shapefile = sf::st_read("C:/QuartoCondos/QuartoCondosR/nyc_dof_neighborhoods_final.shp") %>% 
+
+neighborhood_shapefile = sf::st_read("data/DOF_NBHD_Dissolved/DOF_NBHD_Dissolved.shp") %>% 
     st_transform(crs=4326) %>%
-    left_join(neighborhood_metrics, by=c("nbhdcaps" = "FullNbhdName")) %>%
+    left_join(neighborhood_metrics, by=c("CODE" = "nbhd")) %>%
+
   filter(!is.na(n)) %>%
   filter(n!=1)
 
@@ -327,10 +332,10 @@ neighborhood_shapefile = sf::st_read("C:/QuartoCondos/QuartoCondosR/nyc_dof_neig
 #train <- sf::st_as_sf(train_df, coords= c("xcoord","ycoord"), crs=2263) %>% 
   #  st_transform(crs=4326) 
 ```
+
 ## Mixed Model
 
 Using sales from 2022-2024 in Manhattan, Brooklyn, and Queens, and sales from 2020-2024 in the Bronx and Staten Island to predict the sale price of condos across NYC, the most successful mixed model (or hierarchical linear model) to date is the following:
-
 
 ```{r, results='hide'}
 logtagrosscon ~ nbhd  + X + Y  + trend + UAF + elev +
@@ -342,33 +347,42 @@ logtagrosscon ~ nbhd  + X + Y  + trend + UAF + elev +
 The interactive map below visualizes key assessment accuracy metrics at the neighborhood level across New York City. Toggle between the different layers which shade neighborhoods by different performance indicators, such as: R, Spearman's Rank, Coefficient of Dispersion (COD), Price-related Differential (PRD), and Modified Kakwani Index (MKI). Clicking on a neighborhood reveals a popup with detailed statistics for that area.
 
 This map displays every neighborhood with at least two qualified sales in the boro-specific time period.
+
 ```{r}
 
 create_metrics_map(
   data = neighborhood_shapefile, 
-  by = "nbhdcaps",
-  center_lng = -73.99, 
-  center_lat = 40.76, 
-  zoom_level = 11
-)
-```
-<br>
-This map only displays neighborhoods with at least 10 qualified sales in the boro-specific period.
-```{r,include=FALSE}
-min10 <- neighborhood_shapefile %>%
-  filter(n>=10)
-```
-```{r}
-create_metrics_map(
-  data = min10, 
-  by = "nbhdcaps",
+
+  by = "FullNbhdName",
+
   center_lng = -73.99, 
   center_lat = 40.76, 
   zoom_level = 11
 )
 ```
 
-## Notes 
+<br>
+This map only displays neighborhoods with at least 10 qualified sales in the boro-specific period.
+
+```{r,include=FALSE}
+min10 <- neighborhood_shapefile %>%
+  filter(n>=10)
+```
+
+
+```{r}
+create_metrics_map(
+  data = min10, 
+  by = "FullNbhdName",
+
+  center_lng = -73.99, 
+  center_lat = 40.76, 
+  zoom_level = 11
+)
+```
+
+## Notes
+
 
 The table below summarizes how the tables and maps are shaded.
 
