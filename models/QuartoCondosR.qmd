@@ -7,14 +7,6 @@ repo-url: https://github.com/nycdepartmentoffinance/nycdepartmentoffinance.githu
 ```{r, include=FALSE}
 
 
-basedata <- read.csv("Data/Condo/UAFElevBCATJoin.csv")
-nbhdmetrics <- read.csv("Data/Condo/NBHDMetrics.csv")
-decilemetrics <- read.csv("Data/condo/DecileMetrics.csv")
-
-# read env file to get proxy set up to work
-readRenviron("Data/.Renviron")
-options(scipen=99999)
-
 
 library(readxl)
 library(stringr)
@@ -27,8 +19,12 @@ library(maps)
 library(leaflet)
 library(scales)
 library(DT)
+# read env file to get proxy set up to work
+readRenviron("Data/.Renviron")
+options(scipen=99999)
 
-basedata <- read.csv("Data/Condo/UAFElevBCATJoin.csv")
+
+basedata <- read_csv("data/Condo/UAFElevBCATJoin.csv")
 nbhdmetrics <- read.csv("Data/Condo/NBHDMetrics.csv")
 
 decilemetrics <- read.csv("Data/Condo/DecileMetrics.csv") %>% 
@@ -367,14 +363,14 @@ neighborhood_metrics = readr::read_csv(glue::glue("{source_folder}/NBHDNameJoin.
 
 # shapefiles // geographic transformations
 
-neighborhood_shapefile = sf::st_read("data/DOF_NBHD_Dissolved/DOF_NBHD_Dissolved.shp") %>% 
+neighborhood_shapefile = sf::st_read("Data/DOF_NBHD_Dissolved/DOF_NBHD_Dissolved.shp") %>% 
     st_transform(crs=4326) %>%
     left_join(neighborhood_metrics, by=c("CODE" = "nbhd")) %>%
 
   filter(!is.na(n)) %>%
   filter(n!=1)
 
-#block_shapefile = sf::st_read("data/TAX_BLOCK_POLYGON_LAYER/TAX_BLOCK_POLYGON_LAYER.shp") %>% 
+#block_shapefile = sf::st_read("Data/TAX_BLOCK_POLYGON_LAYER/TAX_BLOCK_POLYGON_LAYER.shp") %>% 
     # st_transform(crs=4326) %>% 
     # filter(BORO == "1") %>% 
     # select(BLOCK, geometry) %>% 
