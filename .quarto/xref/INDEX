@@ -1,62 +1,29 @@
 {
-  "about.qmd": {
-    "about.html": "58ca4068"
-  },
-  "index.qmd": {
-    "index.html": "14d84630"
-  },
-  "data_dictionary.qmd": {
-    "data_dictionary.html": "601e788e"
-  },
-  "data_dictionary_home.qmd": {
-    "data_dictionary_home.html": "e98abb81"
-  },
-  "fdw_crosswalk.qmd": {
-    "fdw_crosswalk.html": "31851a33"
-  },
-  "table_schema.qmd": {
-    "table_schema.html": "1dc34de2"
-  },
-  "all_tables.qmd": {
-    "all_tables.html": "ecbac6e8"
-  },
-  "production_columns.qmd": {
-    "production_columns.html": "7b803cf1"
-  },
-  "pts_columns.qmd": {
-    "pts_columns.html": "08e162f8"
-  },
-  "block_map.qmd": {
-    "block_map.html": "9eafde9c"
-  },
-  "coop_sales_model.qmd": {
-    "coop_sales_model.html": "08d5903b"
-  },
-  "models.qmd": {
-    "models.html": "20303c5b"
-  },
   "data_dictionary/all_tables.qmd": {
-    "all_tables.html": "9a6d86bb"
+    "all_tables.html": "d1cd5437"
   },
   "data_dictionary/fdw_crosswalk.qmd": {
-    "fdw_crosswalk.html": "1c9327e5"
+    "fdw_crosswalk.html": "3274adae"
   },
   "data_dictionary/index.qmd": {
-    "index.html": "e8e33352"
+    "index.html": "bdb32342"
   },
   "data_dictionary/production_columns.qmd": {
-    "production_columns.html": "d848007d"
+    "production_columns.html": "c4828c14"
   },
   "data_dictionary/pts_columns.qmd": {
-    "pts_columns.html": "3fcd8005"
+    "pts_columns.html": "70aa70c7"
+  },
+  "index.qmd": {
+    "index.html": "4cc1a616"
   },
   "models/coop_sales_model.qmd": {
-    "coop_sales_model.html": "7c644dc7"
+    "coop_sales_model.html": "744f3c5c"
   },
   "models/index.qmd": {
-    "index.html": "8b6221ac"
+    "index.html": "4710af1b"
   },
   "models/QuartoCondosR.qmd": {
-    "QuartoCondosR.html": "5809ec09"
+    "QuartoCondosR.html": "c32ed555"
   }
 }
