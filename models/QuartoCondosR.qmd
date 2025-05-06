@@ -6,13 +6,15 @@ repo-url: https://github.com/nycdepartmentoffinance/nycdepartmentoffinance.githu
 
 ```{r, include=FALSE}
 
+
 basedata <- read.csv("Data/Condo/UAFElevBCATJoin.csv")
 nbhdmetrics <- read.csv("Data/Condo/NBHDMetrics.csv")
-
+decilemetrics <- read.csv("Data/condo/DecileMetrics.csv")
 
 # read env file to get proxy set up to work
 readRenviron("Data/.Renviron")
 options(scipen=99999)
+
 
 library(readxl)
 library(stringr)
@@ -25,6 +27,22 @@ library(maps)
 library(leaflet)
 library(scales)
 library(DT)
+
+basedata <- read.csv("Data/Condo/UAFElevBCATJoin.csv")
+nbhdmetrics <- read.csv("Data/Condo/NBHDMetrics.csv")
+
+decilemetrics <- read.csv("Data/Condo/DecileMetrics.csv") %>% 
+    mutate(across(
+        .cols = -c(boro, grosscondecile, cutoff, predicted, actual, n, accuracy, uniformity, vertical_equity), 
+        .fns = ~round(.x, 4)
+      )) %>% 
+    select(-predicted, -actual) %>%
+  relocate(cutoff,.after = grosscondecile)
+
+# read env file to get proxy set up to work
+readRenviron("Data/.Renviron")
+options(scipen=99999)
+
 ```
 
 ```{r functions, include=FALSE, cache=TRUE}
@@ -123,6 +141,7 @@ color_pal_grosscon <- function(x){
 }
 
 #table formatting
+
 format_metrics_table <- function(data, palettes, opacity = 0.2, exclude_cols = c("ci", "gini")) {
   # Add color columns using provided palettes and opacity
   data <- data %>%
@@ -155,6 +174,38 @@ format_metrics_table <- function(data, palettes, opacity = 0.2, exclude_cols = c
   return(dt)
 }
 
+
+format_decile_metrics_table <- function(data, palettes, opacity = 0.2, exclude_cols = c("ci", "gini")) {
+  # Add color columns using provided palettes and opacity
+  data <- data %>%
+    mutate(across(
+      .cols = names(palettes),
+      .fns = ~ hex_with_opacity(palettes[[cur_column()]](.x), opacity),
+      .names = "color_{.col}"
+    ))
+  
+  # Determine which columns to show
+  visible_cols <- setdiff(names(data), c(paste0("color_", names(palettes)), exclude_cols))
+  
+  # Build the datatable
+  dt <- datatable(
+    data[, visible_cols],
+    options = list(pageLength = 11, scrollX = TRUE)
+  )
+  
+  # Apply conditional formatting
+  for (metric in names(palettes)) {
+    dt <- dt %>% formatStyle(
+      metric,
+      backgroundColor = styleEqual(
+        data[[metric]],
+        data[[paste0("color_", metric)]]
+      )
+    )
+  }
+  
+  return(dt)
+}
 
 # map functions
 create_metrics_map <- function(data, by, center_lng = -73.96, center_lat = 40.78, zoom_level = 12) {
@@ -379,6 +430,103 @@ create_metrics_map(
   center_lat = 40.76, 
   zoom_level = 11
 )
+```
+
+## Metrics by Sale Price Decile/Quintile
+<br> 
+The following displays the metrics for each borough divided by sale price quintile (in Staten Island) or decile (for all other boroughs).
+
+### Manhattan
+
+```{r, echo=FALSE}
+metric_palettes <- list(
+  r = color_pal_r,
+  spearmans = color_pal_r,
+  cod = color_pal_cod,
+  prd = color_pal_prd,
+  mki = color_pal_r
+)
+
+mhmetrics <- decilemetrics %>%
+  filter(boro == 1) %>%
+  select(-boro)
+  
+format_decile_metrics_table(mhmetrics, palettes = metric_palettes, opacity = 0.2)
+
+```
+
+### The Bronx
+
+```{r, echo=FALSE}
+metric_palettes <- list(
+  r = color_pal_r,
+  spearmans = color_pal_r,
+  cod = color_pal_cod,
+  prd = color_pal_prd,
+  mki = color_pal_r
+)
+
+bxmetrics <- decilemetrics %>%
+  filter(boro == 2) %>%
+  select(-boro)
+  
+format_decile_metrics_table(bxmetrics, palettes = metric_palettes, opacity = 0.2)
+
+```
+
+### Brooklyn
+
+```{r, echo=FALSE}
+metric_palettes <- list(
+  r = color_pal_r,
+  spearmans = color_pal_r,
+  cod = color_pal_cod,
+  prd = color_pal_prd,
+  mki = color_pal_r
+)
+
+bkmetrics <- decilemetrics %>%
+  filter(boro == 3) %>%
+  select(-boro)
+  
+format_decile_metrics_table(bkmetrics, palettes = metric_palettes, opacity = 0.2)
+```
+
+
+
+### Queens
+
+```{r, echo=FALSE}
+metric_palettes <- list(
+  r = color_pal_r,
+  spearmans = color_pal_r,
+  cod = color_pal_cod,
+  prd = color_pal_prd,
+  mki = color_pal_r
+)
+
+qnmetrics <- decilemetrics %>%
+  filter(boro == 4) %>%
+  select(-boro)
+  
+format_decile_metrics_table(qnmetrics, palettes = metric_palettes, opacity = 0.2)
+```
+### Staten Island
+
+```{r, echo=FALSE}
+metric_palettes <- list(
+  r = color_pal_r,
+  spearmans = color_pal_r,
+  cod = color_pal_cod,
+  prd = color_pal_prd,
+  mki = color_pal_r
+)
+
+simetrics <- decilemetrics %>%
+  filter(boro == 5) %>%
+  select(-boro)
+  
+format_metrics_table(simetrics, palettes = metric_palettes, opacity = 0.2)
 ```
 
 ## Notes
