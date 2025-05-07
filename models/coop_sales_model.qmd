@@ -392,6 +392,78 @@ create_point_map(
 )
 ```
 
+```{r}
+train_simple = train %>% 
+    select(PID, GROSSCON, lat, lon) %>% 
+    as.data.frame()
+
+# Convert to list of named lists
+train_simple_list <- unname(split(train_simple, seq(nrow(train_simple))))
+
+ojs_define(trainData = train_simple_list)
+```
+
+
+Neighborhood filter map
+
+```{ojs}
+import {Inputs, html} from "@observablehq/inputs"
+
+trainData
+
+// Input box to filter neighborhood
+viewof filterText = Inputs.text({label: "PID:", placeholder: "e.g. 577618"})
+
+// Filtered data
+filteredPoints = trainData.filter(d => 
+  d.PID.includes(filterText)
+)
+
+// --- MAP CONTAINER ---
+html`<div id="map" style="height: 600px;"></div>`
+
+// --- RENDER MAP ---
+{
+  // Check if map already exists and remove it
+  if (window.myLeafletMap) {
+    window.myLeafletMap.remove();
+    window.myLeafletMap = null;
+  }
+
+  // Create new Leaflet map and store reference globally
+  const map = L.map("map").setView([40.78, -73.96], 13);
+  window.myLeafletMap = map;
+
+  // Add CartoDB basemap
+  L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
+    attribution: '&copy; <a href="https://carto.com/">CARTO</a> | Map data © OpenStreetMap contributors',
+    subdomains: "abcd",
+    maxZoom: 19
+  }).addTo(map);
+
+  // Add filtered markers
+  filteredPoints.forEach(d => {
+    const popup = `
+      <strong>PID:</strong> ${d.PID}<br>
+      <strong>SALEKEY:</strong> ${d.SALEKEY}<br>
+      <strong>Sale Price:</strong> $${(+d.GROSSCON).toLocaleString()}<br>
+      <strong>Predicted:</strong> $${(+d.prediction).toLocaleString()}<br>
+      <strong>Sales Ratio:</strong> ${(+d.sales_ratio).toFixed(3)}<br><br>
+      <strong>BEDROOMS:</strong> ${d.BEDROOMS}, <strong>BATHROOMS:</strong> ${d.BATHROOMS}<br>
+      <strong>Subway Dist:</strong> ${d.subway_dist}, <strong>Park Dist:</strong> ${d.park_dist}
+    `;
+
+    L.circleMarker([+d.lat, +d.lon], {
+      radius: 6,
+      color: "black",
+      fillColor: "#2A93D5",
+      fillOpacity: 0.7,
+      weight: 1
+    }).addTo(map).bindPopup(popup);
+  });
+}
+```
+
 ## Geo-weighted Regression
 
 ```{r, include=FALSE}
@@ -458,6 +530,17 @@ create_metrics_map(
   zoom_level = 11
 )
 ```
+
+
+
+
+
+
+
+
+
+
+
 
 ## Notes {#notes}
 
