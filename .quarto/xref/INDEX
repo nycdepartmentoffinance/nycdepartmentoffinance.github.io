@@ -25,5 +25,8 @@
   },
   "models/QuartoCondosR.qmd": {
     "QuartoCondosR.html": "c32ed555"
+  },
+  "models/coop_comps.qmd": {
+    "coop_comps.html": "dbdf58d5"
   }
 }

@@ -300,6 +300,13 @@ boro_metrics = readr::read_csv(glue::glue("{source_folder}/metrics.csv")) %>%
       )) %>% 
     select(-predicted, -actual)
 
+# comps_boro_metrics = readr::read_csv(glue::glue("{source_folder}/comps_metrics.csv")) %>% 
+#     mutate(across(
+#         .cols = -c(boro, predicted, actual, n, accuracy, uniformity, vertical_equity), 
+#         .fns = ~round(.x, 4)
+#       )) %>% 
+#     select(-predicted, -actual)
+
 neighborhood_metrics = readr::read_csv(glue::glue("{source_folder}/neighborhood_metrics.csv")) 
 
 block_metrics = readr::read_csv(glue::glue("{source_folder}/manhattan_block_metrics.csv")) %>% 
@@ -391,156 +398,6 @@ create_point_map(
   zoom_level = 12
 )
 ```
-
-```{r}
-train_simple = train %>% 
-    select(PID, GROSSCON, lat, lon) %>% 
-    as.data.frame()
-
-# Convert to list of named lists
-train_simple_list <- unname(split(train_simple, seq(nrow(train_simple))))
-
-ojs_define(trainData = train_simple_list)
-```
-
-
-Neighborhood filter map
-
-```{ojs}
-import {Inputs, html} from "@observablehq/inputs"
-
-trainData
-
-// Input box to filter neighborhood
-viewof filterText = Inputs.text({label: "PID:", placeholder: "e.g. 577618"})
-
-// Filtered data
-filteredPoints = trainData.filter(d => 
-  d.PID.includes(filterText)
-)
-
-// --- MAP CONTAINER ---
-html`<div id="map" style="height: 600px;"></div>`
-
-// --- RENDER MAP ---
-{
-  // Check if map already exists and remove it
-  if (window.myLeafletMap) {
-    window.myLeafletMap.remove();
-    window.myLeafletMap = null;
-  }
-
-  // Create new Leaflet map and store reference globally
-  const map = L.map("map").setView([40.78, -73.96], 13);
-  window.myLeafletMap = map;
-
-  // Add CartoDB basemap
-  L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
-    attribution: '&copy; <a href="https://carto.com/">CARTO</a> | Map data © OpenStreetMap contributors',
-    subdomains: "abcd",
-    maxZoom: 19
-  }).addTo(map);
-
-  // Add filtered markers
-  filteredPoints.forEach(d => {
-    const popup = `
-      <strong>PID:</strong> ${d.PID}<br>
-      <strong>SALEKEY:</strong> ${d.SALEKEY}<br>
-      <strong>Sale Price:</strong> $${(+d.GROSSCON).toLocaleString()}<br>
-      <strong>Predicted:</strong> $${(+d.prediction).toLocaleString()}<br>
-      <strong>Sales Ratio:</strong> ${(+d.sales_ratio).toFixed(3)}<br><br>
-      <strong>BEDROOMS:</strong> ${d.BEDROOMS}, <strong>BATHROOMS:</strong> ${d.BATHROOMS}<br>
-      <strong>Subway Dist:</strong> ${d.subway_dist}, <strong>Park Dist:</strong> ${d.park_dist}
-    `;
-
-    L.circleMarker([+d.lat, +d.lon], {
-      radius: 6,
-      color: "black",
-      fillColor: "#2A93D5",
-      fillOpacity: 0.7,
-      weight: 1
-    }).addTo(map).bindPopup(popup);
-  });
-}
-```
-
-## Geo-weighted Regression
-
-```{r, include=FALSE}
-source_folder = "Data/Coop/gwr"
-
-# model metrics
-boro_metrics = readr::read_csv(glue::glue("{source_folder}/metrics.csv")) %>%
-    mutate(across(
-        .cols = -c(boro, predicted, actual, n, accuracy, uniformity, vertical_equity),
-        .fns = ~round(.x, 4)
-      )) %>%
-    select(-predicted, -actual)
-
-neighborhood_metrics = readr::read_csv(glue::glue("{source_folder}/neighborhood_metrics.csv"))
-
-block_metrics = readr::read_csv(glue::glue("{source_folder}/manhattan_block_metrics.csv")) %>%
-    mutate(block = as.numeric(block))
-
-train_df = readr::read_csv(glue::glue("{source_folder}/train_with_yhat.csv"))
-
-# shapefiles // geographic transformations
-neighborhood_shapefile = sf::st_read("data/DOF_NBHD_Dissolved/DOF_NBHD_Dissolved.shp") %>%
-    st_transform(crs=4326) %>%
-    left_join(neighborhood_metrics, by=c("CODE"="NEIGHBORHOOD"))
-
-block_shapefile = sf::st_read("data/TAX_BLOCK_POLYGON_LAYER/TAX_BLOCK_POLYGON_LAYER.shp") %>%
-    st_transform(crs=4326) %>%
-    filter(BORO == "1") %>%
-    select(BLOCK, geometry) %>%
-    left_join(block_metrics, by=c("BLOCK"="block"))
-
-train <- sf::st_as_sf(train_df, coords= c("xcoord","ycoord"), crs=2263) %>%
-    st_transform(crs=4326)
-```
-
-Geo-weighted regression works by creating local regressions in different geographic clusters across the input data set. It first optimizes the best "bandwidth" or number of observations to consider for each localized regression, and then uses that value to fit models based the determined bandwidth and save predicted values.
-
-Due to the nature of this type of model, there is less need to include nested geographic factors because these will be determined by the model optimization structure. Therefore, the model used for the geo-weighted regression is simpler:
-
-```{r, results='hide'}
-log_grosscon ~ BC + 
-    park_dist + cultural_facility_dist + subway_dist + 
-    stories +
-    BEDROOMS_norm + BATHROOMS_norm + log_floor + log_sqft
-    
-```
-
-### City-wide
-
-The following table captures the performance of the geo-weighted regression by borough, using 350 as the optimized bandwidth.
-
-```{r, echo=FALSE}
-format_metrics_table(boro_metrics, palettes = metric_palettes, opacity = 0.2)
-```
-
-The following map captures the performance of the geo-weighted regression by neighborhood.
-
-```{r}
-create_metrics_map(
-  data = neighborhood_shapefile,
-  by = "NBHD_NAME",
-  center_lng = -73.99,
-  center_lat = 40.76,
-  zoom_level = 11
-)
-```
-
-
-
-
-
-
-
-
-
-
-
 
 ## Notes {#notes}
 
