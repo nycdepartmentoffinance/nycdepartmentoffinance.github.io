@@ -28,5 +28,8 @@
   },
   "models/coop_comps.qmd": {
     "coop_comps.html": "dbdf58d5"
+  },
+  "models/coop_sales_model_comps.qmd": {
+    "coop_sales_model_comps.html": "cb513190"
   }
 }

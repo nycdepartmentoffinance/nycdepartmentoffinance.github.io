@@ -295,7 +295,7 @@ source_folder = "Data/Coop/MixedModel"
 # model metrics
 boro_metrics = readr::read_csv(glue::glue("{source_folder}/metrics.csv")) %>% 
     mutate(across(
-        .cols = -c(boro, predicted, actual, n, accuracy, uniformity, vertical_equity), 
+        .cols = -c(boro, boro_name, predicted, actual, n, accuracy, uniformity, vertical_equity), 
         .fns = ~round(.x, 4)
       )) %>% 
     select(-predicted, -actual)
@@ -311,6 +311,20 @@ neighborhood_metrics = readr::read_csv(glue::glue("{source_folder}/neighborhood_
 
 block_metrics = readr::read_csv(glue::glue("{source_folder}/manhattan_block_metrics.csv")) %>% 
     mutate(block = as.numeric(block))
+
+neighborhood_decile_metrics = readr::read_csv(glue::glue("{source_folder}/neighborhood_decile_metrics.csv")) %>% 
+    mutate(across(
+        .cols = -c(boro, boro_name, NBHD_NAME, NEIGHBORHOOD, cutoff, decile, predicted, actual, n, accuracy, uniformity, vertical_equity), 
+        .fns = ~round(.x, 4)
+      )) %>% 
+    select(-predicted, -actual)
+
+boro_decile_metrics = readr::read_csv(glue::glue("{source_folder}/boro_decile_metrics.csv"))%>% 
+    mutate(across(
+        .cols = -c(boro, boro_name, decile, predicted, cutoff, actual, n, accuracy, uniformity, vertical_equity), 
+        .fns = ~round(.x, 4)
+      )) %>% 
+    select(-predicted, -actual)
 
 train_df = readr::read_csv(glue::glue("{source_folder}/train_with_yhat.csv"))
 
@@ -398,6 +412,44 @@ create_point_map(
   zoom_level = 12
 )
 ```
+
+
+### By Sale Price Decile
+
+The two tables below summarize the model's performance by actual sale price (GROSSCON) decile, which are calculated at the borough level (e.g. the upper threshold of bottom 10% of sales in Manhattan is \$400,000 while it is \$175,000 in Staten Island).
+
+#### Borough Metrics by Sale Price Decile
+
+```{r, echo=FALSE}
+metric_palettes <- list(
+  r = color_pal_r,
+  spearmans = color_pal_r,
+  cod = color_pal_cod,
+  prd = color_pal_prd,
+  mki = color_pal_r
+)
+
+format_metrics_table(boro_decile_metrics, palettes = metric_palettes, opacity = 0.2)
+```
+
+#### Neighborhood Metrics by Sale Price Decile
+
+```{r, echo=FALSE}
+metric_palettes <- list(
+  r = color_pal_r,
+  spearmans = color_pal_r,
+  cod = color_pal_cod,
+  prd = color_pal_prd,
+  mki = color_pal_r
+)
+
+neighborhood_decile_metrics_trim = neighborhood_decile_metrics %>% 
+    select(-NEIGHBORHOOD, -boro_name)
+
+format_metrics_table(neighborhood_decile_metrics_trim, palettes = metric_palettes, opacity = 0.2)
+```
+
+
 
 ## Notes {#notes}
 

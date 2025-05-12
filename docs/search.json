@@ -1,168 +1,107 @@
 [
   {
-    "objectID": "models/coop_comps.html",
-    "href": "models/coop_comps.html",
-    "title": "Comparable Properties",
-    "section": "",
-    "text": "Comparable Properties\nNow, let’s measure the model performance based on the sales price of the property that is most similar to each subject property based on the model’s coefficients. Metrics for the model at the city-wide and boro level are displayed below.\nNote: As of now, both the subject properties and the potential comparable properties are the same training set (80% of all eligible sales)\n\n\n\n\n\n\nTo examine a specific property’s selected comps, search for a COOPUNITKEY to get a short summary in a table format.\n\n\n\n\n\n\nUsing any COOPUNITKEY listed above, display the comps and their relative features using the interactive map.\n\n\n\n\n\n\n\n\n \n\nSearch",
-    "crumbs": [
-      "Home",
-      "Models",
-      "Comparable Properties"
-    ]
-  },
-  {
-    "objectID": "models/QuartoCondosR.html",
-    "href": "models/QuartoCondosR.html",
-    "title": "Condo Sales Model",
-    "section": "",
-    "text": "Using sales from 2022-2024 in Manhattan, Brooklyn, and Queens, and sales from 2020-2024 in the Bronx and Staten Island to predict the sale price of condos across NYC, the most successful mixed model (or hierarchical linear model) to date is the following:\n\nlogtagrosscon ~ nbhd  + X + Y  + trend + UAF + elev +\n            (1 + STY  | BLOCK) + (1 + logsf + floor_extract| ADDRESS)\n\nThe interactive map below visualizes key assessment accuracy metrics at the neighborhood level across New York City. Toggle between the different layers which shade neighborhoods by different performance indicators, such as: R, Spearman’s Rank, Coefficient of Dispersion (COD), Price-related Differential (PRD), and Modified Kakwani Index (MKI). Clicking on a neighborhood reveals a popup with detailed statistics for that area.\nThis map displays every neighborhood with at least two qualified sales in the boro-specific time period.\n\ncreate_metrics_map(\n  data = neighborhood_shapefile, \n\n  by = \"FullNbhdName\",\n\n  center_lng = -73.99, \n  center_lat = 40.76, \n  zoom_level = 11\n)\n\n\n\n\n\n This map only displays neighborhoods with at least 10 qualified sales in the boro-specific period.\n\ncreate_metrics_map(\n  data = min10, \n  by = \"FullNbhdName\",\n\n  center_lng = -73.99, \n  center_lat = 40.76, \n  zoom_level = 11\n)",
-    "crumbs": [
-      "Home",
-      "Models",
-      "Condo Sales Model"
-    ]
-  },
-  {
-    "objectID": "models/QuartoCondosR.html#mixed-model",
-    "href": "models/QuartoCondosR.html#mixed-model",
-    "title": "Condo Sales Model",
-    "section": "",
-    "text": "Using sales from 2022-2024 in Manhattan, Brooklyn, and Queens, and sales from 2020-2024 in the Bronx and Staten Island to predict the sale price of condos across NYC, the most successful mixed model (or hierarchical linear model) to date is the following:\n\nlogtagrosscon ~ nbhd  + X + Y  + trend + UAF + elev +\n            (1 + STY  | BLOCK) + (1 + logsf + floor_extract| ADDRESS)\n\nThe interactive map below visualizes key assessment accuracy metrics at the neighborhood level across New York City. Toggle between the different layers which shade neighborhoods by different performance indicators, such as: R, Spearman’s Rank, Coefficient of Dispersion (COD), Price-related Differential (PRD), and Modified Kakwani Index (MKI). Clicking on a neighborhood reveals a popup with detailed statistics for that area.\nThis map displays every neighborhood with at least two qualified sales in the boro-specific time period.\n\ncreate_metrics_map(\n  data = neighborhood_shapefile, \n\n  by = \"FullNbhdName\",\n\n  center_lng = -73.99, \n  center_lat = 40.76, \n  zoom_level = 11\n)\n\n\n\n\n\n This map only displays neighborhoods with at least 10 qualified sales in the boro-specific period.\n\ncreate_metrics_map(\n  data = min10, \n  by = \"FullNbhdName\",\n\n  center_lng = -73.99, \n  center_lat = 40.76, \n  zoom_level = 11\n)",
-    "crumbs": [
-      "Home",
-      "Models",
-      "Condo Sales Model"
-    ]
-  },
-  {
-    "objectID": "models/QuartoCondosR.html#metrics-by-sale-price-decilequintile",
-    "href": "models/QuartoCondosR.html#metrics-by-sale-price-decilequintile",
-    "title": "Condo Sales Model",
-    "section": "Metrics by Sale Price Decile/Quintile",
-    "text": "Metrics by Sale Price Decile/Quintile\n The following displays the metrics for each borough divided by sale price quintile (in Staten Island) or decile (for all other boroughs).\n\nManhattan\n\n\n\n\n\n\n\n\nThe Bronx\n\n\n\n\n\n\n\n\nBrooklyn\n\n\n\n\n\n\n\n\nQueens\n\n\n\n\n\n\n\n\nStaten Island",
-    "crumbs": [
-      "Home",
-      "Models",
-      "Condo Sales Model"
-    ]
-  },
-  {
-    "objectID": "models/QuartoCondosR.html#notes",
-    "href": "models/QuartoCondosR.html#notes",
-    "title": "Condo Sales Model",
-    "section": "Notes",
-    "text": "Notes\nThe table below summarizes how the tables and maps are shaded.",
-    "crumbs": [
-      "Home",
-      "Models",
-      "Condo Sales Model"
-    ]
-  },
-  {
-    "objectID": "models/coop_sales_model.html",
-    "href": "models/coop_sales_model.html",
-    "title": "Co-op Sales Model",
-    "section": "",
-    "text": "Using sales from 2022-2024 to predict the sale price of co-ops across NYC, the most successful mixed model (or hierarchical linear model) to date is the following:\n\nlog_grosscon ~ NEIGHBORHOOD + BC + xcoord + ycoord + affordable +\n    park_dist + cultural_facility_dist + subway_dist + gym + doorman + laundry +\n    (0 + stories_norm | block) +\n    (1 + BEDROOMS_norm + BATHROOMS_norm + log_floor_norm + log_sqft_norm | COOPID)\n\n\n\nTo assess variation in model performance across the city, key assessment accuracy metrics are summarized at the borough level in the table below. For an overview of how all the visuals are shaded, see notes.\n\n\n\n\n\n\n\nThe interactive map below visualizes key assessment accuracy metrics at the neighborhood level across New York City. Toggle between the different layers which shade neighborhoods by different performance indicators, such as: R, Spearman’s Rank, Coefficient of Dispersion (COD), Price-related Differential (PRD), and Modified Kakwani Index (MKI). Clicking on a neighborhood reveals a popup with detailed statistics for that area.\nNote: Neighborhoods with less than 10 sales used to train the model do not display any accuracy metrics.\n\ncreate_metrics_map(\n  data = neighborhood_shapefile, \n  by = \"NBHD_NAME\",\n  center_lng = -73.99, \n  center_lat = 40.76, \n  zoom_level = 11\n)\n\n\n\n\n\n\n\n\nThe map below displays the model’s performance in Manhattan at the block level. Toggle between the layers to display different accuracy metrics or click on a block to more carefully inspect how well the model performs on sales on that block.\n\ncreate_metrics_map(\n  data = block_shapefile, \n  by = \"BLOCK\",\n  center_lng = -73.96, \n  center_lat = 40.78, \n  zoom_level = 12\n)\n\n\n\n\n\n This map shows a breakdown of the 9,941 Manhattan sales used to train the model, shaded by either the sale price, predicted sale price, or the sales ratio. Clicking on a sale reveals a popup with the sale’s characteristics used by the model to determined it’s predicted value (dependent variables).\n\ncreate_point_map(\n  data = train[train$boro == 1,],\n  dependent_variables = c(\"NBHD_NAME\", \"BC\", \"park_dist\", \"cultural_facility_dist\", \"subway_dist\",\n    \"affordable\",\"gym\", \"laundry\", \"doorman\",\"stories\",\"floor\",\"BEDROOMS\",\"BATHROOMS\",\"log_sqft\"),\n  center_lng = -73.96, \n  center_lat = 40.78, \n  zoom_level = 12\n)",
-    "crumbs": [
-      "Home",
-      "Models",
-      "Co-op Sales Model"
-    ]
-  },
-  {
-    "objectID": "models/coop_sales_model.html#mixed-model",
-    "href": "models/coop_sales_model.html#mixed-model",
-    "title": "Co-op Sales Model",
-    "section": "",
-    "text": "Using sales from 2022-2024 to predict the sale price of co-ops across NYC, the most successful mixed model (or hierarchical linear model) to date is the following:\n\nlog_grosscon ~ NEIGHBORHOOD + BC + xcoord + ycoord + affordable +\n    park_dist + cultural_facility_dist + subway_dist + gym + doorman + laundry +\n    (0 + stories_norm | block) +\n    (1 + BEDROOMS_norm + BATHROOMS_norm + log_floor_norm + log_sqft_norm | COOPID)\n\n\n\nTo assess variation in model performance across the city, key assessment accuracy metrics are summarized at the borough level in the table below. For an overview of how all the visuals are shaded, see notes.\n\n\n\n\n\n\n\nThe interactive map below visualizes key assessment accuracy metrics at the neighborhood level across New York City. Toggle between the different layers which shade neighborhoods by different performance indicators, such as: R, Spearman’s Rank, Coefficient of Dispersion (COD), Price-related Differential (PRD), and Modified Kakwani Index (MKI). Clicking on a neighborhood reveals a popup with detailed statistics for that area.\nNote: Neighborhoods with less than 10 sales used to train the model do not display any accuracy metrics.\n\ncreate_metrics_map(\n  data = neighborhood_shapefile, \n  by = \"NBHD_NAME\",\n  center_lng = -73.99, \n  center_lat = 40.76, \n  zoom_level = 11\n)\n\n\n\n\n\n\n\n\nThe map below displays the model’s performance in Manhattan at the block level. Toggle between the layers to display different accuracy metrics or click on a block to more carefully inspect how well the model performs on sales on that block.\n\ncreate_metrics_map(\n  data = block_shapefile, \n  by = \"BLOCK\",\n  center_lng = -73.96, \n  center_lat = 40.78, \n  zoom_level = 12\n)\n\n\n\n\n\n This map shows a breakdown of the 9,941 Manhattan sales used to train the model, shaded by either the sale price, predicted sale price, or the sales ratio. Clicking on a sale reveals a popup with the sale’s characteristics used by the model to determined it’s predicted value (dependent variables).\n\ncreate_point_map(\n  data = train[train$boro == 1,],\n  dependent_variables = c(\"NBHD_NAME\", \"BC\", \"park_dist\", \"cultural_facility_dist\", \"subway_dist\",\n    \"affordable\",\"gym\", \"laundry\", \"doorman\",\"stories\",\"floor\",\"BEDROOMS\",\"BATHROOMS\",\"log_sqft\"),\n  center_lng = -73.96, \n  center_lat = 40.78, \n  zoom_level = 12\n)",
-    "crumbs": [
-      "Home",
-      "Models",
-      "Co-op Sales Model"
-    ]
-  },
-  {
-    "objectID": "models/coop_sales_model.html#notes",
-    "href": "models/coop_sales_model.html#notes",
-    "title": "Co-op Sales Model",
-    "section": "Notes",
-    "text": "Notes\nThe table below summarizes how the tables and maps are shaded.",
-    "crumbs": [
-      "Home",
-      "Models",
-      "Co-op Sales Model"
-    ]
-  },
-  {
-    "objectID": "data_dictionary/production_columns.html",
-    "href": "data_dictionary/production_columns.html",
-    "title": "REAL_PROP Column Lookup",
-    "section": "",
-    "text": "The table below includes a list of columns from core tables available in the REAL_PROP schema of the production database (V8_NEWYORK_NY_LIVE). Use the search bar below to look for columns within a particular table (e.g. REALMAST) or by column name (e.g. CNS_PID) to see which tables it appears in.",
-    "crumbs": [
-      "Home",
-      "Data Dictionary",
-      "REAL_PROP Column Lookup"
-    ]
-  },
-  {
     "objectID": "data_dictionary/fdw_crosswalk.html",
     "href": "data_dictionary/fdw_crosswalk.html",
     "title": "FDW to Vision Table Crosswalk",
     "section": "",
-    "text": "There are currently 227 tables within the Financial Data Warehouse (FDW) database from PTS, PDM, and CAMA.\n\n\n\n\n\nDatabase\nNumber of tables\n\n\n\n\nPTS\n88\n\n\nPDM\n73\n\n\nCAMA\n65\n\n\nNA\n1\n\n\n\n\n\n\n\n\nCrosswalk\nThe table below includes all FDW tables, but includes most complete information for those also in the V8_NEWYORK_NY_LIVE REAL_PROP schema. The primary keys column indicates the identifiers needed to obtain unique records in a database table.",
-    "crumbs": [
-      "Home",
-      "Data Dictionary",
-      "FDW to Vision Table Crosswalk"
-    ]
-  },
-  {
-    "objectID": "data_dictionary/all_tables.html",
-    "href": "data_dictionary/all_tables.html",
-    "title": "All Tables",
-    "section": "",
-    "text": "The table below includes a list of core database tables available in Vision8 (V8_NEWYORK_NY_LIVE), Financial Data Warehouse (FDW), and IAS (IAS).\nNote: for brevity, this table excludes tables with the following schemas: \"dbo\", \"COMMON\", \"internal\", \"DATA_BACKUP\", \"DataBackup\", \"CONV\", \"NYC_STAGE\". For a comprehensive list of tables that includes these schemas, explore the source data here.\n\n\n\n\n\nDatabase\nNumber of tables\n\n\n\n\nFDW\n228\n\n\nV8_NEWYORK_NY_LIVE\n1145\n\n\nIAS\n6295\n\n\n\n\n\nUse the search bar below to look for a specific type of table (e.g. parcel_extension) across the different databases or filter by database explore which tables exist in each resource.",
-    "crumbs": [
-      "Home",
-      "Data Dictionary",
-      "All Tables"
-    ]
+    "text": "There are currently 227 tables within the Financial Data Warehouse (FDW) database from PTS, PDM, and CAMA.\n\n\n\n\n\nDatabase\nNumber of tables\n\n\n\n\nPTS\n88\n\n\nPDM\n73\n\n\nCAMA\n65\n\n\nNA\n1\n\n\n\n\n\n\n\n\nCrosswalk\nThe table below includes all FDW tables, but includes most complete information for those also in the V8_NEWYORK_NY_LIVE REAL_PROP schema. The primary keys column indicates the identifiers needed to obtain unique records in a database table."
   },
   {
     "objectID": "data_dictionary/index.html",
     "href": "data_dictionary/index.html",
     "title": "Data Dictionary",
     "section": "",
-    "text": "Explore the following pages that help document the data resources available to DOF’s property modeling team:\n\nFDW to Vision Crosswalk: A table that contains FDW table names and their matching CAMA table names if applicable, as well as the prefix used and relevant primary keys for the table (unit of observation: table).\nREAL_PROP Column Lookup: A table that contains all columns for the most important REAL_PROP tables in the production database, including the column type, description, and if it is a primary key (unit of observation: column).\nPDM/PTS Column Lookup: A table that contains information for columns for PDM tables (notably: NEWBASE, CONDBASE) and PTS tables (notably: ASMT, PARDAT, and APRVAL) available in the FDW database (FDW3NF), including the column type, description, and additional notes if relevant (unit of observation: column).\nAll Tables: This is a comprehensive list of all database tables within Production, FDW, and IAS databases, including the prefix used, number of columns in the table, and primary keys where relevant (unit of observation: table).\n\nTo download any of these data sets, visit the source data here.",
-    "crumbs": [
-      "Home",
-      "Data Dictionary"
-    ]
+    "text": "Explore the following pages that help document the data resources available to DOF’s property modeling team:\n\nFDW to Vision Crosswalk: A table that contains FDW table names and their matching CAMA table names if applicable, as well as the prefix used and relevant primary keys for the table (unit of observation: table).\nREAL_PROP Column Lookup: A table that contains all columns for the most important REAL_PROP tables in the production database, including the column type, description, and if it is a primary key (unit of observation: column).\nPDM/PTS Column Lookup: A table that contains information for columns for PDM tables (notably: NEWBASE, CONDBASE) and PTS tables (notably: ASMT, PARDAT, and APRVAL) available in the FDW database (FDW3NF), including the column type, description, and additional notes if relevant (unit of observation: column).\nAll Tables: This is a comprehensive list of all database tables within Production, FDW, and IAS databases, including the prefix used, number of columns in the table, and primary keys where relevant (unit of observation: table).\n\nTo download any of these data sets, visit the source data here."
   },
   {
-    "objectID": "data_dictionary/pts_columns.html",
-    "href": "data_dictionary/pts_columns.html",
-    "title": "PDM/PTS Column Lookup",
+    "objectID": "data_dictionary/production_columns.html",
+    "href": "data_dictionary/production_columns.html",
+    "title": "REAL_PROP Column Lookup",
     "section": "",
-    "text": "The table below includes a list of columns from core tables available in the PDM tables (including CONDBASE and NEWBASE) and PTS tables (including ASMT, PARDAT, and APRVAL) within the FDW database (FDW3NF).\nUse the search bar below to look for columns within a particular table (e.g. ASMT) or by column name (e.g. CNS_PID) to see which tables it appears in.\nFor comprehensive information on these tables, visit the PTS Documentation and User Guides internal SharePoint site.",
-    "crumbs": [
-      "Home",
-      "Data Dictionary",
-      "PDM/PTS Column Lookup"
-    ]
+    "text": "The table below includes a list of columns from core tables available in the REAL_PROP schema of the production database (V8_NEWYORK_NY_LIVE). Use the search bar below to look for columns within a particular table (e.g. REALMAST) or by column name (e.g. CNS_PID) to see which tables it appears in."
+  },
+  {
+    "objectID": "models/coop_sales_model.html",
+    "href": "models/coop_sales_model.html",
+    "title": "Co-op Sales Model",
+    "section": "",
+    "text": "Using sales from 2022-2024 to predict the sale price of co-ops across NYC, the most successful mixed model (or hierarchical linear model) to date is the following:\n\nlog_grosscon ~ NEIGHBORHOOD + BC + xcoord + ycoord + affordable +\n    park_dist + cultural_facility_dist + subway_dist + gym + doorman + laundry +\n    (0 + stories_norm | block) +\n    (1 + BEDROOMS_norm + BATHROOMS_norm + log_floor_norm + log_sqft_norm | COOPID)\n\n\n\nTo assess variation in model performance across the city, key assessment accuracy metrics are summarized at the borough level in the table below. For an overview of how all the visuals are shaded, see notes.\n\n\n\n\n\n\n\n\nThe interactive map below visualizes key assessment accuracy metrics at the neighborhood level across New York City. Toggle between the different layers which shade neighborhoods by different performance indicators, such as: R, Spearman’s Rank, Coefficient of Dispersion (COD), Price-related Differential (PRD), and Modified Kakwani Index (MKI). Clicking on a neighborhood reveals a popup with detailed statistics for that area.\nNote: Neighborhoods with less than 10 sales used to train the model do not display any accuracy metrics.\n\ncreate_metrics_map(\n  data = neighborhood_shapefile, \n  by = \"NBHD_NAME\",\n  center_lng = -73.99, \n  center_lat = 40.76, \n  zoom_level = 11\n)\n\n\n\n\n\n\n\n\nThe map below displays the model’s performance in Manhattan at the block level. Toggle between the layers to display different accuracy metrics or click on a block to more carefully inspect how well the model performs on sales on that block.\n\ncreate_metrics_map(\n  data = block_shapefile, \n  by = \"BLOCK\",\n  center_lng = -73.96, \n  center_lat = 40.78, \n  zoom_level = 12\n)\n\n\n\n\n\n This map shows a breakdown of the 9,941 Manhattan sales used to train the model, shaded by either the sale price, predicted sale price, or the sales ratio. Clicking on a sale reveals a popup with the sale’s characteristics used by the model to determined it’s predicted value (dependent variables).\n\ncreate_point_map(\n  data = train[train$boro == 1,],\n  dependent_variables = c(\"NBHD_NAME\", \"BC\", \"park_dist\", \"cultural_facility_dist\", \"subway_dist\",\n    \"affordable\",\"gym\", \"laundry\", \"doorman\",\"stories\",\"floor\",\"BEDROOMS\",\"BATHROOMS\",\"log_sqft\"),\n  center_lng = -73.96, \n  center_lat = 40.78, \n  zoom_level = 12\n)\n\n\n\n\n\n\n\n\nThe two tables below summarize the model’s performance by actual sale price (GROSSCON) decile, which are calculated at the borough level (e.g. the upper threshold of bottom 10% of sales in Manhattan is $400,000 while it is $175,000 in Staten Island)."
+  },
+  {
+    "objectID": "models/coop_sales_model.html#mixed-model",
+    "href": "models/coop_sales_model.html#mixed-model",
+    "title": "Co-op Sales Model",
+    "section": "",
+    "text": "Using sales from 2022-2024 to predict the sale price of co-ops across NYC, the most successful mixed model (or hierarchical linear model) to date is the following:\n\nlog_grosscon ~ NEIGHBORHOOD + BC + xcoord + ycoord + affordable +\n    park_dist + cultural_facility_dist + subway_dist + gym + doorman + laundry +\n    (0 + stories_norm | block) +\n    (1 + BEDROOMS_norm + BATHROOMS_norm + log_floor_norm + log_sqft_norm | COOPID)\n\n\n\nTo assess variation in model performance across the city, key assessment accuracy metrics are summarized at the borough level in the table below. For an overview of how all the visuals are shaded, see notes.\n\n\n\n\n\n\n\n\nThe interactive map below visualizes key assessment accuracy metrics at the neighborhood level across New York City. Toggle between the different layers which shade neighborhoods by different performance indicators, such as: R, Spearman’s Rank, Coefficient of Dispersion (COD), Price-related Differential (PRD), and Modified Kakwani Index (MKI). Clicking on a neighborhood reveals a popup with detailed statistics for that area.\nNote: Neighborhoods with less than 10 sales used to train the model do not display any accuracy metrics.\n\ncreate_metrics_map(\n  data = neighborhood_shapefile, \n  by = \"NBHD_NAME\",\n  center_lng = -73.99, \n  center_lat = 40.76, \n  zoom_level = 11\n)\n\n\n\n\n\n\n\n\nThe map below displays the model’s performance in Manhattan at the block level. Toggle between the layers to display different accuracy metrics or click on a block to more carefully inspect how well the model performs on sales on that block.\n\ncreate_metrics_map(\n  data = block_shapefile, \n  by = \"BLOCK\",\n  center_lng = -73.96, \n  center_lat = 40.78, \n  zoom_level = 12\n)\n\n\n\n\n\n This map shows a breakdown of the 9,941 Manhattan sales used to train the model, shaded by either the sale price, predicted sale price, or the sales ratio. Clicking on a sale reveals a popup with the sale’s characteristics used by the model to determined it’s predicted value (dependent variables).\n\ncreate_point_map(\n  data = train[train$boro == 1,],\n  dependent_variables = c(\"NBHD_NAME\", \"BC\", \"park_dist\", \"cultural_facility_dist\", \"subway_dist\",\n    \"affordable\",\"gym\", \"laundry\", \"doorman\",\"stories\",\"floor\",\"BEDROOMS\",\"BATHROOMS\",\"log_sqft\"),\n  center_lng = -73.96, \n  center_lat = 40.78, \n  zoom_level = 12\n)\n\n\n\n\n\n\n\n\nThe two tables below summarize the model’s performance by actual sale price (GROSSCON) decile, which are calculated at the borough level (e.g. the upper threshold of bottom 10% of sales in Manhattan is $400,000 while it is $175,000 in Staten Island)."
+  },
+  {
+    "objectID": "models/coop_sales_model.html#notes",
+    "href": "models/coop_sales_model.html#notes",
+    "title": "Co-op Sales Model",
+    "section": "Notes",
+    "text": "Notes\nThe table below summarizes how the tables and maps are shaded."
+  },
+  {
+    "objectID": "models/coop_sales_model_comps.html",
+    "href": "models/coop_sales_model_comps.html",
+    "title": "Co-op Sales Model: Comparable Properties",
+    "section": "",
+    "text": "Now, let’s measure the model performance based on the sales price of the property that is most similar to each subject property based on the model’s coefficients. Metrics for the model at the city-wide and boro level are displayed below.\nNote: As of now, both the subject properties and the potential comparable properties are the same training set (80% of all eligible sales)\n\n\n\n\n\n\n\n\n\n\nTo examine a specific property’s selected comps, search for a COOPUNITKEY to get a short summary in a table format.\n\n\n\n\n\n\n\n\n\n\nUsing any COOPUNITKEY listed above, display the comps and their relative features using the interactive map.\n\n\n\n\n\n\n\n\n \n\nSearch"
+  },
+  {
+    "objectID": "models/coop_sales_model_comps.html#comparable-properties",
+    "href": "models/coop_sales_model_comps.html#comparable-properties",
+    "title": "Co-op Sales Model: Comparable Properties",
+    "section": "",
+    "text": "Now, let’s measure the model performance based on the sales price of the property that is most similar to each subject property based on the model’s coefficients. Metrics for the model at the city-wide and boro level are displayed below.\nNote: As of now, both the subject properties and the potential comparable properties are the same training set (80% of all eligible sales)\n\n\n\n\n\n\n\n\n\n\nTo examine a specific property’s selected comps, search for a COOPUNITKEY to get a short summary in a table format.\n\n\n\n\n\n\n\n\n\n\nUsing any COOPUNITKEY listed above, display the comps and their relative features using the interactive map.\n\n\n\n\n\n\n\n\n \n\nSearch"
+  },
+  {
+    "objectID": "models/QuartoCondosR.html",
+    "href": "models/QuartoCondosR.html",
+    "title": "Condo Sales Model",
+    "section": "",
+    "text": "Using sales from 2022-2024 in Manhattan, Brooklyn, and Queens, and sales from 2020-2024 in the Bronx and Staten Island to predict the sale price of condos across NYC, the most successful mixed model (or hierarchical linear model) to date is the following:\n\nlogtagrosscon ~ nbhd  + X + Y  + trend + UAF + elev +\n            (1 + STY  | BLOCK) + (1 + logsf + floor_extract| ADDRESS)\n\nThe interactive map below visualizes key assessment accuracy metrics at the neighborhood level across New York City. Toggle between the different layers which shade neighborhoods by different performance indicators, such as: R, Spearman’s Rank, Coefficient of Dispersion (COD), Price-related Differential (PRD), and Modified Kakwani Index (MKI). Clicking on a neighborhood reveals a popup with detailed statistics for that area.\nThis map displays every neighborhood with at least two qualified sales in the boro-specific time period.\n\ncreate_metrics_map(\n  data = neighborhood_shapefile, \n\n  by = \"FullNbhdName\",\n\n  center_lng = -73.99, \n  center_lat = 40.76, \n  zoom_level = 11\n)\n\n\n\n\n\n This map only displays neighborhoods with at least 10 qualified sales in the boro-specific period.\n\ncreate_metrics_map(\n  data = min10, \n  by = \"FullNbhdName\",\n\n  center_lng = -73.99, \n  center_lat = 40.76, \n  zoom_level = 11\n)"
+  },
+  {
+    "objectID": "models/QuartoCondosR.html#mixed-model",
+    "href": "models/QuartoCondosR.html#mixed-model",
+    "title": "Condo Sales Model",
+    "section": "",
+    "text": "Using sales from 2022-2024 in Manhattan, Brooklyn, and Queens, and sales from 2020-2024 in the Bronx and Staten Island to predict the sale price of condos across NYC, the most successful mixed model (or hierarchical linear model) to date is the following:\n\nlogtagrosscon ~ nbhd  + X + Y  + trend + UAF + elev +\n            (1 + STY  | BLOCK) + (1 + logsf + floor_extract| ADDRESS)\n\nThe interactive map below visualizes key assessment accuracy metrics at the neighborhood level across New York City. Toggle between the different layers which shade neighborhoods by different performance indicators, such as: R, Spearman’s Rank, Coefficient of Dispersion (COD), Price-related Differential (PRD), and Modified Kakwani Index (MKI). Clicking on a neighborhood reveals a popup with detailed statistics for that area.\nThis map displays every neighborhood with at least two qualified sales in the boro-specific time period.\n\ncreate_metrics_map(\n  data = neighborhood_shapefile, \n\n  by = \"FullNbhdName\",\n\n  center_lng = -73.99, \n  center_lat = 40.76, \n  zoom_level = 11\n)\n\n\n\n\n\n This map only displays neighborhoods with at least 10 qualified sales in the boro-specific period.\n\ncreate_metrics_map(\n  data = min10, \n  by = \"FullNbhdName\",\n\n  center_lng = -73.99, \n  center_lat = 40.76, \n  zoom_level = 11\n)"
+  },
+  {
+    "objectID": "models/QuartoCondosR.html#metrics-by-sale-price-decilequintile",
+    "href": "models/QuartoCondosR.html#metrics-by-sale-price-decilequintile",
+    "title": "Condo Sales Model",
+    "section": "Metrics by Sale Price Decile/Quintile",
+    "text": "Metrics by Sale Price Decile/Quintile\n The following displays the metrics for each borough divided by sale price quintile (in Staten Island) or decile (for all other boroughs).\n\nManhattan\n\n\n\n\n\n\n\n\n\nThe Bronx\n\n\n\n\n\n\n\n\n\nBrooklyn\n\n\n\n\n\n\n\n\n\nQueens\n\n\n\n\n\n\n\n\n\nStaten Island"
+  },
+  {
+    "objectID": "models/QuartoCondosR.html#notes",
+    "href": "models/QuartoCondosR.html#notes",
+    "title": "Condo Sales Model",
+    "section": "Notes",
+    "text": "Notes\nThe table below summarizes how the tables and maps are shaded."
   },
   {
     "objectID": "models/index.html",
     "href": "models/index.html",
     "title": "Models",
     "section": "",
-    "text": "Explore the following pages that help document model results for different types of properties in NYC:\n\nCo-op Sales Model\nCondo Sales Model",
-    "crumbs": [
-      "Home",
-      "Models"
-    ]
+    "text": "Explore the following pages that help document model results for different types of properties in NYC:\n\nCo-op Sales Model\nCondo Sales Model"
+  },
+  {
+    "objectID": "data_dictionary/pts_columns.html",
+    "href": "data_dictionary/pts_columns.html",
+    "title": "PDM/PTS Column Lookup",
+    "section": "",
+    "text": "The table below includes a list of columns from core tables available in the PDM tables (including CONDBASE and NEWBASE) and PTS tables (including ASMT, PARDAT, and APRVAL) within the FDW database (FDW3NF).\nUse the search bar below to look for columns within a particular table (e.g. ASMT) or by column name (e.g. CNS_PID) to see which tables it appears in.\nFor comprehensive information on these tables, visit the PTS Documentation and User Guides internal SharePoint site."
+  },
+  {
+    "objectID": "data_dictionary/all_tables.html",
+    "href": "data_dictionary/all_tables.html",
+    "title": "All Tables",
+    "section": "",
+    "text": "The table below includes a list of core database tables available in Vision8 (V8_NEWYORK_NY_LIVE), Financial Data Warehouse (FDW), and IAS (IAS).\nNote: for brevity, this table excludes tables with the following schemas: \"dbo\", \"COMMON\", \"internal\", \"DATA_BACKUP\", \"DataBackup\", \"CONV\", \"NYC_STAGE\". For a comprehensive list of tables that includes these schemas, explore the source data here.\n\n\n\n\n\nDatabase\nNumber of tables\n\n\n\n\nFDW\n228\n\n\nV8_NEWYORK_NY_LIVE\n1145\n\n\nIAS\n6295\n\n\n\n\n\nUse the search bar below to look for a specific type of table (e.g. parcel_extension) across the different databases or filter by database explore which tables exist in each resource."
   }
 ]
