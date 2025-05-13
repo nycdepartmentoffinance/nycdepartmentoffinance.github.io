@@ -51,7 +51,7 @@ color_pal_cod <- function(x) {
   sapply(x, function(val) {
     if (is.na(val)) return("#999999")  # gray for NA
 
-    if (val >= 5 & val <= 10) {
+    if (val >= 5 & val <= 15) {
       return("#00FF00")  # Still using green for the "ideal" zone
     } else if (val < 5) {
       # Values < 5: interpolate from yellow (at 5) to orange (at 0)
@@ -118,6 +118,29 @@ color_pal_grosscon <- function(x){
       na.color = "#999999"  # gray for NA
   )
   return(pal(clamped))
+}
+
+
+color_pal_mki <- function(x) {
+  sapply(x, function(val) {
+    if (is.na(val)) return("#999999")  # gray for NA
+
+    if (val > 1.4) {
+      return("#FF0000")  # solid red for extreme high values
+    } else if (val > 1.1 && val <= 1.4) {
+      # Yellow to Red for values >1.1 to 1.4
+      intensity <- rescale(val, from = c(1.1, 1.4), to = c(1, 0))
+      return(rgb(1, intensity, 0))  # yellow to red
+    } else if (val >= 0.9 && val <= 1.1) {
+      return("#00FF00")  # solid yellow as center plateau
+    } else if (val >= 0.6 && val < 0.9) {
+      # Yellow to Red from 0.9 to 0.6
+      intensity <- rescale(val, from = c(0.9, 0.6), to = c(1, 0))
+      return(rgb(1, intensity, 0))  # yellow to red
+    } else {
+      return("#FF0000")  # solid red for <0.6
+    }
+  })
 }
 
 #table formatting
@@ -198,7 +221,7 @@ create_metrics_map <- function(data, by, center_lng = -73.96, center_lat = 40.78
         add_polygon_layer("By Spearman's Rank", "spearmans", color_pal_r) %>%
         add_polygon_layer("By COD", "cod", color_pal_cod) %>%
         add_polygon_layer("By PRD", "prd", color_pal_prd) %>%
-        add_polygon_layer("By MKI", "mki", color_pal_r)
+        add_polygon_layer("By MKI", "mki", color_pal_mki)
     } %>%
     
     # Add control to switch between layers
@@ -305,7 +328,8 @@ comps_boro_metrics = readr::read_csv(glue::glue("{source_folder}/comp_metrics.cs
 comps_short = read_csv(glue::glue("{source_folder}/comps_short.csv"))
 
 comps_short_trimmed = comps_short %>% 
-    select(1:10)
+    mutate(sales_ratio = round(selected_comparable_GROSSCON/GROSSCON,digits = 4)) %>% 
+    select(1:4, sales_ratio, 8:10)
 ```
 
 ## Comparable Properties
@@ -322,13 +346,13 @@ metric_palettes <- list(
   spearmans = color_pal_r,
   cod = color_pal_cod,
   prd = color_pal_prd,
-  mki = color_pal_r
+  mki = color_pal_mki
 )
 
 format_metrics_table(comps_boro_metrics, palettes = metric_palettes, opacity = 0.2)
 ```
 
-### Table of Matching Comparable Properties
+### Comparable Properties (unadjusted)
 
 To examine a specific property's selected comps, search for a COOPUNITKEY to get a short summary in a table format.
 
