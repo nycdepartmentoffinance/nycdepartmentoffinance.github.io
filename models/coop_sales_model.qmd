@@ -235,9 +235,9 @@ create_point_map <- function(data,
                              dependent_variables,
                              layers =
                               list(
+                                list(group = "By Sales Ratio", var = "sales_ratio", color_pal = color_pal_sales_ratio),
                                 list(group = "By Sale Price", var = "GROSSCON", color_pal = color_pal_grosscon),
-                                list(group = "By Predicted Sale Price", var = "prediction", color_pal = color_pal_grosscon),
-                                list(group = "By Sales Ratio", var = "sales_ratio", color_pal = color_pal_sales_ratio)
+                                list(group = "By Predicted Sale Price", var = "prediction", color_pal = color_pal_grosscon)
                               ), 
                              center_lng = -73.96, 
                              center_lat = 40.78, 
@@ -339,7 +339,7 @@ block_metrics = readr::read_csv(glue::glue("{source_folder}/manhattan_block_metr
 
 neighborhood_decile_metrics = readr::read_csv(glue::glue("{source_folder}/neighborhood_decile_metrics.csv")) %>% 
     mutate(across(
-        .cols = -c(boro, boro.x, boro_name, NBHD_NAME, NEIGHBORHOOD, cutoff, decile, predicted, actual, n, accuracy, uniformity, vertical_equity), 
+        .cols = -c(boro, boro_name, NBHD_NAME, NEIGHBORHOOD, cutoff, decile, predicted, actual, n, accuracy, uniformity, vertical_equity), 
         .fns = ~round(.x, 4)
       )) %>% 
     select(-predicted, -actual)
@@ -445,6 +445,44 @@ The two tables below summarize the model's performance by actual sale price (GRO
 
 #### Borough Metrics by Sale Price Decile
 
+```{r, warning=FALSE, echo=FALSE}
+# Ensure decile is a factor with levels in the desired order
+# Convert borough names to numeric values
+boro_decile_metrics$boro_num = as.numeric(boro_decile_metrics$boro)
+
+# Define borough colors
+boro_colors <- c("red", "blue", "maroon", "purple", "darkgreen")
+colors <- boro_colors[boro_decile_metrics$boro_num]  # Assuming boro is a number from 1 to 5
+
+# Create the scatter plot without x-axis ticks
+# The points will be drawn after the shaded region
+plot(boro_decile_metrics$decile, boro_decile_metrics$mki,
+     col = colors,
+     pch = 19,  # filled circles
+     xaxt = "n",  # suppress x-axis
+     xlab = "Decile (of GROSSCON)", ylab = "MKI", main = "MKI by Decile and Borough",
+     ylim = c(0, 2)
+)
+
+# Add custom x-axis with decile labels 1 to 10
+axis(1, at = 1:10, labels = 1:10)
+
+# Add shaded region between y = 0.9 and y = 1.1 (polygon behind the points)
+polygon(c(0:11, rev(0:11)), c(rep(0.9, 12), rev(rep(1.1, 12))),
+        col = "lightgreen", border = NA)  # Shaded region
+
+# Add points (text labels) for each borough
+points(boro_decile_metrics$decile, boro_decile_metrics$mki, 
+       col = colors, pch = 19)
+
+# Optional: Add a legend for boroughs
+legend("top", legend = c("MN", "BX", "BK", "QN", "SI"),
+       col = boro_colors, pch = 19, horiz = TRUE)
+
+```
+
+Here is the source data to more easily explore the raw data from the plot above.
+
 ```{r, echo=FALSE}
 metric_palettes <- list(
   r = color_pal_r,
@@ -458,6 +496,23 @@ format_metrics_table(boro_decile_metrics, palettes = metric_palettes, opacity = 
 ```
 
 #### Neighborhood Metrics by Sale Price Decile
+
+The variation of MKI by neighborhood is generally consistent across deciles of GROSSCON, largely ranging around 1 (ideal value), though the mean of most deciles is below 1. There are more outliers in the 4-8 decile ranges, indicating that there might be a poorer model fit in the middle ranges of the dataset.
+
+```{r, warning=FALSE, echo=FALSE}
+# Ensure decile is a factor with levels in the desired order
+neighborhood_decile_metrics$decile <- factor(neighborhood_decile_metrics$decile,
+                                              levels = as.character(1:10))
+
+# Plot
+boxplot(mki ~ decile, data = neighborhood_decile_metrics,
+        xlab = "Decile (of GROSSCON)", ylab = "MKI", main = "Neighborhood MKI by GROSSCON Decile")
+
+# Add horizontal line at y = 1
+abline(h = 1, col = "green", lty = 2, lwd = 2)
+```
+
+The table below contains the source data used to generate the plot above.
 
 ```{r, echo=FALSE}
 metric_palettes <- list(
@@ -479,9 +534,6 @@ format_metrics_table(neighborhood_decile_metrics_trim, palettes = metric_palette
 
 
 
-```{r, warning=FALSE}
-plot(neighborhood_decile_metrics$decile, neighborhood_decile_metrics$mki)
-```
 
 
 
@@ -497,28 +549,32 @@ color_pal_summary <- data.frame(
     "color_pal_cod", 
     "color_pal_prd", 
     "color_pal_sales_ratio", 
-    "color_pal_grosscon"
+    "color_pal_grosscon",
+    "color_pal_mki"
   ),
   green_range = c(
     "≥ 0.95", 
     "5–10", 
     "0.98–1.03", 
     "0.9–1.1", 
-    "N/A"
+    "N/A",
+    "0.9–1.1"
   ),
   below_range = c(
     "0.4–0.95: Red to Yellow to Green", 
     "0–5: Red to Yellow", 
     "0.90–0.98: Dark Blue to Light Blue (Progressive)", 
     "0.6–0.9: Dark Blue to Light Blue (Progressive)", 
-    "N/A"
+    "N/A",
+    "0.4–0.9: Red to Yellow"
   ),
   above_range = c(
     "N/A", 
     "10–20: Yellow to Red", 
     "1.03–1.10: Light to Dark Red (Regressive)", 
     "1.1–1.4: Light to Dark Red (Regressive)", 
-    "Blue gradient ($200K–$5M)"
+    "Blue gradient ($200K–$5M)",
+    "1.1–1.4: Yellow to Red"
   ),
   stringsAsFactors = FALSE
 )
@@ -532,5 +588,4 @@ datatable(
   ),
   rownames = FALSE
 )
-
 ```

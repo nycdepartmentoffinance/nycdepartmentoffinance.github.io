@@ -407,6 +407,8 @@ Using any COOPUNITKEY listed above, display the comps and their relative feature
 
   return `
     <strong>PID:</strong> ${d.PID}<br>
+    <strong>COOPUNITKEY:</strong> ${d.COOPUNITKEY}<br>
+    <strong>ADDRESS:</strong> ${d.ADRNO} ${d.ADRSTR}<br>
     <strong>SALEKEY:</strong> ${d.SALEKEY}<br>
     <strong>Sale Price (real value):</strong> $${formatDollar(d.GROSSCON)}<br>
     <strong>Predicted Sale Price:</strong> $${formatDollar(d.prediction)}<br>
