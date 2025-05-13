@@ -48,7 +48,7 @@ color_pal_cod <- function(x) {
   sapply(x, function(val) {
     if (is.na(val)) return("#999999")  # gray for NA
 
-    if (val >= 5 & val <= 10) {
+    if (val >= 5 & val <= 15) {
       return("#00FF00")  # Still using green for the "ideal" zone
     } else if (val < 5) {
       # Values < 5: interpolate from yellow (at 5) to orange (at 0)
@@ -58,7 +58,7 @@ color_pal_cod <- function(x) {
     } else {
       # Interpolate from yellow (10) to red (20), capped at red for >20
       capped_val <- min(val, 20)
-      intensity <- rescale(capped_val, from = c(10, 20), to = c(1, 0))  # G goes from 1 to 0
+      intensity <- rescale(capped_val, from = c(15, 20), to = c(1, 0))  # G goes from 1 to 0
       return(rgb(1, intensity, 0))  # Yellow to Red
     }
   })
@@ -116,6 +116,29 @@ color_pal_grosscon <- function(x){
   )
   return(pal(clamped))
 }
+
+color_pal_mki <- function(x) {
+  sapply(x, function(val) {
+    if (is.na(val)) return("#999999")  # gray for NA
+
+    if (val > 1.4) {
+      return("#FF0000")  # solid red for extreme high values
+    } else if (val > 1.1 && val <= 1.4) {
+      # Yellow to Red for values >1.1 to 1.4
+      intensity <- rescale(val, from = c(1.1, 1.4), to = c(1, 0))
+      return(rgb(1, intensity, 0))  # yellow to red
+    } else if (val >= 0.9 && val <= 1.1) {
+      return("#00FF00")  # solid yellow as center plateau
+    } else if (val >= 0.6 && val < 0.9) {
+      # Yellow to Red from 0.9 to 0.6
+      intensity <- rescale(val, from = c(0.9, 0.6), to = c(1, 0))
+      return(rgb(1, intensity, 0))  # yellow to red
+    } else {
+      return("#FF0000")  # solid red for <0.6
+    }
+  })
+}
+
 
 #table formatting
 format_metrics_table <- function(data, palettes, opacity = 0.2, exclude_cols = c("ci", "gini")) {
@@ -195,7 +218,7 @@ create_metrics_map <- function(data, by, center_lng = -73.96, center_lat = 40.78
         add_polygon_layer("By Spearman's Rank", "spearmans", color_pal_r) %>%
         add_polygon_layer("By COD", "cod", color_pal_cod) %>%
         add_polygon_layer("By PRD", "prd", color_pal_prd) %>%
-        add_polygon_layer("By MKI", "mki", color_pal_r)
+        add_polygon_layer("By MKI", "mki", color_pal_mki)
     } %>%
     
     # Add control to switch between layers
@@ -212,9 +235,9 @@ create_point_map <- function(data,
                              dependent_variables,
                              layers =
                               list(
+                                list(group = "By Sales Ratio", var = "sales_ratio", color_pal = color_pal_sales_ratio),
                                 list(group = "By Sale Price", var = "GROSSCON", color_pal = color_pal_grosscon),
-                                list(group = "By Predicted Sale Price", var = "prediction", color_pal = color_pal_grosscon),
-                                list(group = "By Sales Ratio", var = "sales_ratio", color_pal = color_pal_sales_ratio)
+                                list(group = "By Predicted Sale Price", var = "prediction", color_pal = color_pal_grosscon)
                               ), 
                              center_lng = -73.96, 
                              center_lat = 40.78, 
@@ -226,6 +249,8 @@ create_point_map <- function(data,
 
     main_info <- paste0(
       "<strong>PID:</strong> ", row[["PID"]], "<br>",
+      "<strong>COOPUNITKEY:</strong> ", row[["COOPUNITKEY"]], "<br>",
+      "<strong>ADDRESS:</strong> ", row[["ADRNO"]], " ", row[["ADRSTR"]], "<br>",
       "<strong>SALEKEY:</strong> ", row[["SALEKEY"]], "<br>",
       "<strong>Sale Price (real value):</strong> $", scales::comma(round(row[["GROSSCON"]])), "<br>",
       "<strong>Predicted Sale Price:</strong> $", scales::comma(round(row[["prediction"]])), "<br>",
@@ -364,7 +389,7 @@ metric_palettes <- list(
   spearmans = color_pal_r,
   cod = color_pal_cod,
   prd = color_pal_prd,
-  mki = color_pal_r
+  mki = color_pal_mki
 )
 
 format_metrics_table(boro_metrics, palettes = metric_palettes, opacity = 0.2)
@@ -416,9 +441,47 @@ create_point_map(
 
 ### By Sale Price Decile
 
-The two tables below summarize the model's performance by actual sale price (GROSSCON) decile, which are calculated at the borough level (e.g. the upper threshold of bottom 10% of sales in Manhattan is \$400,000 while it is \$175,000 in Staten Island).
+The two tables below summarize the model's performance by actual sale price (GROSSCON) decile, which are calculated at the boro level (e.g. the upper threshold of bottom 10% of sales in Manhattan is \$400,000 while it is \$175,000 in Staten Island).
 
 #### Borough Metrics by Sale Price Decile
+
+```{r, warning=FALSE, echo=FALSE}
+# Ensure decile is a factor with levels in the desired order
+# Convert borough names to numeric values
+boro_decile_metrics$boro_num = as.numeric(boro_decile_metrics$boro)
+
+# Define borough colors
+boro_colors <- c("red", "blue", "maroon", "purple", "darkgreen")
+colors <- boro_colors[boro_decile_metrics$boro_num]  # Assuming boro is a number from 1 to 5
+
+# Create the scatter plot without x-axis ticks
+# The points will be drawn after the shaded region
+plot(boro_decile_metrics$decile, boro_decile_metrics$mki,
+     col = colors,
+     pch = 19,  # filled circles
+     xaxt = "n",  # suppress x-axis
+     xlab = "Decile (of GROSSCON)", ylab = "MKI", main = "MKI by Decile and Borough",
+     ylim = c(0, 2)
+)
+
+# Add custom x-axis with decile labels 1 to 10
+axis(1, at = 1:10, labels = 1:10)
+
+# Add shaded region between y = 0.9 and y = 1.1 (polygon behind the points)
+polygon(c(0:11, rev(0:11)), c(rep(0.9, 12), rev(rep(1.1, 12))),
+        col = "lightgreen", border = NA)  # Shaded region
+
+# Add points (text labels) for each borough
+points(boro_decile_metrics$decile, boro_decile_metrics$mki, 
+       col = colors, pch = 19)
+
+# Optional: Add a legend for boroughs
+legend("top", legend = c("MN", "BX", "BK", "QN", "SI"),
+       col = boro_colors, pch = 19, horiz = TRUE)
+
+```
+
+Here is the source data to more easily explore the raw data from the plot above.
 
 ```{r, echo=FALSE}
 metric_palettes <- list(
@@ -426,7 +489,7 @@ metric_palettes <- list(
   spearmans = color_pal_r,
   cod = color_pal_cod,
   prd = color_pal_prd,
-  mki = color_pal_r
+  mki = color_pal_mki
 )
 
 format_metrics_table(boro_decile_metrics, palettes = metric_palettes, opacity = 0.2)
@@ -434,13 +497,30 @@ format_metrics_table(boro_decile_metrics, palettes = metric_palettes, opacity = 
 
 #### Neighborhood Metrics by Sale Price Decile
 
+The variation of MKI by neighborhood is generally consistent across deciles of GROSSCON, largely ranging around 1 (ideal value), though the mean of most deciles is below 1. There are more outliers in the 4-8 decile ranges, indicating that there might be a poorer model fit in the middle ranges of the dataset.
+
+```{r, warning=FALSE, echo=FALSE}
+# Ensure decile is a factor with levels in the desired order
+neighborhood_decile_metrics$decile <- factor(neighborhood_decile_metrics$decile,
+                                              levels = as.character(1:10))
+
+# Plot
+boxplot(mki ~ decile, data = neighborhood_decile_metrics,
+        xlab = "Decile (of GROSSCON)", ylab = "MKI", main = "Neighborhood MKI by GROSSCON Decile")
+
+# Add horizontal line at y = 1
+abline(h = 1, col = "green", lty = 2, lwd = 2)
+```
+
+The table below contains the source data used to generate the plot above.
+
 ```{r, echo=FALSE}
 metric_palettes <- list(
   r = color_pal_r,
   spearmans = color_pal_r,
   cod = color_pal_cod,
   prd = color_pal_prd,
-  mki = color_pal_r
+  mki = color_pal_mki
 )
 
 neighborhood_decile_metrics_trim = neighborhood_decile_metrics %>% 
@@ -448,6 +528,12 @@ neighborhood_decile_metrics_trim = neighborhood_decile_metrics %>%
 
 format_metrics_table(neighborhood_decile_metrics_trim, palettes = metric_palettes, opacity = 0.2)
 ```
+
+
+
+
+
+
 
 
 
@@ -463,28 +549,32 @@ color_pal_summary <- data.frame(
     "color_pal_cod", 
     "color_pal_prd", 
     "color_pal_sales_ratio", 
-    "color_pal_grosscon"
+    "color_pal_grosscon",
+    "color_pal_mki"
   ),
   green_range = c(
     "≥ 0.95", 
     "5–10", 
     "0.98–1.03", 
     "0.9–1.1", 
-    "N/A"
+    "N/A",
+    "0.9–1.1"
   ),
   below_range = c(
     "0.4–0.95: Red to Yellow to Green", 
     "0–5: Red to Yellow", 
     "0.90–0.98: Dark Blue to Light Blue (Progressive)", 
     "0.6–0.9: Dark Blue to Light Blue (Progressive)", 
-    "N/A"
+    "N/A",
+    "0.4–0.9: Red to Yellow"
   ),
   above_range = c(
     "N/A", 
     "10–20: Yellow to Red", 
     "1.03–1.10: Light to Dark Red (Regressive)", 
     "1.1–1.4: Light to Dark Red (Regressive)", 
-    "Blue gradient ($200K–$5M)"
+    "Blue gradient ($200K–$5M)",
+    "1.1–1.4: Yellow to Red"
   ),
   stringsAsFactors = FALSE
 )
@@ -498,5 +588,4 @@ datatable(
   ),
   rownames = FALSE
 )
-
 ```
