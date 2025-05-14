@@ -48,7 +48,7 @@ color_pal_cod <- function(x) {
   sapply(x, function(val) {
     if (is.na(val)) return("#999999")  # gray for NA
 
-    if (val >= 5 & val <= 10) {
+    if (val >= 5 & val <= 15) {
       return("#00FF00")  # Still using green for the "ideal" zone
     } else if (val < 5) {
       # Values < 5: interpolate from yellow (at 5) to orange (at 0)
@@ -58,7 +58,7 @@ color_pal_cod <- function(x) {
     } else {
       # Interpolate from yellow (10) to red (20), capped at red for >20
       capped_val <- min(val, 20)
-      intensity <- rescale(capped_val, from = c(10, 20), to = c(1, 0))  # G goes from 1 to 0
+      intensity <- rescale(capped_val, from = c(15, 20), to = c(1, 0))  # G goes from 1 to 0
       return(rgb(1, intensity, 0))  # Yellow to Red
     }
   })
@@ -116,6 +116,29 @@ color_pal_grosscon <- function(x){
   )
   return(pal(clamped))
 }
+
+color_pal_mki <- function(x) {
+  sapply(x, function(val) {
+    if (is.na(val)) return("#999999")  # gray for NA
+
+    if (val > 1.4) {
+      return("#FF0000")  # solid red for extreme high values
+    } else if (val > 1.1 && val <= 1.4) {
+      # Yellow to Red for values >1.1 to 1.4
+      intensity <- rescale(val, from = c(1.1, 1.4), to = c(1, 0))
+      return(rgb(1, intensity, 0))  # yellow to red
+    } else if (val >= 0.9 && val <= 1.1) {
+      return("#00FF00")  # solid yellow as center plateau
+    } else if (val >= 0.6 && val < 0.9) {
+      # Yellow to Red from 0.9 to 0.6
+      intensity <- rescale(val, from = c(0.9, 0.6), to = c(1, 0))
+      return(rgb(1, intensity, 0))  # yellow to red
+    } else {
+      return("#FF0000")  # solid red for <0.6
+    }
+  })
+}
+
 
 #table formatting
 format_metrics_table <- function(data, palettes, opacity = 0.2, exclude_cols = c("ci", "gini")) {
@@ -195,7 +218,7 @@ create_metrics_map <- function(data, by, center_lng = -73.96, center_lat = 40.78
         add_polygon_layer("By Spearman's Rank", "spearmans", color_pal_r) %>%
         add_polygon_layer("By COD", "cod", color_pal_cod) %>%
         add_polygon_layer("By PRD", "prd", color_pal_prd) %>%
-        add_polygon_layer("By MKI", "mki", color_pal_r)
+        add_polygon_layer("By MKI", "mki", color_pal_mki)
     } %>%
     
     # Add control to switch between layers
@@ -212,9 +235,9 @@ create_point_map <- function(data,
                              dependent_variables,
                              layers =
                               list(
+                                list(group = "By Sales Ratio", var = "sales_ratio", color_pal = color_pal_sales_ratio),
                                 list(group = "By Sale Price", var = "GROSSCON", color_pal = color_pal_grosscon),
-                                list(group = "By Predicted Sale Price", var = "prediction", color_pal = color_pal_grosscon),
-                                list(group = "By Sales Ratio", var = "sales_ratio", color_pal = color_pal_sales_ratio)
+                                list(group = "By Predicted Sale Price", var = "prediction", color_pal = color_pal_grosscon)
                               ), 
                              center_lng = -73.96, 
                              center_lat = 40.78, 
@@ -226,6 +249,8 @@ create_point_map <- function(data,
 
     main_info <- paste0(
       "<strong>PID:</strong> ", row[["PID"]], "<br>",
+      "<strong>COOPUNITKEY:</strong> ", row[["COOPUNITKEY"]], "<br>",
+      "<strong>ADDRESS:</strong> ", row[["ADRNO"]], " ", row[["ADRSTR"]], "<br>",
       "<strong>SALEKEY:</strong> ", row[["SALEKEY"]], "<br>",
       "<strong>Sale Price (real value):</strong> $", scales::comma(round(row[["GROSSCON"]])), "<br>",
       "<strong>Predicted Sale Price:</strong> $", scales::comma(round(row[["prediction"]])), "<br>",
@@ -278,6 +303,63 @@ create_point_map <- function(data,
 }
 
 
+create_building_map <- function(data, 
+                             display_variables,
+                             layers, 
+                             center_lng = -73.96, 
+                             center_lat = 40.78, 
+                             zoom_level = 13) {
+
+  # Required top-level fields, formatted
+  popup_content <- sapply(seq_len(nrow(data)), function(i) {
+    row <- data[i, ]
+
+    display_vars <- paste0(
+      paste0(
+        lapply(display_variables, function(var) {
+          paste0("<strong>", var, ":</strong> ", row[[var]])
+        }),
+        collapse = "<br>"
+      )
+    )
+
+    display_vars
+  })
+
+  map <- leaflet(data = data, height = 800) %>%
+    addTiles() %>%
+    setView(lng = center_lng, lat = center_lat, zoom = zoom_level) %>%
+    addProviderTiles("CartoDB.Positron")
+
+  for (layer in layers) {
+    group_name <- layer$group
+    var_name <- layer$var
+    color_fn <- layer$color_pal
+
+    map <- map %>%
+      addCircleMarkers(
+        data = data,
+        group = group_name,
+        fillColor = ~color_fn(get(var_name)),
+        color = "black",
+        weight = 1,
+        radius = 6,
+        fillOpacity = 0.7,
+        stroke = TRUE,
+        popup = popup_content
+      )
+  }
+
+  map %>%
+    addLayersControl(
+      baseGroups = sapply(layers, function(l) l$group),
+      options = layersControlOptions(collapsed = FALSE)
+    ) %>%
+    hideGroup(sapply(layers[-1], function(l) l$group))
+}
+
+
+
 hex_with_opacity <- function(hex, alpha = 1) {
   hex <- gsub("#", "", hex)  # Remove '#' if present
 
@@ -295,15 +377,36 @@ source_folder = "Data/Coop/MixedModel"
 # model metrics
 boro_metrics = readr::read_csv(glue::glue("{source_folder}/metrics.csv")) %>% 
     mutate(across(
-        .cols = -c(boro, predicted, actual, n, accuracy, uniformity, vertical_equity), 
+        .cols = -c(boro, boro_name, predicted, actual, n, accuracy, uniformity, vertical_equity), 
         .fns = ~round(.x, 4)
       )) %>% 
     select(-predicted, -actual)
+
+# comps_boro_metrics = readr::read_csv(glue::glue("{source_folder}/comps_metrics.csv")) %>% 
+#     mutate(across(
+#         .cols = -c(boro, predicted, actual, n, accuracy, uniformity, vertical_equity), 
+#         .fns = ~round(.x, 4)
+#       )) %>% 
+#     select(-predicted, -actual)
 
 neighborhood_metrics = readr::read_csv(glue::glue("{source_folder}/neighborhood_metrics.csv")) 
 
 block_metrics = readr::read_csv(glue::glue("{source_folder}/manhattan_block_metrics.csv")) %>% 
     mutate(block = as.numeric(block))
+
+neighborhood_decile_metrics = readr::read_csv(glue::glue("{source_folder}/neighborhood_decile_metrics.csv")) %>% 
+    mutate(across(
+        .cols = -c(boro, boro_name, NBHD_NAME, NEIGHBORHOOD, cutoff, decile, predicted, actual, n, accuracy, uniformity, vertical_equity), 
+        .fns = ~round(.x, 4)
+      )) %>% 
+    select(-predicted, -actual)
+
+boro_decile_metrics = readr::read_csv(glue::glue("{source_folder}/boro_decile_metrics.csv"))%>% 
+    mutate(across(
+        .cols = -c(boro, boro_name, decile, predicted, cutoff, actual, n, accuracy, uniformity, vertical_equity), 
+        .fns = ~round(.x, 4)
+      )) %>% 
+    select(-predicted, -actual)
 
 train_df = readr::read_csv(glue::glue("{source_folder}/train_with_yhat.csv"))
 
@@ -343,7 +446,7 @@ metric_palettes <- list(
   spearmans = color_pal_r,
   cod = color_pal_cod,
   prd = color_pal_prd,
-  mki = color_pal_r
+  mki = color_pal_mki
 )
 
 format_metrics_table(boro_metrics, palettes = metric_palettes, opacity = 0.2)
@@ -392,72 +495,132 @@ create_point_map(
 )
 ```
 
-## Geo-weighted Regression
 
-```{r, include=FALSE}
-source_folder = "Data/Coop/gwr"
+### By Sale Price Decile
 
-# model metrics
-boro_metrics = readr::read_csv(glue::glue("{source_folder}/metrics.csv")) %>%
-    mutate(across(
-        .cols = -c(boro, predicted, actual, n, accuracy, uniformity, vertical_equity),
-        .fns = ~round(.x, 4)
-      )) %>%
-    select(-predicted, -actual)
+The two tables below summarize the model's performance by actual sale price (GROSSCON) decile, which are calculated at the boro level (e.g. the upper threshold of bottom 10% of sales in Manhattan is \$400,000 while it is \$175,000 in Staten Island).
 
-neighborhood_metrics = readr::read_csv(glue::glue("{source_folder}/neighborhood_metrics.csv"))
+#### Borough Metrics by Sale Price Decile
 
-block_metrics = readr::read_csv(glue::glue("{source_folder}/manhattan_block_metrics.csv")) %>%
-    mutate(block = as.numeric(block))
+```{r, warning=FALSE, echo=FALSE}
+# Ensure decile is a factor with levels in the desired order
+# Convert borough names to numeric values
+boro_decile_metrics$boro_num = as.numeric(boro_decile_metrics$boro)
 
-train_df = readr::read_csv(glue::glue("{source_folder}/train_with_yhat.csv"))
+# Define borough colors
+boro_colors <- c("red", "blue", "maroon", "purple", "darkgreen")
+colors <- boro_colors[boro_decile_metrics$boro_num]  # Assuming boro is a number from 1 to 5
 
-# shapefiles // geographic transformations
-neighborhood_shapefile = sf::st_read("data/DOF_NBHD_Dissolved/DOF_NBHD_Dissolved.shp") %>%
-    st_transform(crs=4326) %>%
-    left_join(neighborhood_metrics, by=c("CODE"="NEIGHBORHOOD"))
+# Create the scatter plot without x-axis ticks
+# The points will be drawn after the shaded region
+plot(boro_decile_metrics$decile, boro_decile_metrics$mki,
+     col = colors,
+     pch = 19,  # filled circles
+     xaxt = "n",  # suppress x-axis
+     xlab = "Decile (of GROSSCON)", ylab = "MKI", main = "MKI by Decile and Borough",
+     ylim = c(0, 2)
+)
 
-block_shapefile = sf::st_read("data/TAX_BLOCK_POLYGON_LAYER/TAX_BLOCK_POLYGON_LAYER.shp") %>%
-    st_transform(crs=4326) %>%
-    filter(BORO == "1") %>%
-    select(BLOCK, geometry) %>%
-    left_join(block_metrics, by=c("BLOCK"="block"))
+# Add custom x-axis with decile labels 1 to 10
+axis(1, at = 1:10, labels = 1:10)
 
-train <- sf::st_as_sf(train_df, coords= c("xcoord","ycoord"), crs=2263) %>%
-    st_transform(crs=4326)
+# Add shaded region between y = 0.9 and y = 1.1 (polygon behind the points)
+polygon(c(0:11, rev(0:11)), c(rep(0.9, 12), rev(rep(1.1, 12))),
+        col = "lightgreen", border = NA)  # Shaded region
+
+# Add points (text labels) for each borough
+points(boro_decile_metrics$decile, boro_decile_metrics$mki, 
+       col = colors, pch = 19)
+
+# Optional: Add a legend for boroughs
+legend("top", legend = c("MN", "BX", "BK", "QN", "SI"),
+       col = boro_colors, pch = 19, horiz = TRUE)
+
 ```
 
-Geo-weighted regression works by creating local regressions in different geographic clusters across the input data set. It first optimizes the best "bandwidth" or number of observations to consider for each localized regression, and then uses that value to fit models based the determined bandwidth and save predicted values.
-
-Due to the nature of this type of model, there is less need to include nested geographic factors because these will be determined by the model optimization structure. Therefore, the model used for the geo-weighted regression is simpler:
-
-```{r, results='hide'}
-log_grosscon ~ BC + 
-    park_dist + cultural_facility_dist + subway_dist + 
-    stories +
-    BEDROOMS_norm + BATHROOMS_norm + log_floor + log_sqft
-    
-```
-
-### City-wide
-
-The following table captures the performance of the geo-weighted regression by borough, using 350 as the optimized bandwidth.
+Here is the source data to more easily explore the raw data from the plot above.
 
 ```{r, echo=FALSE}
-format_metrics_table(boro_metrics, palettes = metric_palettes, opacity = 0.2)
+metric_palettes <- list(
+  r = color_pal_r,
+  spearmans = color_pal_r,
+  cod = color_pal_cod,
+  prd = color_pal_prd,
+  mki = color_pal_mki
+)
+
+format_metrics_table(boro_decile_metrics, palettes = metric_palettes, opacity = 0.2)
 ```
 
-The following map captures the performance of the geo-weighted regression by neighborhood.
+#### Neighborhood Metrics by Sale Price Decile
+
+The variation of MKI by neighborhood is generally consistent across deciles of GROSSCON, largely ranging around 1 (ideal value), though the mean of most deciles is below 1. There are more outliers in the 4-8 decile ranges, indicating that there might be a poorer model fit in the middle ranges of the dataset.
+
+```{r, warning=FALSE, echo=FALSE}
+# Ensure decile is a factor with levels in the desired order
+neighborhood_decile_metrics$decile <- factor(neighborhood_decile_metrics$decile,
+                                              levels = as.character(1:10))
+
+# Plot
+boxplot(mki ~ decile, data = neighborhood_decile_metrics,
+        xlab = "Decile (of GROSSCON)", ylab = "MKI", main = "Neighborhood MKI by GROSSCON Decile")
+
+# Add horizontal line at y = 1
+abline(h = 1, col = "green", lty = 2, lwd = 2)
+```
+
+The table below contains the source data used to generate the plot above.
+
+```{r, echo=FALSE}
+metric_palettes <- list(
+  r = color_pal_r,
+  spearmans = color_pal_r,
+  cod = color_pal_cod,
+  prd = color_pal_prd,
+  mki = color_pal_mki
+)
+
+neighborhood_decile_metrics_trim = neighborhood_decile_metrics %>% 
+    select(-NEIGHBORHOOD, -boro_name)
+
+format_metrics_table(neighborhood_decile_metrics_trim, palettes = metric_palettes, opacity = 0.2)
+```
+
+
+### Sale Price Distribution by COOP building
+
+The point map below displays the standard deviation of the sale prices in each building within the training data set. If you click on a building, you can explore the min, max, median, standard deviation, and the list of units sold.
+
+In general, it seems like the highest standard deviations are in buidings right near the park with very different story height or very few sales in the building. 
+
+```{r, include=FALSE}
+building_metrics = train %>% 
+    group_by(COOPID, building, lat, lon, ADRNO, ADRSTR) %>% 
+    summarize(
+        n_sales = n(),
+        min = paste0("$", formatC(min(GROSSCON), format = "f", big.mark = ",", digits = 2)), 
+        max = paste0("$", formatC(max(GROSSCON), format = "f", big.mark = ",", digits = 2)), 
+        median = paste0("$", formatC(quantile(GROSSCON, probs=0.5), format = "f", big.mark = ",", digits = 2)),
+        sd = sd(GROSSCON),
+        standard_deviation = paste0("$", formatC(sd(GROSSCON), format = "f", big.mark = ",", digits = 2)),
+        units = paste(COOPUNITKEY, collapse = ", <br>")
+    )
+```
 
 ```{r}
-create_metrics_map(
-  data = neighborhood_shapefile,
-  by = "NBHD_NAME",
-  center_lng = -73.99,
-  center_lat = 40.76,
-  zoom_level = 11
+create_building_map(
+    building_metrics,
+    display_variables = c("COOPID", "building", "n_sales", "min", "max", "median", "standard_deviation", "units"),
+    layers = list(
+        list(group="By Standard Deviation", var="sd", color_pal=color_pal_grosscon)
+             )
 )
 ```
+
+
+
+
+
 
 ## Notes {#notes}
 
@@ -471,28 +634,32 @@ color_pal_summary <- data.frame(
     "color_pal_cod", 
     "color_pal_prd", 
     "color_pal_sales_ratio", 
-    "color_pal_grosscon"
+    "color_pal_grosscon",
+    "color_pal_mki"
   ),
   green_range = c(
     "≥ 0.95", 
     "5–10", 
     "0.98–1.03", 
     "0.9–1.1", 
-    "N/A"
+    "N/A",
+    "0.9–1.1"
   ),
   below_range = c(
     "0.4–0.95: Red to Yellow to Green", 
     "0–5: Red to Yellow", 
     "0.90–0.98: Dark Blue to Light Blue (Progressive)", 
     "0.6–0.9: Dark Blue to Light Blue (Progressive)", 
-    "N/A"
+    "N/A",
+    "0.4–0.9: Red to Yellow"
   ),
   above_range = c(
     "N/A", 
     "10–20: Yellow to Red", 
     "1.03–1.10: Light to Dark Red (Regressive)", 
     "1.1–1.4: Light to Dark Red (Regressive)", 
-    "Blue gradient ($200K–$5M)"
+    "Blue gradient ($200K–$5M)",
+    "1.1–1.4: Yellow to Red"
   ),
   stringsAsFactors = FALSE
 )
@@ -506,5 +673,4 @@ datatable(
   ),
   rownames = FALSE
 )
-
 ```
