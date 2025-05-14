@@ -303,6 +303,63 @@ create_point_map <- function(data,
 }
 
 
+create_building_map <- function(data, 
+                             display_variables,
+                             layers, 
+                             center_lng = -73.96, 
+                             center_lat = 40.78, 
+                             zoom_level = 13) {
+
+  # Required top-level fields, formatted
+  popup_content <- sapply(seq_len(nrow(data)), function(i) {
+    row <- data[i, ]
+
+    display_vars <- paste0(
+      paste0(
+        lapply(display_variables, function(var) {
+          paste0("<strong>", var, ":</strong> ", row[[var]])
+        }),
+        collapse = "<br>"
+      )
+    )
+
+    display_vars
+  })
+
+  map <- leaflet(data = data, height = 800) %>%
+    addTiles() %>%
+    setView(lng = center_lng, lat = center_lat, zoom = zoom_level) %>%
+    addProviderTiles("CartoDB.Positron")
+
+  for (layer in layers) {
+    group_name <- layer$group
+    var_name <- layer$var
+    color_fn <- layer$color_pal
+
+    map <- map %>%
+      addCircleMarkers(
+        data = data,
+        group = group_name,
+        fillColor = ~color_fn(get(var_name)),
+        color = "black",
+        weight = 1,
+        radius = 6,
+        fillOpacity = 0.7,
+        stroke = TRUE,
+        popup = popup_content
+      )
+  }
+
+  map %>%
+    addLayersControl(
+      baseGroups = sapply(layers, function(l) l$group),
+      options = layersControlOptions(collapsed = FALSE)
+    ) %>%
+    hideGroup(sapply(layers[-1], function(l) l$group))
+}
+
+
+
 hex_with_opacity <- function(hex, alpha = 1) {
   hex <- gsub("#", "", hex)  # Remove '#' if present
 
@@ -530,7 +587,35 @@ format_metrics_table(neighborhood_decile_metrics_trim, palettes = metric_palette
 ```
 
 
+### Sale Price Distribution by COOP building
 
+The point map below displays the standard deviation of the sale prices in each building within the training data set. If you click on a building, you can explore the min, max, median, standard deviation, and the list of units sold.
+
+In general, it seems like the highest standard deviations are in buidings right near the park with very different story height or very few sales in the building. 
+
+```{r, include=FALSE}
+building_metrics = train %>% 
+    group_by(COOPID, building, lat, lon, ADRNO, ADRSTR) %>% 
+    summarize(
+        n_sales = n(),
+        min = paste0("$", formatC(min(GROSSCON), format = "f", big.mark = ",", digits = 2)), 
+        max = paste0("$", formatC(max(GROSSCON), format = "f", big.mark = ",", digits = 2)), 
+        median = paste0("$", formatC(quantile(GROSSCON, probs=0.5), format = "f", big.mark = ",", digits = 2)),
+        sd = sd(GROSSCON),
+        standard_deviation = paste0("$", formatC(sd(GROSSCON), format = "f", big.mark = ",", digits = 2)),
+        units = paste(COOPUNITKEY, collapse = ", <br>")
+    )
+```
+
+```{r}
+create_building_map(
+    building_metrics,
+    display_variables = c("COOPID", "building", "n_sales", "min", "max", "median", "standard_deviation", "units"),
+    layers = list(
+        list(group="By Standard Deviation", var="sd", color_pal=color_pal_grosscon)
+             )
+)
+```
 
 
 
