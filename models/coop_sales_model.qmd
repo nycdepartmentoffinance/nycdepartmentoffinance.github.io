@@ -549,7 +549,7 @@ metric_palettes <- list(
   mki = color_pal_mki
 )
 
-format_metrics_table(boro_decile_metrics, palettes = metric_palettes, opacity = 0.2)
+format_metrics_table(boro_decile_metrics, palettes = metric_palettes, opacity = 0.2, exclude_cols=c())
 ```
 
 #### Neighborhood Metrics by Sale Price Decile
@@ -583,7 +583,7 @@ metric_palettes <- list(
 neighborhood_decile_metrics_trim = neighborhood_decile_metrics %>% 
     select(-NEIGHBORHOOD, -boro_name)
 
-format_metrics_table(neighborhood_decile_metrics_trim, palettes = metric_palettes, opacity = 0.2)
+format_metrics_table(neighborhood_decile_metrics_trim, palettes = metric_palettes, opacity = 0.2, exclude_cols=c())
 ```
 
 
@@ -618,6 +618,22 @@ create_building_map(
 ```
 
 
+```{r}
+repeats = train %>% 
+    group_by(GROSSCON, NBHD) %>% 
+    summarize(n=n())
+
+plot(repeats$GROSSCON, repeats$n)
+```
+```{r}
+train_trim = train %>% 
+    select(bbl, GROSSCON, COOPUNITKEY) %>% 
+    group_by(bbl, GROSSCON) %>% 
+    filter(n() > 1) %>%
+    ungroup()
+
+write_csv(train_trim, "Data/Coop/repeat_sale_price_same_building.csv")
+```
 
 
 
