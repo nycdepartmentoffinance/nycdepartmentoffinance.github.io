@@ -20,6 +20,7 @@ library(maps)
 library(leaflet)
 library(scales)
 library(DT)
+library(assessr)
 ```
 
 ```{r functions, include=FALSE, cache=TRUE}
@@ -633,6 +634,91 @@ train_trim = train %>%
     ungroup()
 
 write_csv(train_trim, "Data/Coop/repeat_sale_price_same_building.csv")
+```
+
+
+
+
+```{r}
+train_small = train %>% 
+    select(boro, NEIGHBORHOOD, decile, COOPUNITKEY, GROSSCON, prediction)
+
+write.csv(train_small, "Data/Coop/train_small.csv")
+```
+
+
+
+```{r}
+
+train_small = read_csv("Data/Coop/train_small.csv") %>% 
+    select(-1)
+
+n = nrow(train_small)
+
+
+value_vector = train_small$prediction
+rank_vector = train_small$GROSSCON
+
+dataframe = train_small %>% 
+    mutate(
+        rank = rank(rank_vector, ties.method = "average"),
+        frac_rank = rank / n,
+        y_gini = 2 * stats::var(frac_rank) * GROSSCON / mean(GROSSCON),
+        y_ci = 2 * stats::var(frac_rank) * prediction / mean(prediction)
+    )
+
+gini = (2 * stats::cov(as.matrix(dataframe$frac_rank), as.matrix(dataframe$GROSSCON)) / mean(dataframe$GROSSCON)
+    * (n-1)/n) #adjustment for sample not population
+ci = (2 * stats::cov(as.matrix(dataframe$frac_rank), as.matrix(dataframe$prediction)) / mean(dataframe$prediction)
+    * (n-1)/n) #adjustment for sample not population
+
+mki = ci / gini
+ki = ci - gini
+
+
+
+y_gini = 2 * stats::var(dataframe$frac_rank) * dataframe$GROSSCON / mean(dataframe$GROSSCON)
+
+
+
+
+gini_slope = lm(y_gini ~ frac_rank, dataframe)
+
+
+
+
+
+
+
+
+
+
+
+min_n=2
+round_digits=4
+
+train_metrics = train %>% 
+    group_by(boro, decile) %>% 
+    summarize(
+      n_obs = dplyr::n(),
+      r = if (n_obs > min_n) stats::cor(GROSSCON, prediction, method = "pearson") else NA_real_,
+      spearman = if (n_obs > min_n) stats::cor(GROSSCON, prediction, method = "spearman") else NA_real_,
+      r_2 = if (n_obs > min_n) stats::cor(GROSSCON, prediction, method = "pearson")^2 else NA_real_,
+      spearman_2 = if (n_obs > min_n) stats::cor(GROSSCON, prediction, method = "spearman")^2 else NA_real_,
+      ci = if (n_obs > min_n) calc_regression_gini(prediction, GROSSCON) else NA_real_,
+      gini = if (n_obs > min_n) calc_regression_gini(GROSSCON, GROSSCON) else NA_real_,
+      ki = if (n_obs > min_n) ci - gini else NA_real_,
+      mki = if (n_obs > min_n) ci / gini else NA_real_,
+      ki_assessr = if (n_obs > min_n) assessr::ki(prediction, GROSSCON) else NA_real_,
+      mki_assessr = if (n_obs > min_n) assessr::mki(prediction, GROSSCON) else NA_real_,
+      mki_equal = round(mki, round_digits) == round(mki_assessr, round_digits),
+      ki_equal = round(ki, round_digits) == round(ki_assessr, round_digits)
+    )
+```
+
+
+```{r}
+
 ```
 
 
