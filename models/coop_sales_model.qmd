@@ -619,14 +619,15 @@ create_building_map(
 ```
 
 
-```{r}
+```{r, include=FALSE}
 repeats = train %>% 
     group_by(GROSSCON, NBHD) %>% 
     summarize(n=n())
 
 plot(repeats$GROSSCON, repeats$n)
 ```
-```{r}
+
+```{r, include=FALSE}
 train_trim = train %>% 
     select(bbl, GROSSCON, COOPUNITKEY) %>% 
     group_by(bbl, GROSSCON) %>% 
@@ -635,147 +636,6 @@ train_trim = train %>%
 
 write_csv(train_trim, "Data/Coop/repeat_sale_price_same_building.csv")
 ```
-
-
-
-
-```{r}
-train_small = train %>% 
-    select(boro, NEIGHBORHOOD, decile, COOPUNITKEY, GROSSCON, prediction)
-
-write.csv(train_small, "Data/Coop/train_small.csv")
-```
-
-
-```{r}
-train_small = read_csv("Data/Coop/train_small.csv") %>% 
-    select(-1)
-```
-
-
-```{r}
-compute_inequality_metrics <- function(predicted, actual) {
-
-  # return NAs if n is less than 2
-  n <- length(predicted)
-  
-  if (n < 2) {
-    return(list(
-    n = n,
-    gini = NA,
-    ci = NA,
-    mki = NA,
-    ki = NA,
-    #regression appraoch
-    gini_model = NA,
-    ci_model = NA,
-    mki_model = NA,
-    ki_model = NA
-  ))
-  }
-    
-  # Sanity check: length of vectors
-  if (length(predicted) != length(actual)) {
-    stop("predicted and actual must be the same length.")
-  }
-  
-  # Create a dataframe with computed ranks
-  dataframe <- data.frame(
-    predicted = predicted,
-    actual = actual
-  ) %>%
-    mutate(
-      rank = rank(actual, ties.method = "average"),
-      frac_rank = rank / n,
-      y_gini = 2 * var(frac_rank) * actual / mean(actual),
-      y_ci = 2 * var(frac_rank) * predicted / mean(predicted)
-    )
-  
-  # covariance approach
-  gini <- ((2 * cov(as.matrix(dataframe$frac_rank), as.matrix(dataframe$actual)) /
-             mean(dataframe$actual)) * ((n - 1) / n)
-           )[1]
-  
-  ci <- ((2 * cov(as.matrix(dataframe$frac_rank), as.matrix(dataframe$predicted)) /
-           mean(dataframe$predicted)) * ((n - 1) / n)
-         )[1]
-  
-  # regression approach
-  gini_model <- lm(y_gini ~ frac_rank, data = dataframe)$coefficients[['frac_rank']]
-  ci_model <- lm(y_ci ~ frac_rank, data = dataframe)$coefficients[['frac_rank']]
-  
-  # Return all results
-  list(
-    #cov approach
-    n = n,
-    gini = gini,
-    ci = ci,
-    mki = ci / gini,
-    ki = ci - gini,
-    #regression appraoch
-    gini_model = gini_model,
-    ci_model = ci_model,
-    mki_model = ci_model / gini_model,
-    ki_model = ci_model - gini_model
-  )
-}
-
-# for a big sample size, they are the same if we dont use the sample adjustment in the cov approach: * ((n - 1) / n) 
-# for a smaller sample size, 
-metrics = compute_inequality_metrics(train_small$prediction, train_small$GROSSCON)
-
-```
-
-
-```{r}
-min_n=2
-round_digits=4
-
-boro_metrics = train_small %>% 
-    group_by(boro, decile) %>% 
-    group_modify(~ {
-    res <- compute_inequality_metrics(.x$prediction, .x$GROSSCON)
-    
-    # Return scalar outputs as columns, and keep list-cols for complex outputs
-    tibble(
-      n = res$n,
-      gini = res$gini,
-      ci = res$ci,
-      mki = res$mki,
-      ki = res$ki,
-      gini_model = res$gini_model,
-      ci_model = res$ci_model,
-      mki_model = res$mki_model,
-      ki_model = res$ki_model
-    )
-  }) %>%
-  ungroup()
-
-neighborhood_metrics = train_small %>% 
-    group_by(NEIGHBORHOOD, decile) %>% 
-    group_modify(~ {
-    res <- compute_inequality_metrics(.x$prediction, .x$GROSSCON)
-    
-    # Return scalar outputs as columns, and keep list-cols for complex outputs
-    tibble(
-      n = res$n,
-      gini = res$gini,
-      ci = res$ci,
-      mki = res$mki,
-      ki = res$ki,
-      gini_model = res$gini_model,
-      ci_model = res$ci_model,
-      mki_model = res$mki_model,
-      ki_model = res$ki_model
-    )
-  }) %>%
-  ungroup()
-
-write_csv(neighborhood_metrics, "Data/Coop/equality_metrics_neighborhood_decile.csv")
-write_csv(boro_metrics, "Data/Coop/equality_metrics_boro_decile.csv")
-```
-
-
 
 
 ## Notes {#notes}
