@@ -117,26 +117,14 @@ boro_metrics = train_small %>%
     ) %>%
     tidyr::unnest_wider(summary)
 
-
 neighborhood_metrics = train_small %>%
     group_by(NEIGHBORHOOD, decile) %>%
-    group_modify(~ {
-        res <- compute_inequality_metrics(.x$prediction, .x$GROSSCON)
+    summarize(
+        summary = list(compute_inequality_metrics(
+            prediction,
+            GROSSCON))
+    ) %>%
+    tidyr::unnest_wider(summary)
 
-        # Return scalar outputs as columns, and keep list-cols for complex outputs
-        tibble(
-            n = res$n,
-            gini = res$gini,
-            ci = res$ci,
-            mki = res$mki,
-            ki = res$ki,
-            gini_model = res$gini_model,
-            ci_model = res$ci_model,
-            mki_model = res$mki_model,
-            ki_model = res$ki_model
-        )
-    }) %>%
-    ungroup()
-
-write_csv(neighborhood_metrics, "Data/Coop/equality_metrics_neighborhood_decile.csv")
-write_csv(boro_metrics, "Data/Coop/equality_metrics_boro_decile.csv")
+write_csv(neighborhood_metrics, "models/Data/Coop/equality_metrics_neighborhood_decile.csv")
+write_csv(boro_metrics, "models/Data/Coop/equality_metrics_boro_decile.csv")
