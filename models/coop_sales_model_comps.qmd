@@ -404,6 +404,14 @@ Using any COOPUNITKEY listed above, display the comps and their relative feature
     const value = d[v] ?? "N/A";
     return `<strong>${v}:</strong> ${value}`;
   }).join("<br>");
+  
+  const similaritySection = (d.similarity_score == null || d.similarity_score === 'NA')
+  ? `<strong>Subject Property</strong><br><br>`
+  : `<strong>Similiarity to Subject Property:</strong><br>
+     <strong>Similarity Score:</strong> ${d.similarity_score}<br>
+     <strong>Distance Score:</strong> ${d.distance_score}<br>
+     <strong>Variable Score:</strong> ${d.variable_score}<br>
+     <strong>Selected as Comparable Property:</strong> ${d.is_selected_comp}<br><br>`;
 
   return `
     <strong>PID:</strong> ${d.PID}<br>
@@ -414,17 +422,14 @@ Using any COOPUNITKEY listed above, display the comps and their relative feature
     <strong>Predicted Sale Price:</strong> $${formatDollar(d.prediction)}<br>
     <strong>Sales Ratio:</strong> ${formatRatio(d.sales_ratio)}<br><br>
 
-    <strong>Similiarity to Subject Property:</strong><br>
-    <strong>Similarity Score:</strong> ${d.similarity_score}<br>
-    <strong>Distance Score:</strong> ${d.distance_score}<br>
-    <strong>Variable Score:</strong> ${d.variable_score}<br><br>
+    ${similaritySection}
     
     <strong>Dependent Variables:</strong><br>${depDetails}
   `;
 }
 
   const dependentVars = ["NEIGHBORHOOD", "BC", "park_dist", "cultural_facility_dist", "subway_dist",
-    "affordable","gym", "laundry", "doorman","stories","floor","BEDROOMS","BATHROOMS","log_sqft"];
+    "affordable","gym", "laundry", "doorman","stories","floor","BEDROOMS","BATHROOMS","log_sqft", "sqft"];
 
   L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
     attribution: '&copy; <a href="https://carto.com/">CARTO</a> | Map data © OpenStreetMap contributors',
