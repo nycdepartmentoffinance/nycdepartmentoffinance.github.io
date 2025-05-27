@@ -378,14 +378,13 @@ source_folder = "Data/Coop/MixedModel"
 # model metrics
 boro_metrics = readr::read_csv(glue::glue("{source_folder}/metrics.csv")) %>% 
     mutate(across(
-        .cols = -c(boro, boro_name, predicted, predicted, n, accuracy, uniformity, vertical_equity), 
+        .cols = -c(boro, boro_name, predicted, actual, n, accuracy, uniformity, vertical_equity), 
         .fns = ~round(.x, 4)
-      )) %>% 
-    select(-predicted, -predicted)
+      ))
 
 # comps_boro_metrics = readr::read_csv(glue::glue("{source_folder}/comps_metrics.csv")) %>% 
 #     mutate(across(
-#         .cols = -c(boro, predicted, predicted, n, accuracy, uniformity, vertical_equity), 
+#         .cols = -c(boro, predicted, n, accuracy, uniformity, vertical_equity), 
 #         .fns = ~round(.x, 4)
 #       )) %>% 
 #     select(-predicted, -predicted)
@@ -397,17 +396,15 @@ block_metrics = readr::read_csv(glue::glue("{source_folder}/manhattan_block_metr
 
 neighborhood_decile_metrics = readr::read_csv(glue::glue("{source_folder}/neighborhood_decile_metrics.csv")) %>% 
     mutate(across(
-        .cols = -c(boro, boro_name, NBHD_NAME, NEIGHBORHOOD, cutoff, decile, predicted, predicted, n, accuracy, uniformity, vertical_equity), 
+        .cols = -c(boro, boro_name, NBHD_NAME, NEIGHBORHOOD, cutoff, decile, predicted, actual, n, accuracy, uniformity, vertical_equity), 
         .fns = ~round(.x, 4)
-      )) %>% 
-    select(-predicted, -predicted)
+      ))
 
 boro_decile_metrics = readr::read_csv(glue::glue("{source_folder}/boro_decile_metrics.csv"))%>% 
     mutate(across(
-        .cols = -c(boro, boro_name, decile, predicted, cutoff, predicted, n, accuracy, uniformity, vertical_equity), 
+        .cols = -c(boro, boro_name, decile, predicted, actual, cutoff, n, accuracy, uniformity, vertical_equity), 
         .fns = ~round(.x, 4)
-      )) %>% 
-    select(-predicted, -predicted)
+      ))
 
 train_df = readr::read_csv(glue::glue("{source_folder}/train_with_yhat.csv"))
 
@@ -489,7 +486,7 @@ create_metrics_map(
 create_point_map(
   data = train[train$boro == 1,],
   dependent_variables = c("NBHD_NAME", "BC", "park_dist", "cultural_facility_dist", "subway_dist",
-    "affordable","gym", "laundry", "doorman","stories","floor","BEDROOMS","BATHROOMS","log_sqft"),
+    "affordable","gym", "laundry", "doorman","stories","floor","BEDROOMS","BATHROOMS","log_sqft", "sqft"),
   center_lng = -73.96, 
   center_lat = 40.78, 
   zoom_level = 12
