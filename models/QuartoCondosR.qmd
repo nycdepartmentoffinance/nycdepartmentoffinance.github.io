@@ -6,15 +6,12 @@ repo-url: https://github.com/nycdepartmentoffinance/nycdepartmentoffinance.githu
 
 ```{r, include=FALSE}
 
-
-
 library(readxl)
 library(stringr)
 library(readr)
 library(ggplot2)
 library(dplyr)
 library(sf)
-
 library(maps)
 library(leaflet)
 library(scales)
@@ -23,6 +20,66 @@ library(DT)
 readRenviron("Data/.Renviron")
 options(scipen=99999)
 
+citywidedecs <- read_xlsx("data/Condo/CitywideMetricsHalves.xlsx",sheet = "Citywide", range = cell_rows(1:12)) %>%
+  mutate(across(
+        .cols = -c(grosscondecile, cutoff, predicted, actual, n, accuracy, uniformity, vertical_equity), 
+        .fns = ~round(.x, 4)
+      ))
+half1decs <- read_xlsx("data/Condo/CitywideMetricsHalves.xlsx",sheet = "Half1", range = cell_rows(1:12)) %>%
+    mutate(across(
+        .cols = -c(grosscondecile, cutoff, predicted, actual, n, accuracy, uniformity, vertical_equity), 
+        .fns = ~round(.x, 4)
+      )) %>% 
+    select(-predicted, -actual) %>%
+  relocate(cutoff,.after = grosscondecile)
+half2decs <- read_xlsx("data/Condo/CitywideMetricsHalves.xlsx",sheet = "Half2", range = cell_rows(1:12)) %>%
+    mutate(across(
+        .cols = -c(grosscondecile, cutoff, predicted, actual, n, accuracy, uniformity, vertical_equity), 
+        .fns = ~round(.x, 4)
+      )) %>% 
+    select(-predicted, -actual) %>%
+  relocate(cutoff,.after = grosscondecile)
+citywideborodecs <- read.csv("data/Condo/BoroJitterDecileMetrics.csv") %>%
+    mutate(across(
+        .cols = -c(boro, decile, predicted, actual, n, accuracy, uniformity, vertical_equity,clapp), 
+        .fns = ~round(.x, 4)
+      )) %>% 
+    select(-predicted, -actual) 
+half1borodecs <- read_xlsx("data/Condo/CitywideMetricsHalves.xlsx",sheet = "Half1", range = cell_rows(14:65)) %>%
+    mutate(across(
+        .cols = -c(boro, decile, predicted, actual, n, accuracy, uniformity, vertical_equity,clapp), 
+        .fns = ~round(.x, 4)
+      )) %>% 
+    select(-predicted, -actual)
+half2borodecs <- read_xlsx("data/Condo/CitywideMetricsHalves.xlsx",sheet = "Half2", range = cell_rows(14:65)) %>%
+  mutate(r = as.numeric(r)) %>%
+    mutate(across(
+        .cols = -c(boro, decile, predicted, actual, n, accuracy, uniformity, vertical_equity,clapp), 
+        .fns = ~round(.x, 4)
+      )) %>% 
+    select(-predicted, -actual) 
+citywidenbhddecs <- read_xlsx("data/Condo/CitywideMetricsHalves.xlsx",sheet = "Citywide", na = "NA", range = cell_rows(67:1083))%>%
+    mutate(r = as.numeric(r)) %>%
+    mutate(across(
+        .cols = -c(boro, decile, nbhd, cutoff, median_sales_ratio, predicted, actual, n, accuracy, uniformity, vertical_equity), 
+        .fns = ~round(.x, 4)
+      )) %>% 
+    select(-predicted, -actual) %>%
+  relocate(cutoff,.after = decile)
+half1nbhddecs <- read_xlsx("data/Condo/CitywideMetricsHalves.xlsx",sheet = "Half1",na = "NA", range = cell_rows(67:958)) %>%
+    mutate(across(
+        .cols = -c(boro, decile,  nbhd,cutoff, predicted, actual,median_sales_ratio, n, accuracy, uniformity, vertical_equity), 
+        .fns = ~round(.x, 4)
+      )) %>% 
+    select(-predicted, -actual) %>%
+  relocate(cutoff,.after = decile)
+half2nbhddecs <- read_xlsx("data/Condo/CitywideMetricsHalves.xlsx",sheet = "Half2",na = "NA", range = cell_rows(67:1278)) %>%
+    mutate(across(
+        .cols = -c(boro, decile,  nbhd,cutoff, predicted, actual,median_sales_ratio, n, accuracy, uniformity, vertical_equity), 
+        .fns = ~round(.x, 4)
+      )) %>% 
+    select(-predicted, -actual) %>%
+  relocate(cutoff,.after = decile)
 
 basedata <- read_csv("data/Condo/UAFElevBCATJoin.csv")
 nbhdmetrics <- read.csv("Data/Condo/NBHDMetrics.csv")
@@ -34,10 +91,6 @@ decilemetrics <- read.csv("Data/Condo/DecileMetrics.csv") %>%
       )) %>% 
     select(-predicted, -actual) %>%
   relocate(cutoff,.after = grosscondecile)
-
-# read env file to get proxy set up to work
-readRenviron("Data/.Renviron")
-options(scipen=99999)
 
 ```
 
@@ -380,7 +433,7 @@ neighborhood_shapefile = sf::st_read("Data/DOF_NBHD_Dissolved/DOF_NBHD_Dissolved
   #  st_transform(crs=4326) 
 ```
 
-## Mixed Model
+# Mixed Model
 
 Using sales from 2022-2024 in Manhattan, Brooklyn, and Queens, and sales from 2020-2024 in the Bronx and Staten Island to predict the sale price of condos across NYC, the most successful mixed model (or hierarchical linear model) to date is the following:
 
@@ -390,10 +443,86 @@ logtagrosscon ~ nbhd  + X + Y  + trend + UAF + elev +
 
 ```
 
+## Citywide Model Deciles
+
+These tables show the metrics divided by decile on a model run on the entire city population simultaenously, rather than boro-by-boro. Below are deciles overall, deciles by boro, and deciles by nbhd. 
+
+### Citywide Overall Deciles
+
+```{r, echo=FALSE}
+metric_palettes <- list(
+  r = color_pal_r,
+  spearmans = color_pal_r,
+  cod = color_pal_cod,
+  prd = color_pal_prd,
+  mki = color_pal_r
+)
+
+  
+format_decile_metrics_table(citywidedecs, palettes = metric_palettes, opacity = 0.2)
+
+```
+### Citywide Model Deciles by Boro
+
+#### Manhattan
+```{r, echo=FALSE}
+mhmetrics <- citywideborodecs %>%
+  filter(boro == 1) %>%
+  select(-boro)
+  
+format_decile_metrics_table(mhmetrics, palettes = metric_palettes, opacity = 0.2)
+```
+
+#### The Bronx
+```{r, echo=FALSE}
+bxmetrics <- citywideborodecs %>%
+  filter(boro == 2) %>%
+  select(-boro)
+  
+format_decile_metrics_table(bxmetrics, palettes = metric_palettes, opacity = 0.2)
+```
+
+#### Brooklyn
+```{r, echo=FALSE}
+bkmetrics <- citywideborodecs %>%
+  filter(boro == 3) %>%
+  select(-boro)
+  
+format_decile_metrics_table(bkmetrics, palettes = metric_palettes, opacity = 0.2)
+```
+
+#### Queens
+```{r, echo=FALSE}
+qnmetrics <- citywideborodecs %>%
+  filter(boro == 4) %>%
+  select(-boro)
+  
+format_decile_metrics_table(qnmetrics, palettes = metric_palettes, opacity = 0.2)
+```
+
+#### Staten Island
+assessr::
+```{r, echo=FALSE}
+simetrics <- citywideborodecs %>%
+  filter(boro == 5) %>%
+  select(-boro)
+  
+format_decile_metrics_table(simetrics, palettes = metric_palettes, opacity = 0.2)
+```
+
+### Citywide Model Deciles By NBHD
+
+The following shows the metrics broken down by decile for each nbhd in the city. 
+
+```{r, echo=FALSE}
+format_decile_metrics_table(citywidenbhddecs, palettes = metric_palettes, opacity = 0.2)
+```
+
+## Boro-Specific
 
 The interactive map below visualizes key assessment accuracy metrics at the neighborhood level across New York City. Toggle between the different layers which shade neighborhoods by different performance indicators, such as: R, Spearman's Rank, Coefficient of Dispersion (COD), Price-related Differential (PRD), and Modified Kakwani Index (MKI). Clicking on a neighborhood reveals a popup with detailed statistics for that area.
 
-This map displays every neighborhood with at least two qualified sales in the boro-specific time period.
+This map displays every neighborhood with at least two qualified sales in the boro-specific time period. While the same model was applied to every borough, it was done so individually, and not as a citywide population.
 
 ```{r}
 
@@ -430,7 +559,8 @@ create_metrics_map(
 
 ## Metrics by Sale Price Decile/Quintile
 <br> 
-The following displays the metrics for each borough divided by sale price quintile (in Staten Island) or decile (for all other boroughs).
+The following displays the metrics  for each borough divided by sale price quintile (in Staten Island) or decile (for all other boroughs).
+
 
 ### Manhattan
 
@@ -454,13 +584,6 @@ format_decile_metrics_table(mhmetrics, palettes = metric_palettes, opacity = 0.2
 ### The Bronx
 
 ```{r, echo=FALSE}
-metric_palettes <- list(
-  r = color_pal_r,
-  spearmans = color_pal_r,
-  cod = color_pal_cod,
-  prd = color_pal_prd,
-  mki = color_pal_r
-)
 
 bxmetrics <- decilemetrics %>%
   filter(boro == 2) %>%
@@ -473,13 +596,6 @@ format_decile_metrics_table(bxmetrics, palettes = metric_palettes, opacity = 0.2
 ### Brooklyn
 
 ```{r, echo=FALSE}
-metric_palettes <- list(
-  r = color_pal_r,
-  spearmans = color_pal_r,
-  cod = color_pal_cod,
-  prd = color_pal_prd,
-  mki = color_pal_r
-)
 
 bkmetrics <- decilemetrics %>%
   filter(boro == 3) %>%
@@ -493,13 +609,6 @@ format_decile_metrics_table(bkmetrics, palettes = metric_palettes, opacity = 0.2
 ### Queens
 
 ```{r, echo=FALSE}
-metric_palettes <- list(
-  r = color_pal_r,
-  spearmans = color_pal_r,
-  cod = color_pal_cod,
-  prd = color_pal_prd,
-  mki = color_pal_r
-)
 
 qnmetrics <- decilemetrics %>%
   filter(boro == 4) %>%
@@ -510,13 +619,7 @@ format_decile_metrics_table(qnmetrics, palettes = metric_palettes, opacity = 0.2
 ### Staten Island
 
 ```{r, echo=FALSE}
-metric_palettes <- list(
-  r = color_pal_r,
-  spearmans = color_pal_r,
-  cod = color_pal_cod,
-  prd = color_pal_prd,
-  mki = color_pal_r
-)
+
 
 simetrics <- decilemetrics %>%
   filter(boro == 5) %>%

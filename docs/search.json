@@ -4,7 +4,7 @@
     "href": "models/QuartoCondosR.html",
     "title": "Condo Sales Model",
     "section": "",
-    "text": "Using sales from 2022-2024 in Manhattan, Brooklyn, and Queens, and sales from 2020-2024 in the Bronx and Staten Island to predict the sale price of condos across NYC, the most successful mixed model (or hierarchical linear model) to date is the following:\n\nlogtagrosscon ~ nbhd  + X + Y  + trend + UAF + elev +\n            (1 + STY  | BLOCK) + (1 + logsf + floor_extract| ADDRESS)\n\nThe interactive map below visualizes key assessment accuracy metrics at the neighborhood level across New York City. Toggle between the different layers which shade neighborhoods by different performance indicators, such as: R, Spearman’s Rank, Coefficient of Dispersion (COD), Price-related Differential (PRD), and Modified Kakwani Index (MKI). Clicking on a neighborhood reveals a popup with detailed statistics for that area.\nThis map displays every neighborhood with at least two qualified sales in the boro-specific time period.\n\ncreate_metrics_map(\n  data = neighborhood_shapefile, \n\n  by = \"FullNbhdName\",\n\n  center_lng = -73.99, \n  center_lat = 40.76, \n  zoom_level = 11\n)\n\n\n\n\n\n This map only displays neighborhoods with at least 10 qualified sales in the boro-specific period.\n\ncreate_metrics_map(\n  data = min10, \n  by = \"FullNbhdName\",\n\n  center_lng = -73.99, \n  center_lat = 40.76, \n  zoom_level = 11\n)",
+    "text": "Using sales from 2022-2024 in Manhattan, Brooklyn, and Queens, and sales from 2020-2024 in the Bronx and Staten Island to predict the sale price of condos across NYC, the most successful mixed model (or hierarchical linear model) to date is the following:\n\nlogtagrosscon ~ nbhd  + X + Y  + trend + UAF + elev +\n            (1 + STY  | BLOCK) + (1 + logsf + floor_extract| ADDRESS)\n\n\n\nThese tables show the metrics divided by decile on a model run on the entire city population simultaenously, rather than boro-by-boro. Below are deciles overall, deciles by boro, and deciles by nbhd.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nassessr::\n\n\n\n\n\n\n\n\n\n\nThe following shows the metrics broken down by decile for each nbhd in the city.\n\n\n\n\n\n\n\n\n\n\nThe interactive map below visualizes key assessment accuracy metrics at the neighborhood level across New York City. Toggle between the different layers which shade neighborhoods by different performance indicators, such as: R, Spearman’s Rank, Coefficient of Dispersion (COD), Price-related Differential (PRD), and Modified Kakwani Index (MKI). Clicking on a neighborhood reveals a popup with detailed statistics for that area.\nThis map displays every neighborhood with at least two qualified sales in the boro-specific time period. While the same model was applied to every borough, it was done so individually, and not as a citywide population.\n\ncreate_metrics_map(\n  data = neighborhood_shapefile, \n\n  by = \"FullNbhdName\",\n\n  center_lng = -73.99, \n  center_lat = 40.76, \n  zoom_level = 11\n)\n\n\n\n\n\n This map only displays neighborhoods with at least 10 qualified sales in the boro-specific period.\n\ncreate_metrics_map(\n  data = min10, \n  by = \"FullNbhdName\",\n\n  center_lng = -73.99, \n  center_lat = 40.76, \n  zoom_level = 11\n)\n\n\n\n\n\n\n\n\n The following displays the metrics for each borough divided by sale price quintile (in Staten Island) or decile (for all other boroughs).\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nThe table below summarizes how the tables and maps are shaded.",
     "crumbs": [
       "Home",
       "Models",
@@ -12,11 +12,23 @@
     ]
   },
   {
-    "objectID": "models/QuartoCondosR.html#mixed-model",
-    "href": "models/QuartoCondosR.html#mixed-model",
+    "objectID": "models/QuartoCondosR.html#citywide-model-deciles",
+    "href": "models/QuartoCondosR.html#citywide-model-deciles",
     "title": "Condo Sales Model",
     "section": "",
-    "text": "Using sales from 2022-2024 in Manhattan, Brooklyn, and Queens, and sales from 2020-2024 in the Bronx and Staten Island to predict the sale price of condos across NYC, the most successful mixed model (or hierarchical linear model) to date is the following:\n\nlogtagrosscon ~ nbhd  + X + Y  + trend + UAF + elev +\n            (1 + STY  | BLOCK) + (1 + logsf + floor_extract| ADDRESS)\n\nThe interactive map below visualizes key assessment accuracy metrics at the neighborhood level across New York City. Toggle between the different layers which shade neighborhoods by different performance indicators, such as: R, Spearman’s Rank, Coefficient of Dispersion (COD), Price-related Differential (PRD), and Modified Kakwani Index (MKI). Clicking on a neighborhood reveals a popup with detailed statistics for that area.\nThis map displays every neighborhood with at least two qualified sales in the boro-specific time period.\n\ncreate_metrics_map(\n  data = neighborhood_shapefile, \n\n  by = \"FullNbhdName\",\n\n  center_lng = -73.99, \n  center_lat = 40.76, \n  zoom_level = 11\n)\n\n\n\n\n\n This map only displays neighborhoods with at least 10 qualified sales in the boro-specific period.\n\ncreate_metrics_map(\n  data = min10, \n  by = \"FullNbhdName\",\n\n  center_lng = -73.99, \n  center_lat = 40.76, \n  zoom_level = 11\n)",
+    "text": "These tables show the metrics divided by decile on a model run on the entire city population simultaenously, rather than boro-by-boro. Below are deciles overall, deciles by boro, and deciles by nbhd.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nassessr::\n\n\n\n\n\n\n\n\n\n\nThe following shows the metrics broken down by decile for each nbhd in the city.",
+    "crumbs": [
+      "Home",
+      "Models",
+      "Condo Sales Model"
+    ]
+  },
+  {
+    "objectID": "models/QuartoCondosR.html#boro-specific",
+    "href": "models/QuartoCondosR.html#boro-specific",
+    "title": "Condo Sales Model",
+    "section": "",
+    "text": "The interactive map below visualizes key assessment accuracy metrics at the neighborhood level across New York City. Toggle between the different layers which shade neighborhoods by different performance indicators, such as: R, Spearman’s Rank, Coefficient of Dispersion (COD), Price-related Differential (PRD), and Modified Kakwani Index (MKI). Clicking on a neighborhood reveals a popup with detailed statistics for that area.\nThis map displays every neighborhood with at least two qualified sales in the boro-specific time period. While the same model was applied to every borough, it was done so individually, and not as a citywide population.\n\ncreate_metrics_map(\n  data = neighborhood_shapefile, \n\n  by = \"FullNbhdName\",\n\n  center_lng = -73.99, \n  center_lat = 40.76, \n  zoom_level = 11\n)\n\n\n\n\n\n This map only displays neighborhoods with at least 10 qualified sales in the boro-specific period.\n\ncreate_metrics_map(\n  data = min10, \n  by = \"FullNbhdName\",\n\n  center_lng = -73.99, \n  center_lat = 40.76, \n  zoom_level = 11\n)",
     "crumbs": [
       "Home",
       "Models",
@@ -27,8 +39,8 @@
     "objectID": "models/QuartoCondosR.html#metrics-by-sale-price-decilequintile",
     "href": "models/QuartoCondosR.html#metrics-by-sale-price-decilequintile",
     "title": "Condo Sales Model",
-    "section": "Metrics by Sale Price Decile/Quintile",
-    "text": "Metrics by Sale Price Decile/Quintile\n The following displays the metrics for each borough divided by sale price quintile (in Staten Island) or decile (for all other boroughs).\n\nManhattan\n\n\n\n\n\n\n\n\nThe Bronx\n\n\n\n\n\n\n\n\nBrooklyn\n\n\n\n\n\n\n\n\nQueens\n\n\n\n\n\n\n\n\nStaten Island",
+    "section": "",
+    "text": "The following displays the metrics for each borough divided by sale price quintile (in Staten Island) or decile (for all other boroughs).",
     "crumbs": [
       "Home",
       "Models",
@@ -39,8 +51,8 @@
     "objectID": "models/QuartoCondosR.html#notes",
     "href": "models/QuartoCondosR.html#notes",
     "title": "Condo Sales Model",
-    "section": "Notes",
-    "text": "Notes\nThe table below summarizes how the tables and maps are shaded.",
+    "section": "",
+    "text": "The table below summarizes how the tables and maps are shaded.",
     "crumbs": [
       "Home",
       "Models",
@@ -88,7 +100,7 @@
     "href": "data_dictionary/fdw_crosswalk.html",
     "title": "FDW to Vision Table Crosswalk",
     "section": "",
-    "text": "There are currently 227 tables within the Financial Data Warehouse (FDW) database from PTS, PDM, and CAMA.\n\n\n\n\n\nDatabase\nNumber of tables\n\n\n\n\nPTS\n88\n\n\nPDM\n73\n\n\nCAMA\n65\n\n\nNA\n1\n\n\n\n\n\n\n\n\nCrosswalk\nThe table below includes all FDW tables, but includes most complete information for those also in the V8_NEWYORK_NY_LIVE REAL_PROP schema. The primary keys column indicates the identifiers needed to obtain unique records in a database table.",
+    "text": "There are currently 227 tables within the Financial Data Warehouse (FDW) database from PTS, PDM, and CAMA.\n\n\n\n\n\nDatabase\nNumber of tables\n\n\n\n\nPTS\n88\n\n\nPDM\n73\n\n\nCAMA\n65\n\n\nNA\n1\n\n\n\n\n\n\nCrosswalk\nThe table below includes all FDW tables, but includes most complete information for those also in the V8_NEWYORK_NY_LIVE REAL_PROP schema. The primary keys column indicates the identifiers needed to obtain unique records in a database table.",
     "crumbs": [
       "Home",
       "Data Dictionary",
