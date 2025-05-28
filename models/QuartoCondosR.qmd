@@ -25,39 +25,14 @@ citywidedecs <- read_xlsx("data/Condo/CitywideMetricsHalves.xlsx",sheet = "Cityw
         .cols = -c(grosscondecile, cutoff, predicted, actual, n, accuracy, uniformity, vertical_equity), 
         .fns = ~round(.x, 4)
       ))
-half1decs <- read_xlsx("data/Condo/CitywideMetricsHalves.xlsx",sheet = "Half1", range = cell_rows(1:12)) %>%
+
+citywideborodecs <- read.csv("data/Condo/BoroJitterDecileMetricsFix.csv") %>%
     mutate(across(
-        .cols = -c(grosscondecile, cutoff, predicted, actual, n, accuracy, uniformity, vertical_equity), 
-        .fns = ~round(.x, 4)
-      )) %>% 
-    select(-predicted, -actual) %>%
-  relocate(cutoff,.after = grosscondecile)
-half2decs <- read_xlsx("data/Condo/CitywideMetricsHalves.xlsx",sheet = "Half2", range = cell_rows(1:12)) %>%
-    mutate(across(
-        .cols = -c(grosscondecile, cutoff, predicted, actual, n, accuracy, uniformity, vertical_equity), 
-        .fns = ~round(.x, 4)
-      )) %>% 
-    select(-predicted, -actual) %>%
-  relocate(cutoff,.after = grosscondecile)
-citywideborodecs <- read.csv("data/Condo/BoroJitterDecileMetrics.csv") %>%
-    mutate(across(
-        .cols = -c(boro, decile, predicted, actual, n, accuracy, uniformity, vertical_equity,clapp), 
+        .cols = -c(boro, borodecile, predicted, actual, n, accuracy, uniformity, vertical_equity,clapp), 
         .fns = ~round(.x, 4)
       )) %>% 
     select(-predicted, -actual) 
-half1borodecs <- read_xlsx("data/Condo/CitywideMetricsHalves.xlsx",sheet = "Half1", range = cell_rows(14:65)) %>%
-    mutate(across(
-        .cols = -c(boro, decile, predicted, actual, n, accuracy, uniformity, vertical_equity,clapp), 
-        .fns = ~round(.x, 4)
-      )) %>% 
-    select(-predicted, -actual)
-half2borodecs <- read_xlsx("data/Condo/CitywideMetricsHalves.xlsx",sheet = "Half2", range = cell_rows(14:65)) %>%
-  mutate(r = as.numeric(r)) %>%
-    mutate(across(
-        .cols = -c(boro, decile, predicted, actual, n, accuracy, uniformity, vertical_equity,clapp), 
-        .fns = ~round(.x, 4)
-      )) %>% 
-    select(-predicted, -actual) 
+
 citywidenbhddecs <- read_xlsx("data/Condo/CitywideMetricsHalves.xlsx",sheet = "Citywide", na = "NA", range = cell_rows(67:1083))%>%
     mutate(r = as.numeric(r)) %>%
     mutate(across(
@@ -66,31 +41,19 @@ citywidenbhddecs <- read_xlsx("data/Condo/CitywideMetricsHalves.xlsx",sheet = "C
       )) %>% 
     select(-predicted, -actual) %>%
   relocate(cutoff,.after = decile)
-half1nbhddecs <- read_xlsx("data/Condo/CitywideMetricsHalves.xlsx",sheet = "Half1",na = "NA", range = cell_rows(67:958)) %>%
-    mutate(across(
-        .cols = -c(boro, decile,  nbhd,cutoff, predicted, actual,median_sales_ratio, n, accuracy, uniformity, vertical_equity), 
-        .fns = ~round(.x, 4)
-      )) %>% 
-    select(-predicted, -actual) %>%
-  relocate(cutoff,.after = decile)
-half2nbhddecs <- read_xlsx("data/Condo/CitywideMetricsHalves.xlsx",sheet = "Half2",na = "NA", range = cell_rows(67:1278)) %>%
-    mutate(across(
-        .cols = -c(boro, decile,  nbhd,cutoff, predicted, actual,median_sales_ratio, n, accuracy, uniformity, vertical_equity), 
-        .fns = ~round(.x, 4)
-      )) %>% 
-    select(-predicted, -actual) %>%
-  relocate(cutoff,.after = decile)
+
+
 
 basedata <- read_csv("data/Condo/UAFElevBCATJoin.csv")
 nbhdmetrics <- read.csv("Data/Condo/NBHDMetrics.csv")
 
-decilemetrics <- read.csv("Data/Condo/DecileMetrics.csv") %>% 
+decilemetrics <- read.csv("Data/Condo/CompiledBoroNJMetrics.csv") %>% 
     mutate(across(
-        .cols = -c(boro, grosscondecile, cutoff, predicted, actual, n, accuracy, uniformity, vertical_equity), 
+        .cols = -c(boro, grosscondecile, predicted, actual, n, accuracy, uniformity, vertical_equity), 
         .fns = ~round(.x, 4)
       )) %>% 
-    select(-predicted, -actual) %>%
-  relocate(cutoff,.after = grosscondecile)
+    select(-predicted, -actual) 
+  #relocate(cutoff,.after = grosscondecile)
 
 ```
 
