@@ -14,6 +14,7 @@ library(leaflet)
 library(scales)
 library(DT)
 library(assessr)
+library(rineq)
 
 train_small = read_csv("models/Data/Coop/train_small.csv") %>%
     select(-1)
@@ -59,6 +60,7 @@ compute_inequality_metrics <- function(predicted, actual) {
             ci_population = NA,
             ci_sample = NA,
             ci_model = NA,
+            ci_rineq = NA,
 
             #regression appraoch
             mki_model = NA,
@@ -144,7 +146,9 @@ compute_inequality_metrics <- function(predicted, actual) {
         ci_assessr = ci_assessr,
         gini_assessr = gini_assessr,
         ki_assessr = ci_assessr - gini_assessr,
-        mki_assessr = ci_assessr / gini_assessr
+        mki_assessr = ci_assessr / gini_assessr,
+
+        ci_rineq = rineq::ci(actual, predicted)$concentration_index
     )
 }
 
