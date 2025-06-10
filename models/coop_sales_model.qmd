@@ -412,6 +412,30 @@ boro_metrics = readr::read_csv(glue::glue("{source_folder}/metrics.csv")) %>%
         .fns = ~round(.x, 4)
       ))
 
+boro_metrics_random_sample_1 = readr::read_csv(glue::glue("{source_folder}/metrics_random_sample_1.csv")) %>% 
+    mutate(across(
+        .cols = -c(boro, boro_name, predicted, actual, n, accuracy, uniformity, vertical_equity), 
+        .fns = ~round(.x, 4)
+      ))
+
+boro_metrics_random_sample_2 = readr::read_csv(glue::glue("{source_folder}/metrics_random_sample_2.csv")) %>% 
+    mutate(across(
+        .cols = -c(boro, boro_name, predicted, actual, n, accuracy, uniformity, vertical_equity), 
+        .fns = ~round(.x, 4)
+      ))
+
+boro_metrics_train_with_previous_sale = readr::read_csv(glue::glue("{source_folder}/metrics_train_with_previous_sale.csv")) %>% 
+    mutate(across(
+        .cols = -c(boro, boro_name, predicted, actual, n, accuracy, uniformity, vertical_equity), 
+        .fns = ~round(.x, 4)
+      ))
+
+boro_metrics_train_without_previous_sale = readr::read_csv(glue::glue("{source_folder}/metrics_train_without_previous_sale.csv")) %>% 
+    mutate(across(
+        .cols = -c(boro, boro_name, predicted, actual, n, accuracy, uniformity, vertical_equity), 
+        .fns = ~round(.x, 4)
+      ))
+
 neighborhood_metrics = readr::read_csv(glue::glue("{source_folder}/neighborhood_metrics.csv")) 
 
 block_metrics = readr::read_csv(glue::glue("{source_folder}/manhattan_block_metrics.csv")) %>% 
@@ -511,7 +535,8 @@ axis(1, at = 1:10, labels = 1:10)
 
 # Add shaded region between y = 0.9 and y = 1.1 (polygon behind the points)
 polygon(c(0:11, rev(0:11)), c(rep(0.9, 12), rev(rep(1.1, 12))),
-        col = "lightgreen", border = NA)  # Shaded region
+        col = rgb(144/255, 238/255, 144/255, alpha = 0.5),  # Shaded region
+        border = NA)  
 
 # Add points (text labels) for each borough
 points(boro_decile_metrics$decile, boro_decile_metrics$mki, 
@@ -544,14 +569,109 @@ neighborhood_decile_metrics_trim = neighborhood_decile_metrics %>%
 boxplot(mki ~ decile, data = neighborhood_decile_metrics,
         xlab = "Decile (of GROSSCON)", ylab = "MKI", main = "Neighborhood MKI by GROSSCON Decile")
 
-# Add horizontal line at y = 1
-abline(h = 1, col = "green", lty = 2, lwd = 2)
+# Add shaded region between y = 0.9 and y = 1.1 (polygon behind the points)
+polygon(c(0:11, rev(0:11)), c(rep(0.9, 12), rev(rep(1.1, 12))),
+        col = rgb(144/255, 238/255, 144/255, alpha = 0.5),  # Shaded region
+        border = NA)  
 ```
 
 The table below contains the source data used to generate the plot above.
 
 ```{r, echo=FALSE}
 format_metrics_table(neighborhood_decile_metrics_trim, palettes = metric_palettes, opacity = 0.2, exclude_cols=c("NEIGHBORHOOD", "boro_name"))
+```
+
+
+### Previous Sales
+
+This is the current base model to use for previous sales analysis. The model is a slightly altered version of the base model, due to smaller sample size and thus limitations on the number of random effects possible to include. 
+
+```{r, results='hide'}
+log_grosscon ~ BC + xcoord_norm + ycoord_norm + affordable +
+    park_dist + cultural_facility_dist + subway_dist +
+    gym + doorman + laundry +
+    (1 | boro) +
+    (1 + stories_norm + log_floor_norm | block) +
+    (1 + BEDROOMS_norm + log_sqft_norm + BATHROOMS_norm | COOPID)
+```
+
+#### Results from splitting up the model into two different groups.
+
+Train with previous sale data:
+
+```{r, echo=FALSE}
+format_metrics_table(boro_metrics_train_with_previous_sale, palettes = metric_palettes, opacity = 0.2)
+```
+
+Train without any record of previous sale data:
+
+```{r, echo=FALSE}
+format_metrics_table(boro_metrics_train_without_previous_sale, palettes = metric_palettes, opacity = 0.2)
+```
+
+#### Random Samples
+
+By simply lowering the sample size, we do get slightly better results even if just randomly splitting the training set into two groups. See results below for two equal sized groups -- we see a model improvement of roughly .7-1 in city-wide COD and ~1 point reduction in COD in each borough. These are not remarkably different from the two groups that do/do not have previous sales.
+
+
+Random Sample 1 Results:
+
+```{r, echo=FALSE}
+format_metrics_table(boro_metrics_random_sample_1, palettes = metric_palettes, opacity = 0.2)
+```
+
+Random Sample 2 Results:
+
+```{r, echo=FALSE}
+format_metrics_table(boro_metrics_random_sample_2, palettes = metric_palettes, opacity = 0.2)
+```
+
+#### Differences between sales that have prior sales and those that do not
+
+```{r, include=FALSE}
+get_summary_differences = function(variable){
+    summary_differences = train_df %>% 
+    mutate(has_prev_sale = ifelse(prev_sale == 1, "has_previous_sale", "has_no_previous_sale")) %>% 
+    group_by(!!sym(variable), has_prev_sale) %>% 
+    count() %>% 
+    tidyr::spread(has_prev_sale, n) %>% 
+    mutate(
+        has_previous_sale = has_previous_sale/nrow(train_df %>% filter(prev_sale == 1)),
+        has_no_previous_sale = has_no_previous_sale/nrow(train_df %>% filter(prev_sale == 0)),
+        variable = variable
+    ) %>% 
+    rename(
+        group = !!sym(variable),
+    ) %>% 
+    mutate(
+        group = as.character(group)
+    ) %>% 
+    select(variable, group, everything())
+    
+    return(summary_differences)
+}
+```
+
+Below is a summary of differences for categorical variables used in the model. Overall, the two datasets look largely very similar, with the maximum absolute difference between the two datasets at 3%. All the other variables have very similar frequencies across the two datasets.
+
+```{r}
+datatable(rbind(
+    get_summary_differences("BORO"),
+    get_summary_differences("BC"),
+    get_summary_differences("affordable"),
+    get_summary_differences("gym"),
+    get_summary_differences("laundry"),
+    get_summary_differences("doorman"),
+    get_summary_differences("BEDROOMS"),
+    get_summary_differences("BATHROOMS"),
+    get_summary_differences("stories"),
+    get_summary_differences("floor"),
+) %>% 
+    mutate(
+        absolute_difference = abs(has_no_previous_sale-has_previous_sale)
+    ) %>% 
+    arrange(desc(absolute_difference))
+)
 ```
 
 ### Maps
