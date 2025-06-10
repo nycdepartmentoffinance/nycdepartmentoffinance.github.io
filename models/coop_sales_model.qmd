@@ -140,19 +140,50 @@ color_pal_mki <- function(x) {
   })
 }
 
+color_pal_ki <- function(x) {
+  sapply(x, function(val) {
+    if (is.na(val)) return("#999999")  # gray for NA
+
+    if (abs(val) > 0.05) {
+      return("#FF0000")  # solid red for extreme high values
+    } else if (abs(val) > 0.02 && abs(val) <= 0.05) {
+      # Yellow to Red for values >1.1 to 1.4
+      intensity <- rescale(abs(val), from = c(0.02, 0.05), to = c(1, 0))
+      return(rgb(1, intensity, 0))  # yellow to red
+    } else {
+      return("#00FF00")
+    }
+  })
+}
+
+color_pal_p_value <- function(x) {
+  sapply(x, function(val) {
+    if (is.na(val)) return("#999999")  # gray for NA
+
+    if (val > 0.5) {
+      return("#FF0000")  # solid red for extreme high values
+    } else if (val > 0.1 && val <= 0.5) {
+      # Yellow to Red
+      intensity <- rescale(val, from = c(0.1, 0.5), to = c(1, 0))
+      return(rgb(1, intensity, 0))  # yellow to red
+    } else {
+      return("#00FF00")  # solid yellow as center plateau
+    }
+  })
+}
 
 #table formatting
-format_metrics_table <- function(data, palettes, opacity = 0.2, exclude_cols = c("ci", "gini")) {
+format_metrics_table <- function(data, palettes, opacity = 0.2, exclude_cols = c()) {
   # Add color columns using provided palettes and opacity
   data <- data %>%
     mutate(across(
       .cols = names(palettes),
       .fns = ~ hex_with_opacity(palettes[[cur_column()]](.x), opacity),
-      .names = "color_{.col}"
+      .names = "color_pal_{.col}"
     ))
   
   # Determine which columns to show
-  visible_cols <- setdiff(names(data), c(paste0("color_", names(palettes)), exclude_cols))
+  visible_cols <- setdiff(names(data), c(paste0("color_pal_", names(palettes)), exclude_cols))
   
   # Build the datatable
   dt <- datatable(
@@ -166,7 +197,7 @@ format_metrics_table <- function(data, palettes, opacity = 0.2, exclude_cols = c
       metric,
       backgroundColor = styleEqual(
         data[[metric]],
-        data[[paste0("color_", metric)]]
+        data[[paste0("color_pal_", metric)]]
       )
     )
   }
@@ -366,7 +397,6 @@ hex_with_opacity <- function(hex, alpha = 1) {
 
   # Convert alpha (0–1) to 2-digit hex
   alpha_hex <- toupper(sprintf("%02X", round(alpha * 255)))
-
   paste0("#", hex, alpha_hex)
 }
 
@@ -381,13 +411,6 @@ boro_metrics = readr::read_csv(glue::glue("{source_folder}/metrics.csv")) %>%
         .cols = -c(boro, boro_name, predicted, actual, n, accuracy, uniformity, vertical_equity), 
         .fns = ~round(.x, 4)
       ))
-
-# comps_boro_metrics = readr::read_csv(glue::glue("{source_folder}/comps_metrics.csv")) %>% 
-#     mutate(across(
-#         .cols = -c(boro, predicted, n, accuracy, uniformity, vertical_equity), 
-#         .fns = ~round(.x, 4)
-#       )) %>% 
-#     select(-predicted, -predicted)
 
 neighborhood_metrics = readr::read_csv(glue::glue("{source_folder}/neighborhood_metrics.csv")) 
 
@@ -421,6 +444,20 @@ block_shapefile = sf::st_read("data/TAX_BLOCK_POLYGON_LAYER/TAX_BLOCK_POLYGON_LA
 
 train <- sf::st_as_sf(train_df, coords= c("xcoord","ycoord"), crs=2263) %>% 
     st_transform(crs=4326) 
+
+metric_palettes <- list(
+  median_sales_ratio = color_pal_mki,
+  r = color_pal_r,
+  spearmans = color_pal_r,
+  cod = color_pal_cod,
+  prd = color_pal_prd,
+  mki = color_pal_mki,
+  ki = color_pal_ki,
+  gini_p_value = color_pal_p_value,
+  ci_p_value = color_pal_p_value,
+  ki_p_value = color_pal_p_value,
+  mki_p_value = color_pal_p_value
+)
 ```
 
 ## Mixed Model
@@ -428,77 +465,27 @@ train <- sf::st_as_sf(train_df, coords= c("xcoord","ycoord"), crs=2263) %>%
 Using sales from 2022-2024 to predict the sale price of co-ops across NYC, the most successful mixed model (or hierarchical linear model) to date is the following:
 
 ```{r, results='hide'}
-log_grosscon ~ NEIGHBORHOOD + BC + xcoord + ycoord + affordable +
-    park_dist + cultural_facility_dist + subway_dist + gym + doorman + laundry +
-    (0 + stories_norm | block) +
-    (1 + BEDROOMS_norm + BATHROOMS_norm + log_floor_norm + log_sqft_norm | COOPID)
+log_grosscon ~ BC + xcoord_norm + ycoord_norm + affordable +
+    park_dist + cultural_facility_dist + subway_dist +
+    gym + doorman + laundry +
+    (1 | boro) +
+    (1 + stories_norm + log_floor_norm | block) +
+    (1 + BEDROOMS_norm + log_sqft_norm + BATHROOMS_norm | COOPID)
 ```
 
-### City-wide
+### City-wide Metrics
 
 To assess variation in model performance across the city, key assessment accuracy metrics are summarized at the borough level in the table below. For an overview of how all the visuals are shaded, see [notes](#notes).
 
 ```{r, echo=FALSE}
-metric_palettes <- list(
-  r = color_pal_r,
-  spearmans = color_pal_r,
-  cod = color_pal_cod,
-  prd = color_pal_prd,
-  mki = color_pal_mki
-)
-
 format_metrics_table(boro_metrics, palettes = metric_palettes, opacity = 0.2)
 ```
 
-<br>
+### Model Performance by Sale Price Decile
 
-The interactive map below visualizes key assessment accuracy metrics at the neighborhood level across New York City. Toggle between the different layers which shade neighborhoods by different performance indicators, such as: R, Spearman's Rank, Coefficient of Dispersion (COD), Price-related Differential (PRD), and Modified Kakwani Index (MKI). Clicking on a neighborhood reveals a popup with detailed statistics for that area.
+#### By Borough
 
-***Note:** Neighborhoods with less than 10 sales used to train the model do not display any accuracy metrics.*
-
-```{r}
-create_metrics_map(
-  data = neighborhood_shapefile, 
-  by = "NBHD_NAME",
-  center_lng = -73.99, 
-  center_lat = 40.76, 
-  zoom_level = 11
-)
-```
-
-### Manhattan
-
-The map below displays the model's performance in Manhattan at the block level. Toggle between the layers to display different accuracy metrics or click on a block to more carefully inspect how well the model performs on sales on that block.
-
-```{r}
-create_metrics_map(
-  data = block_shapefile, 
-  by = "BLOCK",
-  center_lng = -73.96, 
-  center_lat = 40.78, 
-  zoom_level = 12
-)
-```
-
-<br> This map shows a breakdown of the `r scales::comma(nrow(train[train$boro == 1,]))` Manhattan sales used to train the model, shaded by either the sale price, predicted sale price, or the sales ratio. Clicking on a sale reveals a popup with the sale's characteristics used by the model to determined it's predicted value (dependent variables).
-
-```{r}
-create_point_map(
-  data = train[train$boro == 1,],
-  dependent_variables = c("NBHD_NAME", "BC", "park_dist", "cultural_facility_dist", "subway_dist",
-    "affordable","gym", "laundry", "doorman","stories","floor","BEDROOMS","BATHROOMS","log_sqft", "sqft"),
-  center_lng = -73.96, 
-  center_lat = 40.78, 
-  zoom_level = 12
-)
-```
-
-
-### By Sale Price Decile
-
-The two tables below summarize the model's performance by predicted sale price (GROSSCON) decile, which are calculated at the boro level (e.g. the upper threshold of bottom 10% of sales in Manhattan is \$400,000 while it is \$175,000 in Staten Island).
-
-#### Borough Metrics by Sale Price Decile
+The two tables below summarize the model's performance by predicted sale price (GROSSCON) decile, which are calculated at the borough level (e.g. the upper threshold of bottom 10% of sales in Manhattan is \$400,000 while it is \$175,000 in Staten Island).
 
 ```{r, warning=FALSE, echo=FALSE}
 # Ensure decile is a factor with levels in the desired order
@@ -533,24 +520,15 @@ points(boro_decile_metrics$decile, boro_decile_metrics$mki,
 # Optional: Add a legend for boroughs
 legend("top", legend = c("MN", "BX", "BK", "QN", "SI"),
        col = boro_colors, pch = 19, horiz = TRUE)
-
 ```
 
 Here is the source data to more easily explore the raw data from the plot above.
 
 ```{r, echo=FALSE}
-metric_palettes <- list(
-  r = color_pal_r,
-  spearmans = color_pal_r,
-  cod = color_pal_cod,
-  prd = color_pal_prd,
-  mki = color_pal_mki
-)
-
-format_metrics_table(boro_decile_metrics, palettes = metric_palettes, opacity = 0.2, exclude_cols=c())
+format_metrics_table(boro_decile_metrics, palettes = metric_palettes, opacity = 0.2, exclude_cols=c("boro_num"))
 ```
 
-#### Neighborhood Metrics by Sale Price Decile
+#### By Neighborhood
 
 The variation of MKI by neighborhood is generally consistent across deciles of GROSSCON, largely ranging around 1 (ideal value), though the mean of most deciles is below 1. There are more outliers in the 4-8 decile ranges, indicating that there might be a poorer model fit in the middle ranges of the dataset.
 
@@ -558,6 +536,9 @@ The variation of MKI by neighborhood is generally consistent across deciles of G
 # Ensure decile is a factor with levels in the desired order
 neighborhood_decile_metrics$decile <- factor(neighborhood_decile_metrics$decile,
                                               levels = as.character(1:10))
+
+neighborhood_decile_metrics_trim = neighborhood_decile_metrics %>% 
+    filter(!is.na(median_sales_ratio))
 
 # Plot
 boxplot(mki ~ decile, data = neighborhood_decile_metrics,
@@ -570,22 +551,59 @@ abline(h = 1, col = "green", lty = 2, lwd = 2)
 The table below contains the source data used to generate the plot above.
 
 ```{r, echo=FALSE}
-metric_palettes <- list(
-  r = color_pal_r,
-  spearmans = color_pal_r,
-  cod = color_pal_cod,
-  prd = color_pal_prd,
-  mki = color_pal_mki
+format_metrics_table(neighborhood_decile_metrics_trim, palettes = metric_palettes, opacity = 0.2, exclude_cols=c("NEIGHBORHOOD", "boro_name"))
+```
+
+### Maps
+
+#### Metrics by Neighborhood
+
+The interactive map below visualizes key assessment accuracy metrics at the neighborhood level across New York City. Toggle between the different layers which shade neighborhoods by different performance indicators, such as: R, Spearman's Rank, Coefficient of Dispersion (COD), Price-related Differential (PRD), and Modified Kakwani Index (MKI). Clicking on a neighborhood reveals a popup with detailed statistics for that area.
+
+***Note:** Neighborhoods with less than 10 sales used to train the model do not display any accuracy metrics.*
+
+```{r}
+create_metrics_map(
+  data = neighborhood_shapefile, 
+  by = "NBHD_NAME",
+  center_lng = -73.99, 
+  center_lat = 40.76, 
+  zoom_level = 11
 )
-
-neighborhood_decile_metrics_trim = neighborhood_decile_metrics %>% 
-    select(-NEIGHBORHOOD, -boro_name)
-
-format_metrics_table(neighborhood_decile_metrics_trim, palettes = metric_palettes, opacity = 0.2, exclude_cols=c())
 ```
 
 
-### Sale Price Distribution by COOP building
+#### Metrics by Manhattan Block
+
+The map below displays the model's performance in Manhattan at the block level. Toggle between the layers to display different accuracy metrics or click on a block to more carefully inspect how well the model performs on sales on that block.
+
+```{r}
+create_metrics_map(
+  data = block_shapefile, 
+  by = "BLOCK",
+  center_lng = -73.96, 
+  center_lat = 40.78, 
+  zoom_level = 12
+)
+```
+
+#### Manhattan Training Data (Sales)
+
+This map shows a breakdown of the `r scales::comma(nrow(train[train$boro == 1,]))` Manhattan sales used to train the model, shaded by either the sale price, predicted sale price, or the sales ratio. Clicking on a sale reveals a popup with the sale's characteristics used by the model to determined it's predicted value (dependent variables).
+
+```{r}
+create_point_map(
+  data = train[train$boro == 1,],
+  dependent_variables = c("NBHD_NAME", "BC", "park_dist", "cultural_facility_dist", "subway_dist",
+    "affordable","gym", "laundry", "doorman","stories","floor","BEDROOMS","BATHROOMS","log_sqft", "sqft"),
+  center_lng = -73.96, 
+  center_lat = 40.78, 
+  zoom_level = 12
+)
+```
+
+
+#### Sale Price Distribution by COOP building
 
 The point map below displays the standard deviation of the sale prices in each building within the training data set. If you click on a building, you can explore the min, max, median, standard deviation, and the list of units sold.
 
@@ -615,26 +633,6 @@ create_building_map(
 )
 ```
 
-
-```{r, include=FALSE}
-repeats = train %>% 
-    group_by(GROSSCON, NBHD) %>% 
-    summarize(n=n())
-
-plot(repeats$GROSSCON, repeats$n)
-```
-
-```{r, include=FALSE}
-train_trim = train %>% 
-    select(bbl, GROSSCON, COOPUNITKEY) %>% 
-    group_by(bbl, GROSSCON) %>% 
-    filter(n() > 1) %>%
-    ungroup()
-
-write_csv(train_trim, "Data/Coop/repeat_sale_price_same_building.csv")
-```
-
-
 ## Notes {#notes}
 
 The table below summarizes how the tables and maps are shaded.
@@ -648,7 +646,9 @@ color_pal_summary <- data.frame(
     "color_pal_prd", 
     "color_pal_sales_ratio", 
     "color_pal_grosscon",
-    "color_pal_mki"
+    "color_pal_mki",
+    "color_pal_ki",
+    "color_pal_p_value"
   ),
   green_range = c(
     "≥ 0.95", 
@@ -656,7 +656,9 @@ color_pal_summary <- data.frame(
     "0.98–1.03", 
     "0.9–1.1", 
     "N/A",
-    "0.9–1.1"
+    "0.9–1.1",
+    "-0.02-0.02",
+    "<0.1"
   ),
   below_range = c(
     "0.4–0.95: Red to Yellow to Green", 
@@ -664,7 +666,9 @@ color_pal_summary <- data.frame(
     "0.90–0.98: Dark Blue to Light Blue (Progressive)", 
     "0.6–0.9: Dark Blue to Light Blue (Progressive)", 
     "N/A",
-    "0.4–0.9: Red to Yellow"
+    "0.4–0.9: Red to Yellow",
+    "-0.05- -0.02: Red to Yellow",
+    "N/A"
   ),
   above_range = c(
     "N/A", 
@@ -672,7 +676,9 @@ color_pal_summary <- data.frame(
     "1.03–1.10: Light to Dark Red (Regressive)", 
     "1.1–1.4: Light to Dark Red (Regressive)", 
     "Blue gradient ($200K–$5M)",
-    "1.1–1.4: Yellow to Red"
+    "1.1–1.4: Yellow to Red",
+    "0.02-0.05: Yellow to Red",
+    ">0.1"
   ),
   stringsAsFactors = FALSE
 )

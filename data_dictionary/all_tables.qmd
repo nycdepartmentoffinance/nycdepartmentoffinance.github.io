@@ -31,7 +31,7 @@ readLines("data/table_list.csv") %>%
 
 The table below includes a list of core database tables available in Vision8 (`V8_NEWYORK_NY_LIVE`), Financial Data Warehouse (`FDW`), and IAS (`IAS`).
 
-Note: for brevity, this table excludes tables with the following schemas: `"dbo", "COMMON", "internal", "DATA_BACKUP", "DataBackup", "CONV", "NYC_STAGE"`. For a comprehensive list of tables that includes these schemas, explore the source data [here](https://github.com/nycdepartmentoffinance/nycdepartmentoffinance.github.io/tree/main/tables).
+Note: for brevity, this table excludes tables with the following schemas: `"dbo", "COMMON", "internal", "DATA_BACKUP", "DataBackup", "CONV", "NYC_STAGE"`. For a comprehensive list of tables that includes these schemas, explore the source data [here](https://github.com/nycdepartmentoffinance/nycdepartmentoffinance.github.io/tree/main/data_dictionary/data).
 
 ```{r}
 #| echo: false
