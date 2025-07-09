@@ -6,7 +6,7 @@ repo-url: https://github.com/nycdepartmentoffinance/nycdepartmentoffinance.githu
 
 ```{r, include=FALSE}
 # read env file to get proxy set up to work
-readRenviron("Data/.Renviron")
+readRenviron("data/.Renviron") # need to call your own renviron file and not add to github
 options(scipen=99999)
 
 library(readxl)

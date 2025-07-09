@@ -108,6 +108,28 @@
     ]
   },
   {
+    "objectID": "assessor_districts/index.html",
+    "href": "assessor_districts/index.html",
+    "title": "Assessor Districts",
+    "section": "",
+    "text": "See below for the Assessor District Map for FY27. Feel free to toggle between Districts, Blocks and Section Volume layers by using the check marks on the top right hand corner of the map.",
+    "crumbs": [
+      "Home",
+      "Assessor Districts"
+    ]
+  },
+  {
+    "objectID": "assessor_districts/index.html#interactive-map",
+    "href": "assessor_districts/index.html#interactive-map",
+    "title": "Assessor Districts",
+    "section": "",
+    "text": "See below for the Assessor District Map for FY27. Feel free to toggle between Districts, Blocks and Section Volume layers by using the check marks on the top right hand corner of the map.",
+    "crumbs": [
+      "Home",
+      "Assessor Districts"
+    ]
+  },
+  {
     "objectID": "data_dictionary/all_tables.html",
     "href": "data_dictionary/all_tables.html",
     "title": "All Tables",
@@ -183,7 +205,7 @@
     "href": "models/index.html",
     "title": "Models",
     "section": "",
-    "text": "Explore the following pages that help document model results for different types of properties in NYC:\n\nCo-op Sales Model\nCondo Sales Model",
+    "text": "Explore the following pages that help document model results for different types of properties in NYC:\n\nCo-op Sales Model\nCo-op Sales Model: Comparable Properties\nCondo Sales Model",
     "crumbs": [
       "Home",
       "Models"

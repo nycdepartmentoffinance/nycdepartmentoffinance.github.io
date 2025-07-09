@@ -1,0 +1,135 @@
+---
+title: "Assessor Districts"
+execute:
+  cache: true  # Cache chunk results
+---
+
+## Interactive Map
+
+See below for the Assessor District Map for FY27. Feel free to toggle between Districts,
+Blocks and Section Volume layers by using the check marks on the top right hand
+corner of the map.
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE, results='hide'}
+# Load libraries
+library(leaflet)
+library(htmltools)
+library(magrittr)
+library(sf)
+library(RColorBrewer)   # For color palettes (used by Spectral palette)
+library(htmlwidgets)    # For rendering interactive widgets in Quarto
+library(dplyr)  # For data manipulation (if needed for labels/data prep)
+
+# Define paths
+shapefile_path1 <- "data/FY27_DistBoundaries_Final/FY27_DistBoundaries_Final.shp"
+shapefile_path2 <- "data/FY27_Blocks_Dissolve_Clip/FY27_Blocks_Dissolve_Clip.shp"
+shapefile_path3 <- "data/New_SecVolCombined_Filled/New_SecVolCombined_Filled.shp"
+
+# Import the shapefiles
+Dist_shapefile = sf::st_read(shapefile_path1) %>% 
+  st_transform(crs=4326)
+Blocks = sf::st_read(shapefile_path2) %>% 
+  st_transform(crs=4326)
+BSV = sf::st_read(shapefile_path3) %>% 
+  st_transform(crs=4326)
+
+BSV <- BSV[, c("BSV", "geometry")]
+Blocks <- Blocks[, c("BLOCK", "geometry")]
+
+# Create labels
+labels <- sprintf("District: %s", Dist_shapefile$NewDist) %>% 
+    lapply(htmltools::HTML)
+block_labels <- sprintf("Block: %s", Blocks$BLOCK) %>% 
+    lapply(htmltools::HTML)
+bsv_labels <- sprintf("BSV: %s", BSV$BSV) %>% 
+    lapply(htmltools::HTML)  # Adjust field name if needed  
+
+# Create repeating 11-color palette
+spectral_11 <- RColorBrewer::brewer.pal(11, "Spectral")
+
+# Create a function that assigns colors cyclically
+create_cyclic_palette <- function(values, colors) {
+  unique_vals <- unique(values)
+  # Assign colors cyclically - repeat the 11 colors as needed
+  color_mapping <- setNames(colors[((seq_along(unique_vals) - 1) %% length(colors)) + 1], unique_vals)
+  return(colorFactor(palette = color_mapping, domain = values))
+}
+
+pal <- create_cyclic_palette(Dist_shapefile$NewDist, spectral_11)
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+# Add custom CSS to control map size
+
+# Build the map with explicit size
+map <- leaflet(height=800) %>%
+  addProviderTiles(providers$CartoDB.Positron) %>%
+
+  # Set map extent tightly around NYC
+  fitBounds(lng1 = -74.3, lat1 = 40.48, lng2 = -73.65, lat2 = 40.95) %>%
+  
+  # Districts layer (added first so it's at the bottom)
+  addPolygons(
+    data = Dist_shapefile,
+    fillColor = ~pal(NewDist),
+    weight = 2,
+    color = "white",
+    fillOpacity = 0.55,
+    opacity = 1,
+    dashArray = "3",
+    highlightOptions = highlightOptions(
+      weight = 5, color = "#666", dashArray = "", fillOpacity = 0.55, bringToFront = FALSE  # Changed to FALSE
+    ),
+    label = labels,
+    labelOptions = labelOptions(
+      style = list("font-weight" = "normal", padding = "3px 8px"),
+      textsize = "15px",
+      direction = "auto"
+    ),
+    group = "Districts"
+  ) %>%
+  
+  # Blocks (added after districts, so labels appear on top)
+  addPolygons(
+    data = Blocks,
+    fillColor = "white",
+    fillOpacity = 0.5,
+    color = "black",
+    weight = 0.5,
+    label = block_labels,
+    labelOptions = labelOptions(
+      style = list("font-weight" = "normal", padding = "2px 6px"),
+      textsize = "12px",
+      direction = "auto"
+    ),
+    group = "Blocks"
+  ) %>%
+  
+  # SecVol (added last, so these labels are on top of everything)
+  addPolygons(
+    data = BSV,
+    fillColor = "white",
+    fillOpacity = 0.5,
+    color = "black",
+    weight = 0.5,
+    label = bsv_labels,
+    labelOptions = labelOptions(
+      style = list("font-weight" = "normal", padding = "2px 6px"),
+      textsize = "12px",
+      direction = "auto"
+    ),
+    group = "SecVol"
+  ) %>%
+  
+  # Layer control with only Districts checked by default
+  addLayersControl(
+    overlayGroups = c("Districts", "Blocks", "SecVol"),
+    options = layersControlOptions(collapsed = FALSE)
+  ) %>%
+  
+  # Hide Blocks and SecVol initially
+  hideGroup(c("Blocks", "SecVol"))
+
+# Display the Map
+map
+```
