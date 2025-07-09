@@ -1,6 +1,6 @@
 {
   "R": {
-    "Version": "4.4.3",
+    "Version": "4.4.1",
     "Repositories": [
       {
         "Name": "CRAN",
@@ -119,8 +119,7 @@
       "NeedsCompilation": "yes",
       "Author": "Matt Wand [aut], Cleve Moler [ctb] (LINPACK routines in src/d*), Brian Ripley [trl, cre, ctb] (R port and updates)",
       "Maintainer": "Brian Ripley <ripley@stats.ox.ac.uk>",
-      "Repository": "RSPM",
-      "Encoding": "UTF-8"
+      "Repository": "CRAN"
     },
     "MASS": {
       "Package": "MASS",
@@ -326,7 +325,8 @@
       "Description": "Provides color schemes for maps (and other graphics) designed by Cynthia Brewer as described at http://colorbrewer2.org.",
       "License": "Apache License 2.0",
       "NeedsCompilation": "no",
-      "Repository": "CRAN"
+      "Repository": "https://packagemanager.posit.co/cran/2024-09-30",
+      "Encoding": "UTF-8"
     },
     "Rcpp": {
       "Package": "Rcpp",
@@ -420,15 +420,14 @@
       "Depends": [
         "R (>= 3.5.0)"
       ],
+      "Author": "Dan Snow [aut, cre], William Ridgeway [ctb], Rob Ross [ctb], Nathan Dignazio [ctb], Damon Major [ctb]",
+      "Maintainer": "Dan Snow <daniel.snow@cookcountyil.gov>",
       "RemoteType": "github",
       "RemoteHost": "api.github.com",
-      "RemoteRepo": "assessr",
       "RemoteUsername": "ccao-data",
-      "RemoteRef": "HEAD",
-      "RemoteSha": "6ae99ac69b6857e58dbb811e6c8c814865a89e57",
-      "NeedsCompilation": "no",
-      "Author": "Dan Snow [aut, cre], William Ridgeway [ctb], Rob Ross [ctb], Nathan Dignazio [ctb], Damon Major [ctb]",
-      "Maintainer": "Dan Snow <daniel.snow@cookcountyil.gov>"
+      "RemoteRepo": "assessr",
+      "RemoteRef": "master",
+      "RemoteSha": "6ae99ac69b6857e58dbb811e6c8c814865a89e57"
     },
     "base64enc": {
       "Package": "base64enc",
@@ -686,8 +685,7 @@
       "NeedsCompilation": "yes",
       "Author": "Brian Ripley [aut, cre, cph], William Venables [cph]",
       "Maintainer": "Brian Ripley <ripley@stats.ox.ac.uk>",
-      "Repository": "RSPM",
-      "Encoding": "UTF-8"
+      "Repository": "CRAN"
     },
     "classInt": {
       "Package": "classInt",
@@ -856,7 +854,7 @@
       "NeedsCompilation": "yes",
       "Author": "Ross Ihaka [aut], Paul Murrell [aut] (<https://orcid.org/0000-0002-3224-8858>), Kurt Hornik [aut] (<https://orcid.org/0000-0003-4198-9911>), Jason C. Fisher [aut] (<https://orcid.org/0000-0001-9032-8912>), Reto Stauffer [aut] (<https://orcid.org/0000-0002-3798-5507>), Claus O. Wilke [aut] (<https://orcid.org/0000-0002-7470-9261>), Claire D. McWhite [aut] (<https://orcid.org/0000-0001-7346-3047>), Achim Zeileis [aut, cre] (<https://orcid.org/0000-0003-0918-3766>)",
       "Maintainer": "Achim Zeileis <Achim.Zeileis@R-project.org>",
-      "Repository": "CRAN"
+      "Repository": "https://packagemanager.posit.co/cran/2024-09-30"
     },
     "cpp11": {
       "Package": "cpp11",
@@ -1179,7 +1177,7 @@
       "NeedsCompilation": "yes",
       "Author": "Thomas Lin Pedersen [cre, aut] (<https://orcid.org/0000-0002-5147-4711>), Berendea Nicolae [aut] (Author of the ColorSpace C++ library), Romain François [aut] (<https://orcid.org/0000-0002-2444-4226>), Posit, PBC [cph, fnd]",
       "Maintainer": "Thomas Lin Pedersen <thomas.pedersen@posit.co>",
-      "Repository": "CRAN"
+      "Repository": "https://packagemanager.posit.co/cran/2024-09-30"
     },
     "fastmap": {
       "Package": "fastmap",
@@ -1676,7 +1674,7 @@
       "NeedsCompilation": "yes",
       "Author": "Hadley Wickham [aut, cre] (<https://orcid.org/0000-0003-4757-117X>), Claus O. Wilke [aut] (Original author, <https://orcid.org/0000-0002-7470-9261>), Thomas Lin Pedersen [aut] (<https://orcid.org/0000-0002-5147-4711>)",
       "Maintainer": "Hadley Wickham <hadley@posit.co>",
-      "Repository": "CRAN"
+      "Repository": "https://packagemanager.posit.co/cran/2024-09-30"
     },
     "jquerylib": {
       "Package": "jquerylib",
@@ -1811,7 +1809,8 @@
         "stats",
         "graphics"
       ],
-      "Repository": "CRAN"
+      "Repository": "https://packagemanager.posit.co/cran/2024-09-30",
+      "Encoding": "UTF-8"
     },
     "later": {
       "Package": "later",
@@ -2202,7 +2201,7 @@
       "Encoding": "UTF-8",
       "BugReports": "https://github.com/cwickham/munsell/issues",
       "NeedsCompilation": "no",
-      "Repository": "CRAN"
+      "Repository": "https://packagemanager.posit.co/cran/2024-09-30"
     },
     "nlme": {
       "Package": "nlme",
@@ -3059,7 +3058,7 @@
       "NeedsCompilation": "yes",
       "Author": "Hadley Wickham [aut], Thomas Lin Pedersen [cre, aut] (<https://orcid.org/0000-0002-5147-4711>), Dana Seidel [aut], Posit, PBC [cph, fnd]",
       "Maintainer": "Thomas Lin Pedersen <thomas.pedersen@posit.co>",
-      "Repository": "CRAN"
+      "Repository": "https://packagemanager.posit.co/cran/2024-09-30"
     },
     "sf": {
       "Package": "sf",
@@ -3686,7 +3685,7 @@
       "RoxygenNote": "7.2.3",
       "NeedsCompilation": "no",
       "Author": "Simon Garnier [aut, cre], Noam Ross [ctb, cph], Bob Rudis [ctb, cph], Marco Sciaini [ctb, cph], Antônio Pedro Camargo [ctb, cph], Cédric Scherer [ctb, cph]",
-      "Repository": "CRAN"
+      "Repository": "https://packagemanager.posit.co/cran/2024-09-30"
     },
     "vroom": {
       "Package": "vroom",
