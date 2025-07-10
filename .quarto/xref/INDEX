@@ -34,5 +34,20 @@
   },
   "assessor_districts/index.qmd": {
     "index.html": "53afcb54"
+  },
+  "models/comps_sales/index.qmd": {
+    "index.html": "8af9d748"
+  },
+  "models/comps_sales/comps.qmd": {
+    "comps.html": "62544727"
+  },
+  "models/condo_sales/index.qmd": {
+    "index.html": "bca470be"
+  },
+  "models/coop_sales/index.qmd": {
+    "index.html": "9ccc6bd2"
+  },
+  "models/coop_sales/comps.qmd": {
+    "comps.html": "b1a2a4e2"
   }
 }
