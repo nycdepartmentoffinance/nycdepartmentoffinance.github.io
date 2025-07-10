@@ -16,10 +16,10 @@ website:
       href: /
     - text: "Assessor Districts"
       href: /assessor_districts/
-    - text: "Data Dictionary"
-      href: /data_dictionary/
     - text: "Models"
       href: /models/
+    - text: "Data Dictionary"
+      href: /data_dictionary/
     tools:
       - icon: github
         href: https://github.com/nycdepartmentoffinance
