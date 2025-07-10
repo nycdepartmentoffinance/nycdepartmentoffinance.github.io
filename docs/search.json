@@ -28,6 +28,13 @@
     "text": "The table below includes a list of columns from core tables available in the PDM tables (including CONDBASE and NEWBASE) and PTS tables (including ASMT, PARDAT, and APRVAL) within the FDW database (FDW3NF).\nUse the search bar below to look for columns within a particular table (e.g. ASMT) or by column name (e.g. CNS_PID) to see which tables it appears in.\nFor comprehensive information on these tables, visit the PTS Documentation and User Guides internal SharePoint site."
   },
   {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Home",
+    "section": "",
+    "text": "Welcome to the NYC Department of Finance Property Modeling Site\nThis is as a central reference for staff working on property valuation, modeling, and analysis. It brings together key components of our ongoing modeling efforts, including:\n\nAssessor Districts: Interactive tools and resources to understand jurisdictions for assessors by district, block and section volume.\nModel Specifications & Outputs: Documentation of the some of the models used in property valuation, including input assumptions, coefficients, and summary statistics.\nData Dictionary: A shared reference for data sources and variable definitions across our data resources.\n\nIf you have any questions on the content displayed on this site, feel free to reach out to boydclaire@finance.nyc.gov or open an GitHub issue explaining the request."
+  },
+  {
     "objectID": "models/coop_sales/index.html",
     "href": "models/coop_sales/index.html",
     "title": "Co-op Sales Model",
