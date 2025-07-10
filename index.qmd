@@ -2,5 +2,12 @@
 title: "Home"
 ---
 
+Welcome to the NYC Department of Finance Property Modeling Site
 
+This is as a central reference for staff working on property valuation, modeling, and analysis. It brings together key components of our ongoing modeling efforts, including:
 
+-   [**Assessor Districts**](assessor_districts): Interactive tools and resources to understand jurisdictions for assessors by district, block and section volume.
+-   [**Model Specifications & Outputs**](models): Documentation of the some of the models used in property valuation, including input assumptions, coefficients, and summary statistics.
+-   [**Data Dictionary**](data_dictionary): A shared reference for data sources and variable definitions across our data resources.
+
+If you have any questions on the content displayed on this site, feel free to reach out to boydclaire\@finance.nyc.gov or [open an GitHub issue](https://github.com/nycdepartmentoffinance/nycdepartmentoffinance.github.io/issues) explaining the request.
