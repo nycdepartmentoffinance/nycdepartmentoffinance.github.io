@@ -135,4 +135,4 @@ git push
 
 Now, github will automatically start an action (on any push to the `main` branch) that will re-render our live website. 
 
-Our changes are complete!
+Our changes are complete! Wahoo!
