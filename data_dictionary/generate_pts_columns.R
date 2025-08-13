@@ -8,7 +8,7 @@ library(readxl)
 
 # GET ONLY PTS COLS FROM FDW TABLES
 
-fdw_columns <- readr::read_csv("tables/fdw_columns.csv") %>%
+fdw_columns <- readr::read_csv("data_dictionary/data/fdw_columns.csv") %>%
     select(-1)
 
 
@@ -23,10 +23,10 @@ fdw_pts_tables <- pts_tables_only$TABLE_NAME
 
 # read in all user field descriptions for the 55 user tables
 
-pardat = readxl::read_excel("tables/pts_userfields.xlsx", sheet = "PARDAT")
-asmt = readxl::read_excel("tables/pts_userfields.xlsx", sheet = "ASMT")
-aprval = readxl::read_excel("tables/pts_userfields.xlsx", sheet = "APRVAL")
-usrfield = readxl::read_excel("tables/pts_userfields.xlsx", sheet = "USRFIELD") %>%
+pardat = readxl::read_excel("data_dictionary/data/pts_userfields.xlsx", sheet = "PARDAT")
+asmt = readxl::read_excel("data_dictionary/data/pts_userfields.xlsx", sheet = "ASMT")
+aprval = readxl::read_excel("data_dictionary/data/pts_userfields.xlsx", sheet = "APRVAL")
+usrfield = readxl::read_excel("data_dictionary/data/pts_userfields.xlsx", sheet = "USRFIELD") %>%
     select(-TROWID)
 
 combined_table <- rbind(pardat, asmt, aprval) %>%
@@ -57,7 +57,7 @@ pts_columns <- fdw_columns %>%
 
 
 # use manual to update main table
-pts_columns_manual <- readxl::read_excel("tables/pts_columns_manual_add.xlsx")
+pts_columns_manual <- readxl::read_excel("data_dictionary/data/pts_columns_manual_add.xlsx")
 
 updated = pts_columns %>%
     full_join(pts_columns_manual) %>%
@@ -67,11 +67,7 @@ updated = pts_columns %>%
 
 
 # add condbase and newbase in
-
-
-text_table_converted <- readxl::read_excel("tables/text_table_converted.xlsx")
-
-
+text_table_converted <- readxl::read_excel("data_dictionary/data/text_table_converted.xlsx")
 
 condbase_newbase <- fdw_columns %>%
     filter(TABLE_NAME %in% c("VW_PDM_CONDBASE", "VW_PDM_NEWBASE")) %>%
@@ -86,7 +82,31 @@ updated_with_condbase_newbase <- rbind(updated, condbase_newbase) %>%
     arrange(TABLE_NAME, COLUMN_NAME)
 
 
-write.csv(updated_with_condbase_newbase, "tables/pts_columns.csv", na="")
+# add in manual data entry from apprentices - 8/13/2025
+# source: PTS User Guides
+
+# use manual to update main table
+pts_columns_guide <- readxl::read_excel("data_dictionary/data/property_data_field_descriptions.xlsx", sheet = "descriptions") %>%
+    mutate(
+        TABLE_NAME = paste0("VW_PTS_", table)
+    ) %>%
+    rename(
+        COLUMN_NAME = db_field_name,
+        DESCRIPTION_manual = field_label
+    ) %>%
+    select(
+        TABLE_NAME, COLUMN_NAME, DESCRIPTION_manual, field_description
+    ) %>%
+    group_by(TABLE_NAME, COLUMN_NAME) %>%
+    slice(1) %>%
+    ungroup()
+
+updated_with_pts_guide = updated_with_condbase_newbase %>%
+    left_join(pts_columns_guide, by=c("TABLE_NAME", "COLUMN_NAME")) %>%
+    mutate(DESCRIPTION = ifelse(!is.na(DESCRIPTION_manual), DESCRIPTION_manual, DESCRIPTION)) %>%
+    select(-DESCRIPTION_manual, -field_description)
+
+write.csv(updated_with_pts_guide, "data_dictionary/data/pts_columns.csv", na="")
 
 
 
