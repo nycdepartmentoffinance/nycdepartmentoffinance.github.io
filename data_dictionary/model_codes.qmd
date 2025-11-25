@@ -1,0 +1,33 @@
+---
+title: "Model Codes"
+
+repo-url: https://github.com/nycdepartmentoffinance/nycdepartmentoffinance.github.io
+---
+
+```{r, include=FALSE}
+library(dplyr)
+library(DT)
+
+readRenviron("C:/Users/BoydClaire/.Renviron")
+
+table_data <- read.csv("data/model_codes.csv") %>% 
+    rename(
+        `Model Codes` = 3,
+        `Tax Class` = TC
+    ) %>% 
+    arrange(`Tax Class`) %>% 
+    mutate(
+        `Tax Class` = as.character(`Tax Class`)
+    ) 
+```
+
+The table below includes a list of the core models used in comp rent/sales annually.
+
+```{r}
+#| echo: false
+#| warning: false
+
+DT::datatable(table_data, escape = FALSE, filter = 'top', rownames = FALSE,
+              options = list(paging = FALSE, scrollCollapse = TRUE
+              ))
+```

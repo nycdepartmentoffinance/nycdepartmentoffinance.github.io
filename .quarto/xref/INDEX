@@ -49,5 +49,8 @@
   },
   "models/coop_sales/comps.qmd": {
     "comps.html": "b1a2a4e2"
+  },
+  "data_dictionary/model_codes.qmd": {
+    "model_codes.html": "8ea388dd"
   }
 }

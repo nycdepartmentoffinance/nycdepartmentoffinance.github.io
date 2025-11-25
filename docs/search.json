@@ -1,5 +1,17 @@
 [
   {
+    "objectID": "data_dictionary/model_codes.html",
+    "href": "data_dictionary/model_codes.html",
+    "title": "Model Codes",
+    "section": "",
+    "text": "The table below includes a list of the core models used in comp rent/sales annually.",
+    "crumbs": [
+      "Home",
+      "Data Dictionary",
+      "Model Codes"
+    ]
+  },
+  {
     "objectID": "models/index.html",
     "href": "models/index.html",
     "title": "Models",
@@ -37,56 +49,26 @@
     ]
   },
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Home",
+    "objectID": "data_dictionary/pts_columns.html",
+    "href": "data_dictionary/pts_columns.html",
+    "title": "PDM/PTS Column Lookup",
     "section": "",
-    "text": "Welcome to the NYC Department of Finance Property Modeling Site\nThis is as a central reference for staff working on property valuation, modeling, and analysis. It brings together key components of our ongoing modeling efforts, including:\n\nAssessor Districts: Interactive tools and resources to understand jurisdictions for assessors by district, block and section volume.\nModel Specifications & Outputs: Documentation of the some of the models used in property valuation, including input assumptions, coefficients, and summary statistics.\nData Dictionary: A shared reference for data sources and variable definitions across our data resources.\n\nIf you have any questions on the content displayed on this site, feel free to reach out to boydclaire@finance.nyc.gov or open an GitHub issue explaining the request."
-  },
-  {
-    "objectID": "data_dictionary/production_columns.html",
-    "href": "data_dictionary/production_columns.html",
-    "title": "REAL_PROP Column Lookup",
-    "section": "",
-    "text": "The table below includes a list of columns from core tables available in the REAL_PROP schema of the production database (V8_NEWYORK_NY_LIVE). Use the search bar below to look for columns within a particular table (e.g. REALMAST) or by column name (e.g. CNS_PID) to see which tables it appears in.",
+    "text": "The table below includes a list of columns from core tables available in the PDM tables (including CONDBASE and NEWBASE) and PTS tables (including ASMT, PARDAT, and APRVAL) within the FDW database (FDW3NF).\nUse the search bar below to look for columns within a particular table (e.g. ASMT) or by column name (e.g. CNS_PID) to see which tables it appears in.\nFor comprehensive information on these tables, visit the PTS Documentation and User Guides internal SharePoint site.",
     "crumbs": [
       "Home",
       "Data Dictionary",
-      "REAL_PROP Column Lookup"
+      "PDM/PTS Column Lookup"
     ]
   },
   {
-    "objectID": "data_dictionary/fdw_crosswalk.html",
-    "href": "data_dictionary/fdw_crosswalk.html",
-    "title": "FDW to Vision Table Crosswalk",
+    "objectID": "data_dictionary/index.html",
+    "href": "data_dictionary/index.html",
+    "title": "Data Dictionary",
     "section": "",
-    "text": "There are currently 227 tables within the Financial Data Warehouse (FDW) database from PTS, PDM, and CAMA.\n\n\n\n\n\nDatabase\nNumber of tables\n\n\n\n\nPTS\n88\n\n\nPDM\n73\n\n\nCAMA\n65\n\n\nNA\n1\n\n\n\n\n\n\n\n\nCrosswalk\nThe table below includes all FDW tables, but includes most complete information for those also in the V8_NEWYORK_NY_LIVE REAL_PROP schema. The primary keys column indicates the identifiers needed to obtain unique records in a database table.",
+    "text": "Explore the following pages that help document the data resources available to DOF’s property modeling team:\n\nFDW to Vision Crosswalk: A table that contains FDW table names and their matching CAMA table names if applicable, as well as the prefix used and relevant primary keys for the table (unit of observation: table).\nREAL_PROP Column Lookup: A table that contains all columns for the most important REAL_PROP tables in the production database, including the column type, description, and if it is a primary key (unit of observation: column).\nPDM/PTS Column Lookup: A table that contains information for columns for PDM tables (notably: NEWBASE, CONDBASE) and PTS tables (notably: ASMT, PARDAT, and APRVAL) available in the FDW database (FDW3NF), including the column type, description, and additional notes if relevant (unit of observation: column).\nAll Tables: This is a comprehensive list of all database tables within Production, FDW, and IAS databases, including the prefix used, number of columns in the table, and primary keys where relevant (unit of observation: table).\nModel Codes: A table that maps the Vision model codes to the specific property types.\n\nTo download any of these data sets, visit the source data here.",
     "crumbs": [
       "Home",
-      "Data Dictionary",
-      "FDW to Vision Table Crosswalk"
-    ]
-  },
-  {
-    "objectID": "assessor_districts/index.html",
-    "href": "assessor_districts/index.html",
-    "title": "Assessor Districts",
-    "section": "",
-    "text": "See below for the Assessor District Map for FY27. Feel free to toggle between Districts, Blocks and Section Volume layers by using the check marks on the top right hand corner of the map.",
-    "crumbs": [
-      "Home",
-      "Assessor Districts"
-    ]
-  },
-  {
-    "objectID": "assessor_districts/index.html#interactive-map",
-    "href": "assessor_districts/index.html#interactive-map",
-    "title": "Assessor Districts",
-    "section": "",
-    "text": "See below for the Assessor District Map for FY27. Feel free to toggle between Districts, Blocks and Section Volume layers by using the check marks on the top right hand corner of the map.",
-    "crumbs": [
-      "Home",
-      "Assessor Districts"
+      "Data Dictionary"
     ]
   },
   {
@@ -102,26 +84,27 @@
     ]
   },
   {
-    "objectID": "data_dictionary/index.html",
-    "href": "data_dictionary/index.html",
-    "title": "Data Dictionary",
+    "objectID": "data_dictionary/fdw_crosswalk.html",
+    "href": "data_dictionary/fdw_crosswalk.html",
+    "title": "FDW to Vision Table Crosswalk",
     "section": "",
-    "text": "Explore the following pages that help document the data resources available to DOF’s property modeling team:\n\nFDW to Vision Crosswalk: A table that contains FDW table names and their matching CAMA table names if applicable, as well as the prefix used and relevant primary keys for the table (unit of observation: table).\nREAL_PROP Column Lookup: A table that contains all columns for the most important REAL_PROP tables in the production database, including the column type, description, and if it is a primary key (unit of observation: column).\nPDM/PTS Column Lookup: A table that contains information for columns for PDM tables (notably: NEWBASE, CONDBASE) and PTS tables (notably: ASMT, PARDAT, and APRVAL) available in the FDW database (FDW3NF), including the column type, description, and additional notes if relevant (unit of observation: column).\nAll Tables: This is a comprehensive list of all database tables within Production, FDW, and IAS databases, including the prefix used, number of columns in the table, and primary keys where relevant (unit of observation: table).\n\nTo download any of these data sets, visit the source data here.",
-    "crumbs": [
-      "Home",
-      "Data Dictionary"
-    ]
-  },
-  {
-    "objectID": "data_dictionary/pts_columns.html",
-    "href": "data_dictionary/pts_columns.html",
-    "title": "PDM/PTS Column Lookup",
-    "section": "",
-    "text": "The table below includes a list of columns from core tables available in the PDM tables (including CONDBASE and NEWBASE) and PTS tables (including ASMT, PARDAT, and APRVAL) within the FDW database (FDW3NF).\nUse the search bar below to look for columns within a particular table (e.g. ASMT) or by column name (e.g. CNS_PID) to see which tables it appears in.\nFor comprehensive information on these tables, visit the PTS Documentation and User Guides internal SharePoint site.",
+    "text": "There are currently 227 tables within the Financial Data Warehouse (FDW) database from PTS, PDM, and CAMA.\n\n\n\n\n\nDatabase\nNumber of tables\n\n\n\n\nPTS\n88\n\n\nPDM\n73\n\n\nCAMA\n65\n\n\nNA\n1\n\n\n\n\n\n\nCrosswalk\nThe table below includes all FDW tables, but includes most complete information for those also in the V8_NEWYORK_NY_LIVE REAL_PROP schema. The primary keys column indicates the identifiers needed to obtain unique records in a database table.",
     "crumbs": [
       "Home",
       "Data Dictionary",
-      "PDM/PTS Column Lookup"
+      "FDW to Vision Table Crosswalk"
+    ]
+  },
+  {
+    "objectID": "data_dictionary/production_columns.html",
+    "href": "data_dictionary/production_columns.html",
+    "title": "REAL_PROP Column Lookup",
+    "section": "",
+    "text": "The table below includes a list of columns from core tables available in the REAL_PROP schema of the production database (V8_NEWYORK_NY_LIVE). Use the search bar below to look for columns within a particular table (e.g. REALMAST) or by column name (e.g. CNS_PID) to see which tables it appears in.",
+    "crumbs": [
+      "Home",
+      "Data Dictionary",
+      "REAL_PROP Column Lookup"
     ]
   },
   {
