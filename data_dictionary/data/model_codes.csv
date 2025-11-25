@@ -1,0 +1,65 @@
+﻿TC,Class,Model Code,Borough,Type
+4,Retail,RE1,Manhattan,Non-Condo
+4,Retail,RE2,Bronx,Non-Condo
+4,Retail,RE3,Brooklyn,Non-Condo
+4,Retail,RE4,Queens,Non-Condo
+4,Retail,RE5,Staten Island,Non-Condo
+4,Retail,RC1,Manhattan,Condo
+4,Retail,RC2,Bronx,Condo
+4,Retail,RC3,Brooklyn,Condo
+4,Retail,RC4,Queens,Condo
+4,Retail,RC5,Staten Island,Condo
+4,Industrial,F1C,Staten Island,Condo
+4,Industrial,F1X,Bronx,Condo
+4,Industrial,F3K,Brooklyn,Condo
+4,Industrial,F3Q,Queens,Condo
+4,Industrial,F1M,Manhattan,Condo
+4,Industrial,FK3,Brooklyn,Non-Condo
+4,Industrial,FM1,Manhattan,Non-Condo
+4,Industrial,FQ3,Queens,Non-Condo
+4,Industrial,FS3,Staten Island,Non-Condo
+4,Industrial,FX3,Bronx,Non-Condo
+4,Garage,GM1,Manhattan,Non-Condo
+4,Garage,GX7,Bronx,Non-Condo
+4,Garage,GK3,Brooklyn,Non-Condo
+4,Garage,GQ3,Queens,Non-Condo
+4,Garage,GS3,Staten Island,Non-Condo
+4,Garage,G1M,Manhattan,Condo
+4,Garage,G3X,Bronx,Condo
+4,Garage,G3K,Brooklyn,Condo
+4,Garage,G3Q,Queens,Condo
+4,Garage,G3S,Staten Island,Condo
+4,Office,OM0,Manhattan,Non-Condo
+4,Office,OX9,Bronx,Non-Condo
+4,Office,OB9,Brooklyn,Non-Condo
+4,Office,OQ9,Queens,Non-Condo
+4,Office,OS9,Staten Island,Non-Condo
+4,Office,O9M,Manhattan,Condo
+4,Office,O9X,Bronx,Condo
+4,Office,O9B,Brooklyn,Condo
+4,Office,O9Q,Queens,Condo
+4,Office,O9S,Staten Island,Condo
+2,Coop,C12,Manhattan,Non-Condo
+2,Coop,C22,Bronx,Non-Condo
+2,Coop,C32,Brooklyn,Non-Condo
+2,Coop,C42,Queens,Non-Condo
+2,Coop,C52,Staten Island,Non-Condo
+2,Condo,D12,Manhattan,Condo
+2,Condo,D22,Bronx,Condo
+2,Condo,D32,Brooklyn,Condo
+2,Condo,D42,Queens,Condo
+2,Condo,D52,Staten Island,Condo
+2,Non-Filer Rentals,N12,Manhattan,Non-Condo
+2,Non-Filer Rentals,N22,Bronx,Non-Condo
+2,Non-Filer Rentals,N31,Brooklyn,Non-Condo
+2,Non-Filer Rentals,N42,Queens,Non-Condo
+2,Non-Filer Rentals,N52,Staten Island,Non-Condo
+2,High End Coop,TC1,Manhattan,Non-Condo
+2,High End Coop,HC3,Brooklyn,Non-Condo
+2,High End Condo,HD1,Manhattan,Condo
+2,High End Condo,HD3,Brooklyn,Condo
+1,Single Family Homes,MNA,Manhattan,Non-Condo
+1,Single Family Homes,BX,Bronx,Non-Condo
+1,Single Family Homes,BK,Brooklyn,Non-Condo
+1,Single Family Homes,QN,Queens,Non-Condo
+1,Single Family Homes,SIA,Staten Island,Non-Condo

@@ -12,5 +12,6 @@ for the table (*unit of observation*: table).
 -   [REAL_PROP Column Lookup](production_columns.html): A table that contains all columns for the most important REAL_PROP tables in the production database, including the column type, description, and if it is a primary key (*unit of observation*: column).
 -   [PDM/PTS Column Lookup](pts_columns.html): A table that contains information for columns for `PDM` tables (notably: NEWBASE, CONDBASE) and `PTS` tables (notably: ASMT, PARDAT, and APRVAL) available in the FDW database (`FDW3NF`), including the column type, description, and additional notes if relevant (*unit of observation*: column).
 -   [All Tables](all_tables.html): This is a comprehensive list of all database tables within Production, FDW, and IAS databases, including the prefix used, number of columns in the table, and primary keys where relevant (*unit of observation*: table).
+-   [Model Codes](model_codes.html): A table that maps the Vision model codes to the specific property types.
 
 To download any of these data sets, visit the source data [here](https://github.com/nycdepartmentoffinance/nycdepartmentoffinance.github.io/tree/main/data_dictionary/data).
