@@ -1,0 +1,1510 @@
+TABLE,COLUMN_NAME,DESCRIPTION
+VW_PTS_CNDMAST,JUR,Jurisdiction
+VW_PTS_CNDMAST,PARID,Parcel identification number
+VW_PTS_CNDMAST,TAXYR,Tax year
+VW_PTS_CNDMAST,SEQ,Version number of this record
+VW_PTS_CNDMAST,CUR,Current record indicator
+VW_PTS_CNDMAST,WHO,User ID of last maintenance
+VW_PTS_CNDMAST,WEN,Last maintenance date
+VW_PTS_CNDMAST,STATUS,Processing status
+VW_PTS_CNDMAST,RECTYPE,Record type
+VW_PTS_CNDMAST,COMPLEXNO,"Condo complex number, if different than parid"
+VW_PTS_CNDMAST,COMPLEX,Condo complex name
+VW_PTS_CNDMAST,ADRPRE,Address number prefix
+VW_PTS_CNDMAST,ADRNO,Street number
+VW_PTS_CNDMAST,ADRADD,Address number suffix
+VW_PTS_CNDMAST,ADRDIR,Street direction
+VW_PTS_CNDMAST,ADRSTR,Address street name
+VW_PTS_CNDMAST,ADRSUF,Street suffix
+VW_PTS_CNDMAST,ADRSUF2,Street suffix #2
+VW_PTS_CNDMAST,CITYNAME,City name
+VW_PTS_CNDMAST,UNITDESC,Address unit description
+VW_PTS_CNDMAST,UNITNO,Address unit number
+VW_PTS_CNDMAST,LOC2,Address location line 2
+VW_PTS_CNDMAST,ZIP1,"Zip code, first 5 digits"
+VW_PTS_CNDMAST,ZIP2,"Zip code suffix, last 4 digits"
+VW_PTS_CNDMAST,CONDOTYP,Condominium type code
+VW_PTS_CNDMAST,BLDGCNT,Building count
+VW_PTS_CNDMAST,UNITCNT,Unit count
+VW_PTS_CNDMAST,UNITCALC,"Unit count, calculated"
+VW_PTS_CNDMAST,AMEN1,Amenities 1
+VW_PTS_CNDMAST,AMEN2,Amenities 2
+VW_PTS_CNDMAST,AMEN3,Amenities 3
+VW_PTS_CNDMAST,AMEN4,Amenities 4
+VW_PTS_CNDMAST,AMEN5,Amenities 5
+VW_PTS_CNDMAST,AMEN6,Amenities 6
+VW_PTS_CNDMAST,AMEN7,Amenities 7
+VW_PTS_CNDMAST,AMEN8,Amenities 8
+VW_PTS_CNDMAST,AMEN9,Amenities 9
+VW_PTS_CNDMAST,AMEN10,Amenities 10
+VW_PTS_CNDMAST,USER1,User defined field 1
+VW_PTS_CNDMAST,USER2,User defined field 2
+VW_PTS_CNDMAST,USER3,User defined field 3
+VW_PTS_CNDMAST,USER4,User defined field 4
+VW_PTS_CNDMAST,NOTE1,Note field 1
+VW_PTS_CNDMAST,NOTE2,Note field 2
+VW_PTS_CNDMAST,DEACTIVAT,Deactivate date
+VW_PTS_CNDMAST,IASW_ID,iasWorld unique row identifier
+VW_PTS_CNDMAST,TRANS_ID,iasWorld transaction number
+VW_PTS_CNDMAST,UPD_STATUS,iasWorld update status for this row
+VW_PTS_CNDMAST,USER5,User defined field 5
+VW_PTS_CNDMAST,USER6,User defined field 6
+VW_PTS_CNDMAST,USER7,User defined field 7
+VW_PTS_CNDMAST,USER8,User defined field 8
+VW_PTS_CNDMAST,USER9,User defined field 9
+VW_PTS_CNDMAST,USER10,User defined field 10
+VW_PTS_CNDMAST,USER11,User defined field 11
+VW_PTS_CNDMAST,USER12,User defined field 12
+VW_PTS_CNDMAST,USER13,User defined field 13
+VW_PTS_CNDMAST,USER14,User defined field 14
+VW_PTS_CNDMAST,USER15,User defined field 15
+VW_PTS_CNDMAST,USER16,User defined field 16
+VW_PTS_CNDMAST,USER17,User defined field 17
+VW_PTS_CNDMAST,USER18,User defined field 18
+VW_PTS_CNDMAST,USER19,User defined field 19
+VW_PTS_CNDMAST,USER20,User defined field 20
+VW_PTS_CNDMAST,NOTE3,Note field 3
+VW_PTS_CNDMAST,NOTE4,Note field 4
+VW_PTS_CNDMAST,NOTE5,Note field 5
+VW_PTS_CNDMAST,NOTE6,Note field 6
+VW_PTS_CNDMAST,USERVAL1,User defined numeric field 1
+VW_PTS_CNDMAST,USERVAL2,User defined numeric field 2
+VW_PTS_CNDMAST,USERVAL3,User defined numeric field 3
+VW_PTS_CNDMAST,USERVAL4,User defined numeric field 4
+VW_PTS_CNDMAST,USERVAL5,User defined numeric field 5
+VW_PTS_CNDMAST,USERVAL6,User defined numeric field 6
+VW_PTS_CNDMAST,USERVAL7,User defined numeric field 7
+VW_PTS_CNDMAST,USERVAL8,User defined numeric field 8
+VW_PTS_CNDMAST,USERVAL9,User defined numeric field 9
+VW_PTS_CNDMAST,USERVAL10,User defined numeric field 10
+VW_PTS_CNDMAST,USERVAL11,User defined numeric field 11
+VW_PTS_CNDMAST,USERVAL12,User defined numeric field 12
+VW_PTS_CNDMAST,USERVAL13,User defined numeric field 13
+VW_PTS_CNDMAST,USERVAL14,User defined numeric field 14
+VW_PTS_CNDMAST,USERVAL15,User defined numeric field 15
+VW_PTS_CNDMAST,USERVAL16,User defined numeric field 16
+VW_PTS_CNDMAST,USERVAL17,User defined numeric field 17
+VW_PTS_CNDMAST,USERVAL18,User defined numeric field 18
+VW_PTS_CNDMAST,USERVAL19,User defined numeric field 19
+VW_PTS_CNDMAST,USERVAL20,User defined numeric field 20
+VW_PTS_CNDMAST,USERVAL21,User defined numeric field 21
+VW_PTS_CNDMAST,USERVAL22,User defined numeric field 22
+VW_PTS_CNDMAST,USERVAL23,User defined numeric field 23
+VW_PTS_CNDMAST,USERVAL24,User defined numeric field 24
+VW_PTS_CNDMAST,USERVAL25,User defined numeric field 25
+VW_PTS_CNDMAST,USERVAL26,User defined numeric field 26
+VW_PTS_CNDMAST,USERVAL27,User defined numeric field 27
+VW_PTS_CNDMAST,USERVAL28,User defined numeric field 28
+VW_PTS_CNDMAST,USERVAL29,User defined numeric field 29
+VW_PTS_CNDMAST,USERVAL30,User defined numeric field 30
+VW_PTS_CNDMAST,UDATE1,User defined date field 1
+VW_PTS_CNDMAST,UDATE2,User defined date field 2
+VW_PTS_CNDMAST,UDATE3,User defined date field 3
+VW_PTS_CNDMAST,UDATE4,User defined date field 4
+VW_PTS_CNDMAST,UDATE5,User defined date field 5
+VW_PTS_CNDMAST,UDATE6,User defined date field 6
+VW_PTS_CNDMAST,UDATE7,User defined date field 7
+VW_PTS_CNDMAST,UDATE8,User defined date field 8
+VW_PTS_CNDMAST,UDATE9,User defined date field 9
+VW_PTS_CNDMAST,UDATE10,User defined date field 10
+VW_PTS_CNDMAST,NOTES,Notes
+VW_PTS_COOPMAST,JUR,Jurisdiction
+VW_PTS_COOPMAST,PARID,Parcel identification number
+VW_PTS_COOPMAST,TAXYR,Tax year
+VW_PTS_COOPMAST,SEQ,Version number of this record
+VW_PTS_COOPMAST,CUR,Current record indicator
+VW_PTS_COOPMAST,WHO,User ID of last maintenance
+VW_PTS_COOPMAST,WEN,Last maintenance date
+VW_PTS_COOPMAST,COOPNAME,Name of Cooperative
+VW_PTS_COOPMAST,MGRNAME,Name of Manager
+VW_PTS_COOPMAST,ADDRTYPE,"Address type code (N, S, F, R, C)"
+VW_PTS_COOPMAST,ADRNO,Street number
+VW_PTS_COOPMAST,ADRGRID,Grid address number
+VW_PTS_COOPMAST,ADRADD,Address number suffix
+VW_PTS_COOPMAST,ADRDIR,Street direction
+VW_PTS_COOPMAST,ADRSTR,Address street name
+VW_PTS_COOPMAST,ADRSUF,Street suffix
+VW_PTS_COOPMAST,ADRSUF2,Street suffix #2
+VW_PTS_COOPMAST,CITYNAME,City name
+VW_PTS_COOPMAST,STATECODE,State or province(2 digit)
+VW_PTS_COOPMAST,COUNTRY,Country
+VW_PTS_COOPMAST,POSTALCODE,Postal Code (International zip code)
+VW_PTS_COOPMAST,UNITDESC,Address unit description
+VW_PTS_COOPMAST,UNITNO,Address unit number
+VW_PTS_COOPMAST,ADDR1,Address line 1
+VW_PTS_COOPMAST,ADDR2,Address line 2
+VW_PTS_COOPMAST,ADDR3,Address line 3
+VW_PTS_COOPMAST,ZIP1,"Zip code, first 5 digits"
+VW_PTS_COOPMAST,ZIP2,"Zip code suffix, last 4 digits"
+VW_PTS_COOPMAST,CARRIER_RT,Carrier route - 4 digit suffix
+VW_PTS_COOPMAST,POSTAL_INDX,Postal index number
+VW_PTS_COOPMAST,PHONE,Phone number
+VW_PTS_COOPMAST,PHONE2,Phone number 2
+VW_PTS_COOPMAST,UNITS,Number of units
+VW_PTS_COOPMAST,SHARES,Number of shares
+VW_PTS_COOPMAST,ASMSHARE,Assessment per share
+VW_PTS_COOPMAST,TBLE,Table name of data in which Owner Ref is made
+VW_PTS_COOPMAST,FLD,Column name of data in which Owner Ref is made
+VW_PTS_COOPMAST,LLINE,Line number
+VW_PTS_COOPMAST,NOTE1,Note field 1
+VW_PTS_COOPMAST,NOTE2,Note field 2
+VW_PTS_COOPMAST,NOTE3,Note field 3
+VW_PTS_COOPMAST,NOTE4,Note field 4
+VW_PTS_COOPMAST,PARENT,Parent parcel ID
+VW_PTS_COOPMAST,TOTASM,Assessed value
+VW_PTS_COOPMAST,USER1,User defined field 1
+VW_PTS_COOPMAST,USER2,User defined field 2
+VW_PTS_COOPMAST,USER3,User defined field 3
+VW_PTS_COOPMAST,USER4,User defined field 4
+VW_PTS_COOPMAST,USER5,User defined field 5
+VW_PTS_COOPMAST,USER6,User defined field 6
+VW_PTS_COOPMAST,USER7,User defined field 7
+VW_PTS_COOPMAST,USER8,User defined field 8
+VW_PTS_COOPMAST,USER9,User defined field 9
+VW_PTS_COOPMAST,USER10,User defined field 10
+VW_PTS_COOPMAST,DEACTIVAT,Deactivate date
+VW_PTS_COOPMAST,FAX,Fax number of contact person
+VW_PTS_COOPMAST,EMAIL,E-mail address of contact person
+VW_PTS_COOPMAST,PROSHARES,Prospectus Shares
+VW_PTS_COOPMAST,CALCSHARES,Calculated Shares
+VW_PTS_COOPMAST,IASW_ID,iasWorld unique row identifier
+VW_PTS_COOPMAST,TRANS_ID,iasWorld transaction number
+VW_PTS_COOPMAST,UPD_STATUS,iasWorld update status for this row
+VW_PTS_COOPMAST,ASMTLAND,Land Assessment
+VW_PTS_COOPMAST,ASMTBLDG,Building Assessment
+VW_PTS_COOPMAST,ASMTTOT,Total Assessment
+VW_PTS_COOPMAST,TRANSLAND,Transitional_MPA Land
+VW_PTS_COOPMAST,TRANSBLDG,Transitional_MPA Building
+VW_PTS_COOPMAST,TRANSTOTAL,Transitional_MPA Total
+VW_PTS_COOPMAST,ASMTLANDSHARE,Land Assessment per Share
+VW_PTS_COOPMAST,ASMTBLDGSHARE,Building Assessment per Share
+VW_PTS_COOPMAST,ASMTTOTSHARE,Total Assessment per Share
+VW_PTS_COOPMAST,TRANSLANDSHARE,Transitional_MPA Land per Share
+VW_PTS_COOPMAST,TRANSBLDGSHARE,Transitional_MPA Building per Share
+VW_PTS_COOPMAST,TRANSTOTALSHARE,Transitional_MPA Total per Share
+VW_PTS_COOPMAST,ROLLTYPE,Tax roll name
+VW_PTS_COOPMAST,USER11,User defined field 11
+VW_PTS_COOPMAST,USER12,User defined field 12
+VW_PTS_COOPMAST,USER13,User defined field 13
+VW_PTS_COOPMAST,USER14,User defined field 14
+VW_PTS_COOPMAST,USER15,User defined field 15
+VW_PTS_COOPMAST,USER16,User defined field 16
+VW_PTS_COOPMAST,USER17,User defined field 17
+VW_PTS_COOPMAST,USER18,User defined field 18
+VW_PTS_COOPMAST,USER19,User defined field 19
+VW_PTS_COOPMAST,USER20,User defined field 20
+VW_PTS_COOPMAST,USER21,User defined field 21
+VW_PTS_COOPMAST,USER22,User defined field 22
+VW_PTS_COOPMAST,USER23,User defined field 23
+VW_PTS_COOPMAST,USER24,User defined field 24
+VW_PTS_COOPMAST,USER25,User defined field 25
+VW_PTS_COOPMAST,USER26,User defined field 26
+VW_PTS_COOPMAST,USER27,User defined field 27
+VW_PTS_COOPMAST,USER28,User defined field 28
+VW_PTS_COOPMAST,USER29,User defined field 29
+VW_PTS_COOPMAST,USER30,User defined field 30
+VW_PTS_COOPMAST,USERVAL1,User defined numeric field 1
+VW_PTS_COOPMAST,USERVAL2,User defined numeric field 2
+VW_PTS_COOPMAST,USERVAL3,User defined numeric field 3
+VW_PTS_COOPMAST,USERVAL4,User defined numeric field 4
+VW_PTS_COOPMAST,USERVAL5,User defined numeric field 5
+VW_PTS_COOPMAST,USERVAL6,User defined numeric field 6
+VW_PTS_COOPMAST,USERVAL7,User defined numeric field 7
+VW_PTS_COOPMAST,USERVAL8,User defined numeric field 8
+VW_PTS_COOPMAST,USERVAL9,User defined numeric field 9
+VW_PTS_COOPMAST,USERVAL10,User defined numeric field 10
+VW_PTS_COOPMAST,USERVAL11,User defined numeric field 11
+VW_PTS_COOPMAST,USERVAL12,User defined numeric field 12
+VW_PTS_COOPMAST,USERVAL13,User defined numeric field 13
+VW_PTS_COOPMAST,USERVAL14,User defined numeric field 14
+VW_PTS_COOPMAST,USERVAL15,User defined numeric field 15
+VW_PTS_COOPMAST,USERVAL16,User defined numeric field 16
+VW_PTS_COOPMAST,USERVAL17,User defined numeric field 17
+VW_PTS_COOPMAST,USERVAL18,User defined numeric field 18
+VW_PTS_COOPMAST,USERVAL19,User defined numeric field 19
+VW_PTS_COOPMAST,USERVAL20,User defined numeric field 20
+VW_PTS_COOPMAST,USERVAL21,User defined numeric field 21
+VW_PTS_COOPMAST,USERVAL22,User defined numeric field 22
+VW_PTS_COOPMAST,USERVAL23,User defined numeric field 23
+VW_PTS_COOPMAST,USERVAL24,User defined numeric field 24
+VW_PTS_COOPMAST,USERVAL25,User defined numeric field 25
+VW_PTS_COOPMAST,USERVAL26,User defined numeric field 26
+VW_PTS_COOPMAST,USERVAL27,User defined numeric field 27
+VW_PTS_COOPMAST,USERVAL28,User defined numeric field 28
+VW_PTS_COOPMAST,USERVAL29,User defined numeric field 29
+VW_PTS_COOPMAST,USERVAL30,User defined numeric field 30
+VW_PTS_COOPMAST,UDATE1,User defined date field 1
+VW_PTS_COOPMAST,UDATE2,User defined date field 2
+VW_PTS_COOPMAST,UDATE3,User defined date field 3
+VW_PTS_COOPMAST,UDATE4,User defined date field 4
+VW_PTS_COOPMAST,UDATE5,User defined date field 5
+VW_PTS_COOPMAST,UDATE6,User defined date field 6
+VW_PTS_COOPMAST,UDATE7,User defined date field 7
+VW_PTS_COOPMAST,UDATE8,User defined date field 8
+VW_PTS_COOPMAST,UDATE9,User defined date field 9
+VW_PTS_COOPMAST,UDATE10,User defined date field 10
+VW_PTS_COOPMAST,COOPID,Cooperative identifier
+VW_PTS_COOPMAST,MGRNAME_FIRSTNAME,manager First Name
+VW_PTS_COOPMAST,MGRNAME_LASTNAME,manager Last Name
+VW_PTS_COOPMAST,MGRNAME_MIDDLENAME,manager Middle Name
+VW_PTS_COOPMAST,MGRNAME_PREFIX,manager Prefix
+VW_PTS_COOPMAST,MGRNAME_SUFFIX,manager Suffix
+VW_PTS_COOPMAST,MGRNAME_COMPANYNAME,manager Company Name
+VW_PTS_COOPUNIT,JUR,Jurisdiction
+VW_PTS_COOPUNIT,PARID,Parcel identification number
+VW_PTS_COOPUNIT,TAXYR,Tax year
+VW_PTS_COOPUNIT,BLDGNO,Building number of Co-op
+VW_PTS_COOPUNIT,UNIT,Unit number of Co-op
+VW_PTS_COOPUNIT,SEQ,Version number of this record
+VW_PTS_COOPUNIT,CUR,Current record indicator
+VW_PTS_COOPUNIT,WHO,User ID of last maintenance
+VW_PTS_COOPUNIT,WEN,Last maintenance date
+VW_PTS_COOPUNIT,OWN1,Owner name 1
+VW_PTS_COOPUNIT,ADDRTYPE,"Address type code (N, S, F, R, C)"
+VW_PTS_COOPUNIT,ADRNO,Street number
+VW_PTS_COOPUNIT,ADRGRID,Grid address number
+VW_PTS_COOPUNIT,ADRADD,Address number suffix
+VW_PTS_COOPUNIT,ADRDIR,Street direction
+VW_PTS_COOPUNIT,ADRSTR,Address street name
+VW_PTS_COOPUNIT,ADRSUF,Street suffix
+VW_PTS_COOPUNIT,ADRSUF2,Street suffix #2
+VW_PTS_COOPUNIT,CITYNAME,City name
+VW_PTS_COOPUNIT,STATECODE,State or province(2 digit)
+VW_PTS_COOPUNIT,COUNTRY,Country
+VW_PTS_COOPUNIT,POSTALCODE,Postal Code (International zip code)
+VW_PTS_COOPUNIT,UNITDESC,Address unit description
+VW_PTS_COOPUNIT,UNITNO,Address unit number
+VW_PTS_COOPUNIT,ADDR1,Address line 1
+VW_PTS_COOPUNIT,ADDR2,Address line 2
+VW_PTS_COOPUNIT,ADDR3,Address line 3
+VW_PTS_COOPUNIT,ZIP1,"Zip code, first 5 digits"
+VW_PTS_COOPUNIT,ZIP2,"Zip code suffix, last 4 digits"
+VW_PTS_COOPUNIT,CARRIER_RT,Carrier route - 4 digit suffix
+VW_PTS_COOPUNIT,POSTAL_INDX,Postal index number
+VW_PTS_COOPUNIT,PHONED,Phone number day
+VW_PTS_COOPUNIT,PHONEE,Phone number evening
+VW_PTS_COOPUNIT,SHARES,Number of shares
+VW_PTS_COOPUNIT,VILLAGE,Village code
+VW_PTS_COOPUNIT,SWISCD,State SWIS code
+VW_PTS_COOPUNIT,MODELNO,Model number of each unit type
+VW_PTS_COOPUNIT,NOTE1,Note field 1
+VW_PTS_COOPUNIT,NOTE2,Note field 2
+VW_PTS_COOPUNIT,NOTE3,Note field 3
+VW_PTS_COOPUNIT,NOTE4,Note field 4
+VW_PTS_COOPUNIT,REFID,Reference ID to tie unit to a single parcel when there are multiples
+VW_PTS_COOPUNIT,USER1,User defined field 1
+VW_PTS_COOPUNIT,USER2,User defined field 2
+VW_PTS_COOPUNIT,USER3,User defined field 3
+VW_PTS_COOPUNIT,USER4,User defined field 4
+VW_PTS_COOPUNIT,USER5,User defined field 5
+VW_PTS_COOPUNIT,USER6,User defined field 6
+VW_PTS_COOPUNIT,USER7,User defined field 7
+VW_PTS_COOPUNIT,USER8,User defined field 8
+VW_PTS_COOPUNIT,USER9,User defined field 9
+VW_PTS_COOPUNIT,USER10,User defined field 10
+VW_PTS_COOPUNIT,DEACTIVAT,Deactivate date
+VW_PTS_COOPUNIT,OWN2,Owner name 2
+VW_PTS_COOPUNIT,CAREOF,In Care Of name
+VW_PTS_COOPUNIT,UNITASMT,Unit Assessment
+VW_PTS_COOPUNIT,IASW_ID,iasWorld unique row identifier
+VW_PTS_COOPUNIT,TRANS_ID,iasWorld transaction number
+VW_PTS_COOPUNIT,UPD_STATUS,iasWorld update status for this row
+VW_PTS_COOPUNIT,COOPUNITKEY,Unit Identifier
+VW_PTS_COOPUNIT,OWNNUM,Owner Number
+VW_PTS_COOPUNIT,PHONE,Phone number
+VW_PTS_COOPUNIT,FAX,Fax number of contact person
+VW_PTS_COOPUNIT,EMAIL,E-mail address of contact person
+VW_PTS_COOPUNIT,OVRCODS,Override code for Shares
+VW_PTS_COOPUNIT,OVRSHARE,Override Share Amount
+VW_PTS_COOPUNIT,ASMTLAND,Unit Land Assessment
+VW_PTS_COOPUNIT,ASMTBLDG,Unit Building Assessment
+VW_PTS_COOPUNIT,ASMTTOT,Unit Total Assessment
+VW_PTS_COOPUNIT,TRANSLAND,Transitional_MPA Land
+VW_PTS_COOPUNIT,TRANSBLDG,Transitional_MPA Building
+VW_PTS_COOPUNIT,TRANSTOTAL,Transitional_MPA Total
+VW_PTS_COOPUNIT,LADDR,Situs Address
+VW_PTS_COOPUNIT,LCITY,Situs City
+VW_PTS_COOPUNIT,LSTATE,Situs State
+VW_PTS_COOPUNIT,LZIP,Situs Zip
+VW_PTS_COOPUNIT,USER11,User defined field 11
+VW_PTS_COOPUNIT,USER12,User defined field 12
+VW_PTS_COOPUNIT,USER13,User defined field 13
+VW_PTS_COOPUNIT,USER14,User defined field 14
+VW_PTS_COOPUNIT,USER15,User defined field 15
+VW_PTS_COOPUNIT,USER16,User defined field 16
+VW_PTS_COOPUNIT,USER17,User defined field 17
+VW_PTS_COOPUNIT,USER18,User defined field 18
+VW_PTS_COOPUNIT,USER19,User defined field 19
+VW_PTS_COOPUNIT,USER20,User defined field 20
+VW_PTS_COOPUNIT,ROLLTYPE,Roll Type
+VW_PTS_COOPUNIT,COOPID,Cooperative identifier
+VW_PTS_COOPUNIT,OWN1_FIRSTNAME,Owner 1 First Name
+VW_PTS_COOPUNIT,OWN1_LASTNAME,Owner 1 Last Name
+VW_PTS_COOPUNIT,OWN1_MIDDLENAME,Owner 1 Middle Name
+VW_PTS_COOPUNIT,OWN1_PREFIX,Owner 1 Prefix
+VW_PTS_COOPUNIT,OWN1_SUFFIX,Owner 1 Suffix
+VW_PTS_COOPUNIT,OWN1_COMPANYNAME,Owner 1 Company Name
+VW_PTS_COOPUNIT,OWN2_FIRSTNAME,Owner 2 First Name
+VW_PTS_COOPUNIT,OWN2_LASTNAME,Owner 2 Last Name
+VW_PTS_COOPUNIT,OWN2_MIDDLENAME,Owner 2 Middle Name
+VW_PTS_COOPUNIT,OWN2_PREFIX,Owner 2 Prefix
+VW_PTS_COOPUNIT,OWN2_SUFFIX,Owner 2 Suffix
+VW_PTS_COOPUNIT,OWN2_COMPANYNAME,Owner 2 Company Name
+VW_PTS_COOPUNIT,OWN3_FIRSTNAME,Owner 3 First Name
+VW_PTS_COOPUNIT,OWN3_LASTNAME,Owner 3 Last Name
+VW_PTS_COOPUNIT,OWN3_MIDDLENAME,Owner 3 Middle Name
+VW_PTS_COOPUNIT,OWN3_PREFIX,Owner 3 Prefix
+VW_PTS_COOPUNIT,OWN3_SUFFIX,Owner 3 Suffix
+VW_PTS_COOPUNIT,OWN3_COMPANYNAME,Owner 3 Company Name
+VW_PTS_COOPUNIT,OWN4_FIRSTNAME,Owner 4 First Name
+VW_PTS_COOPUNIT,OWN4_LASTNAME,Owner 4 Last Name
+VW_PTS_COOPUNIT,OWN4_MIDDLENAME,Owner 4 Middle Name
+VW_PTS_COOPUNIT,OWN4_PREFIX,Owner 4 Prefix
+VW_PTS_COOPUNIT,OWN4_SUFFIX,Owner 4 Suffix
+VW_PTS_COOPUNIT,OWN4_COMPANYNAME,Owner 4 Company Name
+VW_PTS_COOPUNIT,OWN3,Owner name 3
+VW_PTS_COOPUNIT,OWN4,Owner name 4
+VW_PTS_COOPUNIT,STAR_CREDIT,Star Credit Flag
+VW_PTS_COOPUNITOWN,JUR,Jurisdiction
+VW_PTS_COOPUNITOWN,PARID,Parcel identification number
+VW_PTS_COOPUNITOWN,TAXYR,Tax year
+VW_PTS_COOPUNITOWN,BLDGNO,Building identifier
+VW_PTS_COOPUNITOWN,UNIT,Unit  number identifier
+VW_PTS_COOPUNITOWN,COOPUNITKEY,Unit identifier
+VW_PTS_COOPUNITOWN,OWNNUM,Owner number
+VW_PTS_COOPUNITOWN,SEQ,Version number of this record
+VW_PTS_COOPUNITOWN,CUR,Current record indicator
+VW_PTS_COOPUNITOWN,WHO,User ID of last maintenance
+VW_PTS_COOPUNITOWN,WEN,Last maintenance date
+VW_PTS_COOPUNITOWN,OWNSEQ,Owner sequence
+VW_PTS_COOPUNITOWN,NAME1,Name 1
+VW_PTS_COOPUNITOWN,NAME2,Name 2
+VW_PTS_COOPUNITOWN,ADDRTYPE,"Address type code (N, S, F, R, C)"
+VW_PTS_COOPUNITOWN,ADRNO,Street number
+VW_PTS_COOPUNITOWN,ADRGRID,Grid address number
+VW_PTS_COOPUNITOWN,ADRADD,Address number suffix
+VW_PTS_COOPUNITOWN,ADRDIR,Street direction
+VW_PTS_COOPUNITOWN,ADRSTR,Address street name
+VW_PTS_COOPUNITOWN,ADRSUF,Street suffix
+VW_PTS_COOPUNITOWN,ADRSUF2,Street suffix #2
+VW_PTS_COOPUNITOWN,CITYNAME,City name
+VW_PTS_COOPUNITOWN,STATECODE,State or province(2 digit)
+VW_PTS_COOPUNITOWN,COUNTRY,Country
+VW_PTS_COOPUNITOWN,POSTALCODE,Postal Code (International zip code)
+VW_PTS_COOPUNITOWN,UNITDESC,Address unit description
+VW_PTS_COOPUNITOWN,UNITNO,Address unit number
+VW_PTS_COOPUNITOWN,ADDR1,Address 1
+VW_PTS_COOPUNITOWN,ADDR2,Address 2
+VW_PTS_COOPUNITOWN,ADDR3,Address 3
+VW_PTS_COOPUNITOWN,ZIP1,Zip code
+VW_PTS_COOPUNITOWN,ZIP2,Zip +4
+VW_PTS_COOPUNITOWN,CARRIER_RT,Carrier route
+VW_PTS_COOPUNITOWN,POSTAL_INDX,Postal index
+VW_PTS_COOPUNITOWN,PHONE,Phone
+VW_PTS_COOPUNITOWN,NOTE1,Note 1
+VW_PTS_COOPUNITOWN,NOTE2,Note 2
+VW_PTS_COOPUNITOWN,USER1,User defined field 1
+VW_PTS_COOPUNITOWN,USER2,User defined field 2
+VW_PTS_COOPUNITOWN,USER3,User defined field 3
+VW_PTS_COOPUNITOWN,USER4,User defined field 4
+VW_PTS_COOPUNITOWN,USER5,User defined field 5
+VW_PTS_COOPUNITOWN,USER6,User defined field 6
+VW_PTS_COOPUNITOWN,USER7,User defined field 7
+VW_PTS_COOPUNITOWN,USER8,User defined field 8
+VW_PTS_COOPUNITOWN,USER9,User defined field 9
+VW_PTS_COOPUNITOWN,USER10,User defined field 10
+VW_PTS_COOPUNITOWN,USER11,User defined field 11
+VW_PTS_COOPUNITOWN,USER12,User defined field 12
+VW_PTS_COOPUNITOWN,USER13,User defined field 13
+VW_PTS_COOPUNITOWN,USER14,User defined field 14
+VW_PTS_COOPUNITOWN,USER15,User defined field 15
+VW_PTS_COOPUNITOWN,USER16,User defined field 16
+VW_PTS_COOPUNITOWN,USER17,User defined field 17
+VW_PTS_COOPUNITOWN,USER18,User defined field 18
+VW_PTS_COOPUNITOWN,USER19,User defined field 19
+VW_PTS_COOPUNITOWN,USER20,User defined field 20
+VW_PTS_COOPUNITOWN,FEDID,Federal ID
+VW_PTS_COOPUNITOWN,SSN,Social security number
+VW_PTS_COOPUNITOWN,FAX,Fax number
+VW_PTS_COOPUNITOWN,EMAIL,Email address
+VW_PTS_COOPUNITOWN,CAREOF,Care of
+VW_PTS_COOPUNITOWN,SALEKEY,Salekey
+VW_PTS_COOPUNITOWN,SALEDT,Sale date
+VW_PTS_COOPUNITOWN,PRICE,Price
+VW_PTS_COOPUNITOWN,SHARES,Shares
+VW_PTS_COOPUNITOWN,SALEVAL,Sale validity
+VW_PTS_COOPUNITOWN,PRIMARYRES,Primary residence indicator
+VW_PTS_COOPUNITOWN,DEACTIVAT,Deactivate date
+VW_PTS_COOPUNITOWN,IASW_ID,iasWorld unique row identifier
+VW_PTS_COOPUNITOWN,TRANS_ID,iasWorld transaction number
+VW_PTS_COOPUNITOWN,UPD_STATUS,iasWorld update status for this row
+VW_PTS_COOPUNITOWN,COOPID,Cooperative identifier
+VW_PTS_COOPUNITOWN,NAME1_FIRSTNAME,Owner 1 First Name
+VW_PTS_COOPUNITOWN,NAME1_LASTNAME,Owner 1 Last Name
+VW_PTS_COOPUNITOWN,NAME1_MIDDLENAME,Owner 1 Middle Name
+VW_PTS_COOPUNITOWN,NAME1_PREFIX,Owner 1 Prefix
+VW_PTS_COOPUNITOWN,NAME1_SUFFIX,Owner 1 Suffix
+VW_PTS_COOPUNITOWN,NAME1_COMPANYNAME,Owner 1 Company Name
+VW_PTS_COOPUNITOWN,NAME2_FIRSTNAME,Owner 2 First Name
+VW_PTS_COOPUNITOWN,NAME2_LASTNAME,Owner 2 Last Name
+VW_PTS_COOPUNITOWN,NAME2_MIDDLENAME,Owner 2 Middle Name
+VW_PTS_COOPUNITOWN,NAME2_PREFIX,Owner 2 Prefix
+VW_PTS_COOPUNITOWN,NAME2_SUFFIX,Owner 2 Suffix
+VW_PTS_COOPUNITOWN,NAME2_COMPANYNAME,Owner 2 Company Name
+VW_PTS_EXADMN,JUR,Jurisdiction
+VW_PTS_EXADMN,PARID,Parcel identification number
+VW_PTS_EXADMN,TAXYR,Tax year
+VW_PTS_EXADMN,CASENO,Case Number
+VW_PTS_EXADMN,SEQ,Version number of this record
+VW_PTS_EXADMN,CUR,Current record indicator
+VW_PTS_EXADMN,WHO,User ID of last maintenance
+VW_PTS_EXADMN,WEN,Last maintenance date
+VW_PTS_EXADMN,STATUS,Processing status
+VW_PTS_EXADMN,RECTYPE,Record type
+VW_PTS_EXADMN,EXAPPL,Exemption application number
+VW_PTS_EXADMN,EXCODE,Exemption code
+VW_PTS_EXADMN,EXDATE,Date of exemption
+VW_PTS_EXADMN,EXSTAT,Exemption status
+VW_PTS_EXADMN,REASCD,Exemption reason code
+VW_PTS_EXADMN,ENDYR,Ending year
+VW_PTS_EXADMN,REPNAME,Representative name
+VW_PTS_EXADMN,REPADDR1,Representative address line 1
+VW_PTS_EXADMN,REPADDR2,Representative address line 2
+VW_PTS_EXADMN,REPADDR3,Representative address line 3
+VW_PTS_EXADMN,REPPHONE,Representative phone number
+VW_PTS_EXADMN,OWNNUM,Owner number
+VW_PTS_EXADMN,SALEKEY,Key pointing to the sale
+VW_PTS_EXADMN,NOTE1,Note field 1
+VW_PTS_EXADMN,NOTE2,Note field 2
+VW_PTS_EXADMN,USER1,User defined field 1
+VW_PTS_EXADMN,USER2,User defined field 2
+VW_PTS_EXADMN,USER3,User defined field 3
+VW_PTS_EXADMN,USER4,User defined field 4
+VW_PTS_EXADMN,USER5,User defined field 5
+VW_PTS_EXADMN,USER6,User defined field 6
+VW_PTS_EXADMN,USER7,User defined field 7
+VW_PTS_EXADMN,USER8,User defined field 8
+VW_PTS_EXADMN,USER9,User defined field 9
+VW_PTS_EXADMN,USER10,User defined field 10
+VW_PTS_EXADMN,USER11,User defined field 11
+VW_PTS_EXADMN,USER12,User defined field 12
+VW_PTS_EXADMN,USER13,User defined field 13
+VW_PTS_EXADMN,USER14,User defined field 14
+VW_PTS_EXADMN,USER15,User defined field 15
+VW_PTS_EXADMN,USER16,User defined field 16
+VW_PTS_EXADMN,USER17,User defined field 17
+VW_PTS_EXADMN,USER18,User defined field 18
+VW_PTS_EXADMN,USER19,User defined field 19
+VW_PTS_EXADMN,USER20,User defined field 20
+VW_PTS_EXADMN,USER21,User defined field 21
+VW_PTS_EXADMN,USER22,User defined field 22
+VW_PTS_EXADMN,USER23,User defined field 23
+VW_PTS_EXADMN,USER24,User defined field 24
+VW_PTS_EXADMN,USER25,User defined field 25
+VW_PTS_EXADMN,USER26,User defined field 26
+VW_PTS_EXADMN,USER27,User defined field 27
+VW_PTS_EXADMN,USER28,User defined field 28
+VW_PTS_EXADMN,USER29,User defined field 29
+VW_PTS_EXADMN,USER30,User defined field 30
+VW_PTS_EXADMN,DEACTIVAT,Deactivate date
+VW_PTS_EXADMN,IASW_ID,iasWorld unique row identifier
+VW_PTS_EXADMN,TRANS_ID,iasWorld transaction number
+VW_PTS_EXADMN,UPD_STATUS,iasWorld update status for this row
+VW_PTS_EXADMN,APPNAME1,Applicant Name 1
+VW_PTS_EXADMN,APPNAME2,Applicant Name 2
+VW_PTS_EXADMN,REPNAME2,Representative name 2
+VW_PTS_EXADMN,TITLE,Contact Person's Title
+VW_PTS_EXADMN,CONTACT1,Contact Name 1
+VW_PTS_EXADMN,CONTACT2,Contact Name 2
+VW_PTS_EXADMN,CONTACT_ADDR1,Contact Address Line 1
+VW_PTS_EXADMN,CONTACT_ADDR2,Contact Address Line 2
+VW_PTS_EXADMN,CONTACT_ADDR3,Contact Address Line 3
+VW_PTS_EXADMN,USER31,User defined field 31
+VW_PTS_EXADMN,USER32,User defined field 32
+VW_PTS_EXADMN,USER33,User defined field 33
+VW_PTS_EXADMN,USER34,User defined field 34
+VW_PTS_EXADMN,USER35,User defined field 35
+VW_PTS_EXADMN,USER36,User defined field 36
+VW_PTS_EXADMN,USER37,User defined field 37
+VW_PTS_EXADMN,USER38,User defined field 38
+VW_PTS_EXADMN,USER39,User defined field 39
+VW_PTS_EXADMN,USER40,User defined field 40
+VW_PTS_EXADMN,USER41,User defined field 41
+VW_PTS_EXADMN,USER42,User defined field 42
+VW_PTS_EXADMN,USER43,User defined field 43
+VW_PTS_EXADMN,USER44,User defined field 44
+VW_PTS_EXADMN,USER45,User defined field 45
+VW_PTS_EXADMN,USER46,User defined field 46
+VW_PTS_EXADMN,USER47,User defined field 47
+VW_PTS_EXADMN,USER48,User defined field 48
+VW_PTS_EXADMN,USER49,User defined field 49
+VW_PTS_EXADMN,USER50,User defined field 50
+VW_PTS_EXADMN,USER51,User defined field 51
+VW_PTS_EXADMN,USER52,User defined field 52
+VW_PTS_EXADMN,USER53,User defined field 53
+VW_PTS_EXADMN,USER54,User defined field 54
+VW_PTS_EXADMN,USER55,User defined field 55
+VW_PTS_EXADMN,USER56,User defined field 56
+VW_PTS_EXADMN,USER57,User defined field 57
+VW_PTS_EXADMN,USER58,User defined field 58
+VW_PTS_EXADMN,USER59,User defined field 59
+VW_PTS_EXADMN,USER60,User defined field 60
+VW_PTS_EXADMN,USER61,User defined field 61
+VW_PTS_EXADMN,USER62,User defined field 62
+VW_PTS_EXADMN,USER63,User defined field 63
+VW_PTS_EXADMN,USER64,User defined field 64
+VW_PTS_EXADMN,USER65,User defined field 65
+VW_PTS_EXADMN,USER66,User defined field 66
+VW_PTS_EXADMN,USER67,User defined field 67
+VW_PTS_EXADMN,USER68,User defined field 68
+VW_PTS_EXADMN,USER69,User defined field 69
+VW_PTS_EXADMN,USER70,User defined field 70
+VW_PTS_EXADMN,USER71,User defined field 71
+VW_PTS_EXADMN,USER72,User defined field 72
+VW_PTS_EXADMN,USER73,User defined field 73
+VW_PTS_EXADMN,USER74,User defined field 74
+VW_PTS_EXADMN,USER75,User defined field 75
+VW_PTS_EXADMN,USER76,User defined field 76
+VW_PTS_EXADMN,USER77,User defined field 77
+VW_PTS_EXADMN,USER78,User defined field 78
+VW_PTS_EXADMN,USER79,User defined field 79
+VW_PTS_EXADMN,USER80,User defined field 80
+VW_PTS_EXADMN,USER81,User defined field 81
+VW_PTS_EXADMN,USER82,User defined field 82
+VW_PTS_EXADMN,USER83,User defined field 83
+VW_PTS_EXADMN,USER84,User defined field 84
+VW_PTS_EXADMN,USER85,User defined field 85
+VW_PTS_EXADMN,USER86,User defined field 86
+VW_PTS_EXADMN,USER87,User defined field 87
+VW_PTS_EXADMN,USER88,User defined field 88
+VW_PTS_EXADMN,USER89,User defined field 89
+VW_PTS_EXADMN,USER90,User defined field 90
+VW_PTS_EXADMN,USER91,User defined field 91
+VW_PTS_EXADMN,USER92,User defined field 92
+VW_PTS_EXADMN,USER93,User defined field 93
+VW_PTS_EXADMN,USER94,User defined field 94
+VW_PTS_EXADMN,USER95,User defined field 95
+VW_PTS_EXADMN,USER96,User defined field 96
+VW_PTS_EXADMN,USER97,User defined field 97
+VW_PTS_EXADMN,USER98,User defined field 98
+VW_PTS_EXADMN,USER99,User defined field 99
+VW_PTS_EXADMN,USER100,User defined field 100
+VW_PTS_EXADMN,BLDGNO,Building Number
+VW_PTS_EXADMN,UNIT,Unit
+VW_PTS_EXADMN,USER101,User defined field 101
+VW_PTS_EXADMN,USER102,User defined field 102
+VW_PTS_EXADMN,USER103,User defined field 103
+VW_PTS_EXADMN,USER104,User defined field 104
+VW_PTS_EXADMN,USER105,User defined field 105
+VW_PTS_EXADMN,USER106,User defined field 106
+VW_PTS_EXADMN,USER107,User defined field 107
+VW_PTS_EXADMN,USER108,User defined field 108
+VW_PTS_EXADMN,USER109,User defined field 109
+VW_PTS_EXADMN,USER110,User defined field 110
+VW_PTS_EXADMN,USER111,User defined field 111
+VW_PTS_EXADMN,USER112,User defined field 112
+VW_PTS_EXADMN,USER113,User defined field 113
+VW_PTS_EXADMN,USER114,User defined field 114
+VW_PTS_EXADMN,USER115,User defined field 115
+VW_PTS_EXADMN,USER116,User defined field 116
+VW_PTS_EXADMN,USER117,User defined field 117
+VW_PTS_EXADMN,USER118,User defined field 118
+VW_PTS_EXADMN,USER119,User defined field 119
+VW_PTS_EXADMN,USER120,User defined field 120
+VW_PTS_EXADMN,USER121,User defined field 121
+VW_PTS_EXADMN,USER122,User defined field 122
+VW_PTS_EXADMN,USER123,User defined field 123
+VW_PTS_EXADMN,USER124,User defined field 124
+VW_PTS_EXADMN,USER125,User defined field 125
+VW_PTS_EXADMN,SSN1,Social security number 1
+VW_PTS_EXADMN,SSN2,Social security number 2
+VW_PTS_EXADMN,RECNR,Value record number
+VW_PTS_EXADMN,OWNNUM2,Owner number 2
+VW_PTS_EXADMN,OWNNUM3,Owner number 3
+VW_PTS_EXADMN,OWNNUM4,Owner number 4
+VW_PTS_EXADMN,OWNNUM5,Owner number 5
+VW_PTS_EXADMN,OWNNUM6,Owner number 6
+VW_PTS_EXADMN,OWNNUM7,Owner number 7
+VW_PTS_EXADMN,OWNNUM8,Owner number 8
+VW_PTS_EXADMN,OWNNUM9,Owner number 9
+VW_PTS_EXADMN,OWNNUM10,Owner number 10
+VW_PTS_EXADMN,APPNAME1_FIRSTNAME,Applicant 1 First Name
+VW_PTS_EXADMN,APPNAME1_LASTNAME,Applicant 1 Last Name
+VW_PTS_EXADMN,APPNAME1_MIDDLENAME,Applicant 1 Middle Name
+VW_PTS_EXADMN,APPNAME1_PREFIX,Applicant 1 Prefix
+VW_PTS_EXADMN,APPNAME1_SUFFIX,Applicant 1 Suffix
+VW_PTS_EXADMN,APPNAME1_COMPANYNAME,Applicant 1 Company Name
+VW_PTS_EXADMN,APPNAME2_FIRSTNAME,Applicant 2 First Name
+VW_PTS_EXADMN,APPNAME2_LASTNAME,Applicant 2 Last Name
+VW_PTS_EXADMN,APPNAME2_MIDDLENAME,Applicant 2 Middle Name
+VW_PTS_EXADMN,APPNAME2_PREFIX,Applicant 2 Prefix
+VW_PTS_EXADMN,APPNAME2_SUFFIX,Applicant 2 Suffix
+VW_PTS_EXADMN,APPNAME2_COMPANYNAME,Applicant 2 Company Name
+VW_PTS_EXADMN,USER126,User defined field 126
+VW_PTS_EXADMN,USER127,User defined field 127
+VW_PTS_EXADMN,USER128,User defined field 128
+VW_PTS_EXADMN,USER129,User defined field 129
+VW_PTS_EXADMN,USER130,User defined field 130
+VW_PTS_EXADMN,USER131,User defined field 131
+VW_PTS_EXADMN,USER132,User defined field 132
+VW_PTS_EXADMN,USER133,User defined field 133
+VW_PTS_EXADMN,USER134,User defined field 134
+VW_PTS_EXADMN,USER135,User defined field 135
+VW_PTS_EXADMN,UDATE1,User defined date field 1
+VW_PTS_EXADMN,UDATE2,User defined date field 2
+VW_PTS_EXADMN,UDATE3,User defined date field 3
+VW_PTS_EXADMN,UDATE4,User defined date field 4
+VW_PTS_EXADMN,UDATE5,User defined date field 5
+VW_PTS_EXADMN,UDATE6,User defined date field 6
+VW_PTS_EXADMN,UDATE7,User defined date field 7
+VW_PTS_EXADMN,UDATE8,User defined date field 8
+VW_PTS_EXADMN,UDATE9,User defined date field 9
+VW_PTS_EXADMN,UDATE10,User defined date field 10
+VW_PTS_EXADMN,USERVAL1,User defined numeric field 1
+VW_PTS_EXADMN,USERVAL2,User defined numeric field 2
+VW_PTS_EXADMN,USERVAL3,User defined numeric field 3
+VW_PTS_EXADMN,USERVAL4,User defined numeric field 4
+VW_PTS_EXADMN,USERVAL5,User defined numeric field 5
+VW_PTS_EXADMN,USERVAL6,User defined numeric field 6
+VW_PTS_EXADMN,USERVAL7,User defined numeric field 7
+VW_PTS_EXADMN,USERVAL8,User defined numeric field 8
+VW_PTS_EXADMN,USERVAL9,User defined numeric field 9
+VW_PTS_EXADMN,USERVAL10,User defined numeric field 10
+VW_PTS_EXAPP,JUR,Jurisdiction
+VW_PTS_EXAPP,PARID,Parcel identification number
+VW_PTS_EXAPP,TAXYR,Tax year
+VW_PTS_EXAPP,CASENO,Case Number
+VW_PTS_EXAPP,APPSEQ,Application sequence
+VW_PTS_EXAPP,SEQ,Version number of this record
+VW_PTS_EXAPP,CUR,Current record indicator
+VW_PTS_EXAPP,WHO,User ID of last maintenance
+VW_PTS_EXAPP,WEN,Last maintenance date
+VW_PTS_EXAPP,STATUS,Processing status
+VW_PTS_EXAPP,EXAPPL,Exemption application number
+VW_PTS_EXAPP,EXCODE,Exemption code
+VW_PTS_EXAPP,SSN,Social security number
+VW_PTS_EXAPP,MARSTAT,Marital status
+VW_PTS_EXAPP,DOB,Date of birth
+VW_PTS_EXAPP,APPTYPE,Application type
+VW_PTS_EXAPP,APPSTAT,Application status
+VW_PTS_EXAPP,STATREAS,Status reason code
+VW_PTS_EXAPP,TBLE,Table name of data to which this exemption applies
+VW_PTS_EXAPP,FLD,Column name of data to which this exemption applies
+VW_PTS_EXAPP,LLINE,Line number
+VW_PTS_EXAPP,SALEKEY,Key pointing to the sale
+VW_PTS_EXAPP,OVRCLASS1,Original class to be overridden
+VW_PTS_EXAPP,OVRCLASS,Override class
+VW_PTS_EXAPP,APNAME,Applicant name
+VW_PTS_EXAPP,APADDR1,Applicant address line 1
+VW_PTS_EXAPP,APADDR2,Applicant address line 2
+VW_PTS_EXAPP,APADDR3,Applicant address line 3
+VW_PTS_EXAPP,APPHONE,Applicant phone number
+VW_PTS_EXAPP,OWNNUM,Owner number
+VW_PTS_EXAPP,IMAGEID,Image identification number
+VW_PTS_EXAPP,USER1,User defined field 1
+VW_PTS_EXAPP,USER2,User defined field 2
+VW_PTS_EXAPP,USER3,User defined field 3
+VW_PTS_EXAPP,USER4,User defined field 4
+VW_PTS_EXAPP,USER5,User defined field 5
+VW_PTS_EXAPP,USER6,User defined field 6
+VW_PTS_EXAPP,USER7,User defined field 7
+VW_PTS_EXAPP,USER8,User defined field 8
+VW_PTS_EXAPP,USER9,User defined field 9
+VW_PTS_EXAPP,USER10,User defined field 10
+VW_PTS_EXAPP,USER11,User defined field 11
+VW_PTS_EXAPP,USER12,User defined field 12
+VW_PTS_EXAPP,USER13,User defined field 13
+VW_PTS_EXAPP,USER14,User defined field 14
+VW_PTS_EXAPP,USER15,User defined field 15
+VW_PTS_EXAPP,USER16,User defined field 16
+VW_PTS_EXAPP,USER17,User defined field 17
+VW_PTS_EXAPP,USER18,User defined field 18
+VW_PTS_EXAPP,USER19,User defined field 19
+VW_PTS_EXAPP,USER20,User defined field 20
+VW_PTS_EXAPP,USER21,User defined field 21
+VW_PTS_EXAPP,USER22,User defined field 22
+VW_PTS_EXAPP,USER23,User defined field 23
+VW_PTS_EXAPP,USER24,User defined field 24
+VW_PTS_EXAPP,USER25,User defined field 25
+VW_PTS_EXAPP,USER26,User defined field 26
+VW_PTS_EXAPP,USER27,User defined field 27
+VW_PTS_EXAPP,USER28,User defined field 28
+VW_PTS_EXAPP,USER29,User defined field 29
+VW_PTS_EXAPP,USER30,User defined field 30
+VW_PTS_EXAPP,USER31,User defined field 31
+VW_PTS_EXAPP,USER32,User defined field 32
+VW_PTS_EXAPP,USER33,User defined field 33
+VW_PTS_EXAPP,USER34,User defined field 34
+VW_PTS_EXAPP,USER35,User defined field 35
+VW_PTS_EXAPP,USER36,User defined field 36
+VW_PTS_EXAPP,USER37,User defined field 37
+VW_PTS_EXAPP,USER38,User defined field 38
+VW_PTS_EXAPP,USER39,User defined field 39
+VW_PTS_EXAPP,USER40,User defined field 40
+VW_PTS_EXAPP,USER41,User defined field 41
+VW_PTS_EXAPP,USER42,User defined field 42
+VW_PTS_EXAPP,USER43,User defined field 43
+VW_PTS_EXAPP,USER44,User defined field 44
+VW_PTS_EXAPP,USER45,User defined field 45
+VW_PTS_EXAPP,USER46,User defined field 46
+VW_PTS_EXAPP,USER47,User defined field 47
+VW_PTS_EXAPP,USER48,User defined field 48
+VW_PTS_EXAPP,USER49,User defined field 49
+VW_PTS_EXAPP,USER50,User defined field 50
+VW_PTS_EXAPP,USER51,User defined field 51
+VW_PTS_EXAPP,USER52,User defined field 52
+VW_PTS_EXAPP,USER53,User defined field 53
+VW_PTS_EXAPP,USER54,User defined field 54
+VW_PTS_EXAPP,USER55,User defined field 55
+VW_PTS_EXAPP,USER56,User defined field 56
+VW_PTS_EXAPP,USER57,User defined field 57
+VW_PTS_EXAPP,USER58,User defined field 58
+VW_PTS_EXAPP,USER59,User defined field 59
+VW_PTS_EXAPP,USER60,User defined field 60
+VW_PTS_EXAPP,USER61,User defined field 61
+VW_PTS_EXAPP,USER62,User defined field 62
+VW_PTS_EXAPP,USER63,User defined field 63
+VW_PTS_EXAPP,USER64,User defined field 64
+VW_PTS_EXAPP,USER65,User defined field 65
+VW_PTS_EXAPP,USER66,User defined field 66
+VW_PTS_EXAPP,USER67,User defined field 67
+VW_PTS_EXAPP,USER68,User defined field 68
+VW_PTS_EXAPP,USER69,User defined field 69
+VW_PTS_EXAPP,USER70,User defined field 70
+VW_PTS_EXAPP,DEACTIVAT,Deactivate date
+VW_PTS_EXAPP,IASW_ID,iasWorld unique row identifier
+VW_PTS_EXAPP,TRANS_ID,iasWorld transaction number
+VW_PTS_EXAPP,UPD_STATUS,iasWorld update status for this row
+VW_PTS_EXAPP,USER71,User defined field 71
+VW_PTS_EXAPP,USER72,User defined field 72
+VW_PTS_EXAPP,USER73,User defined field 73
+VW_PTS_EXAPP,USER74,User defined field 74
+VW_PTS_EXAPP,USER75,User defined field 75
+VW_PTS_EXAPP,USER76,User defined field 76
+VW_PTS_EXAPP,USER77,User defined field 77
+VW_PTS_EXAPP,USER78,User defined field 78
+VW_PTS_EXAPP,USER79,User defined field 79
+VW_PTS_EXAPP,USER80,User defined field 80
+VW_PTS_EXAPP,USER81,User defined field 81
+VW_PTS_EXAPP,USER82,User defined field 82
+VW_PTS_EXAPP,USER83,User defined field 83
+VW_PTS_EXAPP,USER84,User defined field 84
+VW_PTS_EXAPP,USER85,User defined field 85
+VW_PTS_EXAPP,USER86,User defined field 86
+VW_PTS_EXAPP,USER87,User defined field 87
+VW_PTS_EXAPP,USER88,User defined field 88
+VW_PTS_EXAPP,USER89,User defined field 89
+VW_PTS_EXAPP,USER90,User defined field 90
+VW_PTS_EXAPP,USER91,User defined field 91
+VW_PTS_EXAPP,USER92,User defined field 92
+VW_PTS_EXAPP,USER93,User defined field 93
+VW_PTS_EXAPP,USER94,User defined field 94
+VW_PTS_EXAPP,USER95,User defined field 95
+VW_PTS_EXAPP,USER96,User defined field 96
+VW_PTS_EXAPP,USER97,User defined field 97
+VW_PTS_EXAPP,USER98,User defined field 98
+VW_PTS_EXAPP,USER99,User defined field 99
+VW_PTS_EXAPP,USER100,User defined field 100
+VW_PTS_EXAPP,ROLLTYPE,Tax roll name
+VW_PTS_EXAPP,YRBEG,Year Begin Date
+VW_PTS_EXAPP,YREND,Year End Date
+VW_PTS_EXAPP,APNAME2,Applicant name 2
+VW_PTS_EXAPP,APNAME3,Applicant name 3
+VW_PTS_EXAPP,APNAME4,Applicant name 4
+VW_PTS_EXAPP,SSN2,Social security number 2
+VW_PTS_EXAPP,SSN3,Social security number 3
+VW_PTS_EXAPP,SSN4,Social security number 4
+VW_PTS_EXAPP,DOB2,Date of birth 2
+VW_PTS_EXAPP,DOB3,Date of birth 3
+VW_PTS_EXAPP,DOB4,Date of birth 4
+VW_PTS_EXAPP,APDATE,Application / Renewal Date
+VW_PTS_EXAPP,PEREX,Percent of Exemption
+VW_PTS_EXAPP,BATCH,Batch Process ID
+VW_PTS_EXAPP,BATCHNO,Batch Process Number
+VW_PTS_EXAPP,PROOFOWN,Proof of Ownership
+VW_PTS_EXAPP,TYPEOWN,Type of Ownership
+VW_PTS_EXAPP,PROOFRES,Proof of Residency
+VW_PTS_EXAPP,NOTE1,Note field 1
+VW_PTS_EXAPP,NOTE2,Note field 2
+VW_PTS_EXAPP,NOTE3,Note field 3
+VW_PTS_EXAPP,NOTE4,Note field 4
+VW_PTS_EXAPP,NOTE5,Note field 5
+VW_PTS_EXAPP,NOTE6,Note field 6
+VW_PTS_EXAPP,OVRCOD1,Override codes for use with USERVAL
+VW_PTS_EXAPP,OVRCOD2,Override codes for use with USERVAL
+VW_PTS_EXAPP,OVRCOD3,Override codes for use with USERVAL
+VW_PTS_EXAPP,OVRCOD4,Override codes for use with USERVAL
+VW_PTS_EXAPP,OVRCOD5,Override codes for use with USERVAL
+VW_PTS_EXAPP,USERVAL1,User defined numeric field 1
+VW_PTS_EXAPP,USERVAL2,User defined numeric field 2
+VW_PTS_EXAPP,USERVAL3,User defined numeric field 3
+VW_PTS_EXAPP,USERVAL4,User defined numeric field 4
+VW_PTS_EXAPP,USERVAL5,User defined numeric field 5
+VW_PTS_EXAPP,USERVAL6,User defined numeric field 6
+VW_PTS_EXAPP,USERVAL7,User defined numeric field 7
+VW_PTS_EXAPP,USERVAL8,User defined numeric field 8
+VW_PTS_EXAPP,USERVAL9,User defined numeric field 9
+VW_PTS_EXAPP,USERVAL10,User defined numeric field 10
+VW_PTS_EXAPP,USERVAL11,User defined numeric field 11
+VW_PTS_EXAPP,USERVAL12,User defined numeric field 12
+VW_PTS_EXAPP,USERVAL13,User defined numeric field 13
+VW_PTS_EXAPP,USERVAL14,User defined numeric field 14
+VW_PTS_EXAPP,USERVAL15,User defined numeric field 15
+VW_PTS_EXAPP,USERVAL16,User defined numeric field 16
+VW_PTS_EXAPP,USERVAL17,User defined numeric field 17
+VW_PTS_EXAPP,USERVAL18,User defined numeric field 18
+VW_PTS_EXAPP,USERVAL19,User defined numeric field 19
+VW_PTS_EXAPP,USERVAL20,User defined numeric field 20
+VW_PTS_EXAPP,USERVAL21,User defined numeric field 21
+VW_PTS_EXAPP,USERVAL22,User defined numeric field 22
+VW_PTS_EXAPP,USERVAL23,User defined numeric field 23
+VW_PTS_EXAPP,USERVAL24,User defined numeric field 24
+VW_PTS_EXAPP,USERVAL25,User defined numeric field 25
+VW_PTS_EXAPP,USERVAL26,User defined numeric field 26
+VW_PTS_EXAPP,USERVAL27,User defined numeric field 27
+VW_PTS_EXAPP,USERVAL28,User defined numeric field 28
+VW_PTS_EXAPP,USERVAL29,User defined numeric field 29
+VW_PTS_EXAPP,USERVAL30,User defined numeric field 30
+VW_PTS_EXAPP,USERVAL31,User defined numeric field 31
+VW_PTS_EXAPP,USERVAL32,User defined numeric field 32
+VW_PTS_EXAPP,USERVAL33,User defined numeric field 33
+VW_PTS_EXAPP,USERVAL34,User defined numeric field 34
+VW_PTS_EXAPP,USERVAL35,User defined numeric field 35
+VW_PTS_EXAPP,USERVAL36,User defined numeric field 36
+VW_PTS_EXAPP,USERVAL37,User defined numeric field 37
+VW_PTS_EXAPP,USERVAL38,User defined numeric field 38
+VW_PTS_EXAPP,USERVAL39,User defined numeric field 39
+VW_PTS_EXAPP,USERVAL40,User defined numeric field 40
+VW_PTS_EXAPP,USERVAL41,User defined numeric field 41
+VW_PTS_EXAPP,USERVAL42,User defined numeric field 42
+VW_PTS_EXAPP,USERVAL43,User defined numeric field 43
+VW_PTS_EXAPP,USERVAL44,User defined numeric field 44
+VW_PTS_EXAPP,USERVAL45,User defined numeric field 45
+VW_PTS_EXAPP,USERVAL46,User defined numeric field 46
+VW_PTS_EXAPP,USERVAL47,User defined numeric field 47
+VW_PTS_EXAPP,USERVAL48,User defined numeric field 48
+VW_PTS_EXAPP,USERVAL49,User defined numeric field 49
+VW_PTS_EXAPP,USERVAL50,User defined numeric field 50
+VW_PTS_EXAPP,UDATE1,User defined date field 1
+VW_PTS_EXAPP,UDATE2,User defined date field 2
+VW_PTS_EXAPP,UDATE3,User defined date field 3
+VW_PTS_EXAPP,UDATE4,User defined date field 4
+VW_PTS_EXAPP,UDATE5,User defined date field 5
+VW_PTS_EXAPP,UDATE6,User defined date field 6
+VW_PTS_EXAPP,UDATE7,User defined date field 7
+VW_PTS_EXAPP,UDATE8,User defined date field 8
+VW_PTS_EXAPP,UDATE9,User defined date field 9
+VW_PTS_EXAPP,UDATE10,User defined date field 10
+VW_PTS_EXAPP,WHOCALC,Batch computation/change
+VW_PTS_EXAPP,WENCALC,Date of last batch change
+VW_PTS_EXAPP,PROCNAME,Procedure name
+VW_PTS_EXAPP,PROCDATE,Procedure date
+VW_PTS_EXAPP,BLDGNO,Building Number
+VW_PTS_EXAPP,UNIT,Unit
+VW_PTS_EXAPP,TAXID,Tax ID
+VW_PTS_EXAPP,OWNCHG,
+VW_PTS_EXAPP,COOPUNITKEY,
+VW_PTS_EXAPP,CYCLESTART,
+VW_PTS_EXAPP,CYCLEEND,
+VW_PTS_EXAPP,EXLANDPCT,
+VW_PTS_EXAPP,EXBLDGPCT,
+VW_PTS_EXAPP,CUBEINELIGPCT,
+VW_PTS_EXAPP,COMMINELIGPCT,
+VW_PTS_EXAPP,CODE2,
+VW_PTS_EXAPP,CAPYRBEG,
+VW_PTS_EXAPP,CAPYREND,
+VW_PTS_EXAPP,CAPYYOVR,
+VW_PTS_EXAPP,USERVAL51,User defined numeric field 51
+VW_PTS_EXAPP,USERVAL52,User defined numeric field 52
+VW_PTS_EXAPP,USERVAL53,User defined numeric field 53
+VW_PTS_EXAPP,USERVAL54,User defined numeric field 54
+VW_PTS_EXAPP,USERVAL55,User defined numeric field 55
+VW_PTS_EXAPP,USERVAL56,User defined numeric field 56
+VW_PTS_EXAPP,USERVAL57,User defined numeric field 57
+VW_PTS_EXAPP,USERVAL58,User defined numeric field 58
+VW_PTS_EXAPP,USERVAL59,User defined numeric field 59
+VW_PTS_EXAPP,USERVAL60,User defined numeric field 60
+VW_PTS_EXAPP,USERVAL61,User defined numeric field 61
+VW_PTS_EXAPP,USERVAL62,User defined numeric field 62
+VW_PTS_EXAPP,USERVAL63,User defined numeric field 63
+VW_PTS_EXAPP,USERVAL64,User defined numeric field 64
+VW_PTS_EXAPP,USERVAL65,User defined numeric field 65
+VW_PTS_EXAPP,USERVAL66,User defined numeric field 66
+VW_PTS_EXAPP,USERVAL67,User defined numeric field 67
+VW_PTS_EXAPP,USERVAL68,User defined numeric field 68
+VW_PTS_EXAPP,USERVAL69,User defined numeric field 69
+VW_PTS_EXAPP,USERVAL70,User defined numeric field 70
+VW_PTS_EXAPP,USERVAL71,User defined numeric field 71
+VW_PTS_EXAPP,USERVAL72,User defined numeric field 72
+VW_PTS_EXAPP,USERVAL73,User defined numeric field 73
+VW_PTS_EXAPP,USERVAL74,User defined numeric field 74
+VW_PTS_EXAPP,USERVAL75,User defined numeric field 75
+VW_PTS_EXAPP,USERVAL76,User defined numeric field 76
+VW_PTS_EXAPP,USERVAL77,User defined numeric field 77
+VW_PTS_EXAPP,USERVAL78,User defined numeric field 78
+VW_PTS_EXAPP,USERVAL79,User defined numeric field 79
+VW_PTS_EXAPP,USERVAL80,User defined numeric field 80
+VW_PTS_EXAPP,USERVAL81,User defined numeric field 81
+VW_PTS_EXAPP,USERVAL82,User defined numeric field 82
+VW_PTS_EXAPP,USERVAL83,User defined numeric field 83
+VW_PTS_EXAPP,USERVAL84,User defined numeric field 84
+VW_PTS_EXAPP,USERVAL85,User defined numeric field 85
+VW_PTS_EXAPP,USERVAL86,User defined numeric field 86
+VW_PTS_EXAPP,USERVAL87,User defined numeric field 87
+VW_PTS_EXAPP,USERVAL88,User defined numeric field 88
+VW_PTS_EXAPP,USERVAL89,User defined numeric field 89
+VW_PTS_EXAPP,USERVAL90,User defined numeric field 90
+VW_PTS_EXAPP,OVRCOD6,Override codes for use with USERVAL
+VW_PTS_EXAPP,OVRCOD7,Override codes for use with USERVAL
+VW_PTS_EXAPP,OVRCOD8,Override codes for use with USERVAL
+VW_PTS_EXAPP,OVRCOD9,Override codes for use with USERVAL
+VW_PTS_EXAPP,OVRCOD10,Override codes for use with USERVAL
+VW_PTS_EXAPP,OVRCOD11,Override codes for use with USERVAL
+VW_PTS_EXAPP,OVRCOD12,Override codes for use with USERVAL
+VW_PTS_EXAPP,OVRCOD13,Override codes for use with USERVAL
+VW_PTS_EXAPP,OVRCOD14,Override codes for use with USERVAL
+VW_PTS_EXAPP,OVRCOD15,Override codes for use with USERVAL
+VW_PTS_EXAPP,OVRCOD16,Override codes for use with USERVAL
+VW_PTS_EXAPP,OVRCOD17,Override codes for use with USERVAL
+VW_PTS_EXAPP,OVRCOD18,Override codes for use with USERVAL
+VW_PTS_EXAPP,OVRCOD19,Override codes for use with USERVAL
+VW_PTS_EXAPP,OVRCOD20,Override codes for use with USERVAL
+VW_PTS_EXAPP,OVRCOD21,Override codes for use with USERVAL
+VW_PTS_EXAPP,OVRCOD22,Override codes for use with USERVAL
+VW_PTS_EXAPP,OVRCOD23,Override codes for use with USERVAL
+VW_PTS_EXAPP,OVRCOD24,Override codes for use with USERVAL
+VW_PTS_EXAPP,OVRCOD25,Override codes for use with USERVAL
+VW_PTS_EXAPP,OVRCOD26,Override codes for use with USERVAL
+VW_PTS_EXAPP,OVRCOD27,Override codes for use with USERVAL
+VW_PTS_EXAPP,OVRCOD28,Override codes for use with USERVAL
+VW_PTS_EXAPP,OVRCOD29,Override codes for use with USERVAL
+VW_PTS_EXAPP,OVRCOD30,Override codes for use with USERVAL
+VW_PTS_EXAPP,APNAME5,Applicant name 5
+VW_PTS_EXAPP,APNAME6,Applicant name 6
+VW_PTS_EXAPP,APNAME7,Applicant name 7
+VW_PTS_EXAPP,APNAME8,Applicant name 8
+VW_PTS_EXAPP,APNAME9,Applicant name 9
+VW_PTS_EXAPP,APNAME10,Applicant name 10
+VW_PTS_EXAPP,DOB5,Date of birth 5
+VW_PTS_EXAPP,DOB6,Date of birth 6
+VW_PTS_EXAPP,DOB7,Date of birth 7
+VW_PTS_EXAPP,DOB8,Date of birth 8
+VW_PTS_EXAPP,DOB9,Date of birth 9
+VW_PTS_EXAPP,DOB10,Date of birth 10
+VW_PTS_EXAPP,SSN5,Social security number 5
+VW_PTS_EXAPP,SSN6,Social security number 6
+VW_PTS_EXAPP,SSN7,Social security number 7
+VW_PTS_EXAPP,SSN8,Social security number 8
+VW_PTS_EXAPP,SSN9,Social security number 9
+VW_PTS_EXAPP,SSN10,Social security number 10
+VW_PTS_EXAPP,ASSETID,Asset ID number
+VW_PTS_EXAPP,USER101,User defined field 101
+VW_PTS_EXAPP,USER102,User defined field 102
+VW_PTS_EXAPP,USER103,User defined field 103
+VW_PTS_EXAPP,USER104,User defined field 104
+VW_PTS_EXAPP,USER105,User defined field 105
+VW_PTS_EXAPP,USER106,User defined field 106
+VW_PTS_EXAPP,USER107,User defined field 107
+VW_PTS_EXAPP,USER108,User defined field 108
+VW_PTS_EXAPP,USER109,User defined field 109
+VW_PTS_EXAPP,USER110,User defined field 110
+VW_PTS_EXAPP,USER111,User defined field 111
+VW_PTS_EXAPP,USER112,User defined field 112
+VW_PTS_EXAPP,USER113,User defined field 113
+VW_PTS_EXAPP,USER114,User defined field 114
+VW_PTS_EXAPP,USER115,User defined field 115
+VW_PTS_EXAPP,USER116,User defined field 116
+VW_PTS_EXAPP,USER117,User defined field 117
+VW_PTS_EXAPP,USER118,User defined field 118
+VW_PTS_EXAPP,USER119,User defined field 119
+VW_PTS_EXAPP,USER120,User defined field 120
+VW_PTS_EXAPP,USER121,User defined field 121
+VW_PTS_EXAPP,USER122,User defined field 122
+VW_PTS_EXAPP,USER123,User defined field 123
+VW_PTS_EXAPP,USER124,User defined field 124
+VW_PTS_EXAPP,USER125,User defined field 125
+VW_PTS_EXAPP,APNAME_FIRSTNAME,
+VW_PTS_EXAPP,APNAME_LASTNAME,
+VW_PTS_EXAPP,APNAME_MIDDLENAME,
+VW_PTS_EXAPP,APNAME_PREFIX,
+VW_PTS_EXAPP,APNAME_SUFFIX,
+VW_PTS_EXAPP,APNAME_COMPANYNAME,
+VW_PTS_EXAPP,APNAME2_FIRSTNAME,Applicant 2 First Name
+VW_PTS_EXAPP,APNAME2_LASTNAME,Applicant 2 Last Name
+VW_PTS_EXAPP,APNAME2_MIDDLENAME,Applicant 2 Middle Name
+VW_PTS_EXAPP,APNAME2_PREFIX,Applicant 2 Prefix
+VW_PTS_EXAPP,APNAME2_SUFFIX,Applicant 2 Suffix
+VW_PTS_EXAPP,APNAME2_COMPANYNAME,Applicant 2 Company Name
+VW_PTS_EXAPP,APNAME3_FIRSTNAME,Applicant 1 First Name
+VW_PTS_EXAPP,APNAME3_LASTNAME,Applicant 1 Last Name
+VW_PTS_EXAPP,APNAME3_MIDDLENAME,Applicant 1 Middle Name
+VW_PTS_EXAPP,APNAME3_PREFIX,Applicant 1 Prefix
+VW_PTS_EXAPP,APNAME3_SUFFIX,Applicant 1 Suffix
+VW_PTS_EXAPP,APNAME3_COMPANYNAME,Applicant 1 Company Name
+VW_PTS_EXAPP,APNAME4_FIRSTNAME,Applicant 2 First Name
+VW_PTS_EXAPP,APNAME4_LASTNAME,Applicant 2 Last Name
+VW_PTS_EXAPP,APNAME4_MIDDLENAME,Applicant 2 Middle Name
+VW_PTS_EXAPP,APNAME4_PREFIX,Applicant 2 Prefix
+VW_PTS_EXAPP,APNAME4_SUFFIX,Applicant 2 Suffix
+VW_PTS_EXAPP,APNAME4_COMPANYNAME,Applicant 2 Company Name
+VW_PTS_EXAPP,APNAME5_FIRSTNAME,Applicant 1 First Name
+VW_PTS_EXAPP,APNAME5_LASTNAME,Applicant 1 Last Name
+VW_PTS_EXAPP,APNAME5_MIDDLENAME,Applicant 1 Middle Name
+VW_PTS_EXAPP,APNAME5_PREFIX,Applicant 1 Prefix
+VW_PTS_EXAPP,APNAME5_SUFFIX,Applicant 1 Suffix
+VW_PTS_EXAPP,APNAME5_COMPANYNAME,Applicant 1 Company Name
+VW_PTS_EXAPP,APNAME6_FIRSTNAME,Applicant 2 First Name
+VW_PTS_EXAPP,APNAME6_LASTNAME,Applicant 2 Last Name
+VW_PTS_EXAPP,APNAME6_MIDDLENAME,Applicant 2 Middle Name
+VW_PTS_EXAPP,APNAME6_PREFIX,Applicant 2 Prefix
+VW_PTS_EXAPP,APNAME6_SUFFIX,Applicant 2 Suffix
+VW_PTS_EXAPP,APNAME6_COMPANYNAME,Applicant 2 Company Name
+VW_PTS_EXAPP,APNAME7_FIRSTNAME,Applicant 1 First Name
+VW_PTS_EXAPP,APNAME7_LASTNAME,Applicant 1 Last Name
+VW_PTS_EXAPP,APNAME7_MIDDLENAME,Applicant 1 Middle Name
+VW_PTS_EXAPP,APNAME7_PREFIX,Applicant 1 Prefix
+VW_PTS_EXAPP,APNAME7_SUFFIX,Applicant 1 Suffix
+VW_PTS_EXAPP,APNAME7_COMPANYNAME,Applicant 1 Company Name
+VW_PTS_EXAPP,APNAME8_FIRSTNAME,Applicant 2 First Name
+VW_PTS_EXAPP,APNAME8_LASTNAME,Applicant 2 Last Name
+VW_PTS_EXAPP,APNAME8_MIDDLENAME,Applicant 2 Middle Name
+VW_PTS_EXAPP,APNAME8_PREFIX,Applicant 2 Prefix
+VW_PTS_EXAPP,APNAME8_SUFFIX,Applicant 2 Suffix
+VW_PTS_EXAPP,APNAME8_COMPANYNAME,Applicant 2 Company Name
+VW_PTS_EXAPP,APNAME9_FIRSTNAME,Applicant 1 First Name
+VW_PTS_EXAPP,APNAME9_LASTNAME,Applicant 1 Last Name
+VW_PTS_EXAPP,APNAME9_MIDDLENAME,Applicant 1 Middle Name
+VW_PTS_EXAPP,APNAME9_PREFIX,Applicant 1 Prefix
+VW_PTS_EXAPP,APNAME9_SUFFIX,Applicant 1 Suffix
+VW_PTS_EXAPP,APNAME9_COMPANYNAME,Applicant 1 Company Name
+VW_PTS_EXAPP,APNAME10_FIRSTNAME,Applicant 2 First Name
+VW_PTS_EXAPP,APNAME10_LASTNAME,Applicant 2 Last Name
+VW_PTS_EXAPP,APNAME10_MIDDLENAME,Applicant 2 Middle Name
+VW_PTS_EXAPP,APNAME10_PREFIX,Applicant 2 Prefix
+VW_PTS_EXAPP,APNAME10_SUFFIX,Applicant 2 Suffix
+VW_PTS_EXAPP,APNAME10_COMPANYNAME,Applicant 2 Company Name
+VW_PTS_EXAPP,UDATE11,User defined date field 11
+VW_PTS_EXAPP,UDATE12,User defined date field 12
+VW_PTS_EXAPP,UDATE13,User defined date field 13
+VW_PTS_EXAPP,UDATE14,User defined date field 14
+VW_PTS_EXAPP,UDATE15,User defined date field 15
+VW_PTS_EXAPP,FORM,Adder/Remitter form number
+VW_PTS_EXAPP,LOCKYR,Lock Year
+VW_PTS_EXAPP,PRIMARY,Is Primary?
+VW_PTS_EXDET,JUR,Jurisdiction
+VW_PTS_EXDET,PARID,Parcel identification number
+VW_PTS_EXDET,TAXYR,Tax year
+VW_PTS_EXDET,EXCODE,Exemption code
+VW_PTS_EXDET,LINENO,Exemption line line number for this parid/excode
+VW_PTS_EXDET,SEQ,Version number of this record
+VW_PTS_EXDET,CUR,Current record indicator
+VW_PTS_EXDET,WHO,User ID of last maintenance
+VW_PTS_EXDET,WEN,Last maintenance date
+VW_PTS_EXDET,WHOCALC,Batch computation/change
+VW_PTS_EXDET,WENCALC,Date of last batch change
+VW_PTS_EXDET,STATUS,Processing status
+VW_PTS_EXDET,PROCNAME,Procedure name
+VW_PTS_EXDET,PROCDATE,Procedure date
+VW_PTS_EXDET,CASENO,Case Number
+VW_PTS_EXDET,SCRN,Screen name to which this exemption applies
+VW_PTS_EXDET,FLD,Column name to which this exemption applies
+VW_PTS_EXDET,CARD,Building (card) number
+VW_PTS_EXDET,LLINE,Line number
+VW_PTS_EXDET,ROLLTYPE,Tax roll name
+VW_PTS_EXDET,VALYEAR,Valuation year
+VW_PTS_EXDET,VALCLASS,Tax assessment class
+VW_PTS_EXDET,PROJNO,Project number
+VW_PTS_EXDET,OVERRIDE,Override indicator
+VW_PTS_EXDET,OVRVAL,Override value
+VW_PTS_EXDET,YRBEG,Year exemption begins
+VW_PTS_EXDET,CONST1,Constant value 1
+VW_PTS_EXDET,CONST2,Constant value 2
+VW_PTS_EXDET,EXLAND,Exemption land value
+VW_PTS_EXDET,EXBLDG,Exemption building value
+VW_PTS_EXDET,EXOTHER,Exemption other value
+VW_PTS_EXDET,APLAND,Applied exemption land value
+VW_PTS_EXDET,APBLDG,Applied exemption building value
+VW_PTS_EXDET,APOTHER,Applied exemption other value
+VW_PTS_EXDET,RECIPTBLE,Table where value to be exempted is located
+VW_PTS_EXDET,RECIPFLD,Column name of value to be exempted is located
+VW_PTS_EXDET,RECIPLINE,Line number where value to be exempted is located
+VW_PTS_EXDET,SALEKEY,Key pointing to the sale
+VW_PTS_EXDET,STATFLG,Status flag
+VW_PTS_EXDET,REASCD,Reason code
+VW_PTS_EXDET,EXLINK,To maintain link between multiple lines of exemptions for the same owner
+VW_PTS_EXDET,EXSEQ,Sequence in which the exemption has to be applied within the link
+VW_PTS_EXDET,CODEJUR,The Jurisdiction number that is associated with the exemption code
+VW_PTS_EXDET,YREND,Ending Year
+VW_PTS_EXDET,UNITS,Number of Units
+VW_PTS_EXDET,USERVAL1,User defined field numeric 1
+VW_PTS_EXDET,USERVAL2,User defined field numeric 2
+VW_PTS_EXDET,USERVAL3,User defined field numeric 3
+VW_PTS_EXDET,USERVAL4,User defined field numeric 4
+VW_PTS_EXDET,USERVAL5,User defined field numeric 5
+VW_PTS_EXDET,USERVAL6,User defined field numeric 6
+VW_PTS_EXDET,USERVAL7,User defined field numeric 7
+VW_PTS_EXDET,USERVAL8,User defined field numeric 8
+VW_PTS_EXDET,USERVAL9,User defined field numeric 9
+VW_PTS_EXDET,USERVAL10,User defined field numeric 10
+VW_PTS_EXDET,USERVAL11,User defined field numeric 11
+VW_PTS_EXDET,USERVAL12,User defined field numeric 12
+VW_PTS_EXDET,USERVAL13,User defined field numeric 13
+VW_PTS_EXDET,USERVAL14,User defined field numeric 14
+VW_PTS_EXDET,USERVAL15,User defined field numeric 15
+VW_PTS_EXDET,USERVAL16,User defined field numeric 16
+VW_PTS_EXDET,USERVAL17,User defined field numeric 17
+VW_PTS_EXDET,USERVAL18,User defined field numeric 18
+VW_PTS_EXDET,USERVAL19,User defined field numeric 19
+VW_PTS_EXDET,USERVAL20,User defined field numeric 20
+VW_PTS_EXDET,UDATE1,User defined date field 1
+VW_PTS_EXDET,UDATE2,User defined date field 2
+VW_PTS_EXDET,UDATE3,User defined date field 3
+VW_PTS_EXDET,UDATE4,User defined date field 4
+VW_PTS_EXDET,UDATE5,User defined date field 5
+VW_PTS_EXDET,UDATE6,User defined date field 6
+VW_PTS_EXDET,UDATE7,User defined date field 7
+VW_PTS_EXDET,UDATE8,User defined date field 8
+VW_PTS_EXDET,UDATE9,User defined date field 9
+VW_PTS_EXDET,UDATE10,User defined date field 10
+VW_PTS_EXDET,UDATE11,User defined date field 11
+VW_PTS_EXDET,UDATE12,User defined date field 12
+VW_PTS_EXDET,UDATE13,User defined date field 13
+VW_PTS_EXDET,UDATE14,User defined date field 14
+VW_PTS_EXDET,UDATE15,User defined date field 15
+VW_PTS_EXDET,UDATE16,User defined date field 16
+VW_PTS_EXDET,UDATE17,User defined date field 17
+VW_PTS_EXDET,UDATE18,User defined date field 18
+VW_PTS_EXDET,UDATE19,User defined date field 19
+VW_PTS_EXDET,UDATE20,User defined date field 20
+VW_PTS_EXDET,USER1,User defined field 1
+VW_PTS_EXDET,USER2,User defined field 2
+VW_PTS_EXDET,USER3,User defined field 3
+VW_PTS_EXDET,USER4,User defined field 4
+VW_PTS_EXDET,USER5,User defined field 5
+VW_PTS_EXDET,USER6,User defined field 6
+VW_PTS_EXDET,USER7,User defined field 7
+VW_PTS_EXDET,USER8,User defined field 8
+VW_PTS_EXDET,USER9,User defined field 9
+VW_PTS_EXDET,USER10,User defined field 10
+VW_PTS_EXDET,USER11,User defined field 11
+VW_PTS_EXDET,USER12,User defined field 12
+VW_PTS_EXDET,USER13,User defined field 13
+VW_PTS_EXDET,USER14,User defined field 14
+VW_PTS_EXDET,USER15,User defined field 15
+VW_PTS_EXDET,USER16,User defined field 16
+VW_PTS_EXDET,USER17,User defined field 17
+VW_PTS_EXDET,USER18,User defined field 18
+VW_PTS_EXDET,USER19,User defined field 19
+VW_PTS_EXDET,USER20,User defined field 20
+VW_PTS_EXDET,USER21,User defined field 21
+VW_PTS_EXDET,USER22,User defined field 22
+VW_PTS_EXDET,USER23,User defined field 23
+VW_PTS_EXDET,USER24,User defined field 24
+VW_PTS_EXDET,USER25,User defined field 25
+VW_PTS_EXDET,USER26,User defined field 26
+VW_PTS_EXDET,USER27,User defined field 27
+VW_PTS_EXDET,USER28,User defined field 28
+VW_PTS_EXDET,USER29,User defined field 29
+VW_PTS_EXDET,USER30,User defined field 30
+VW_PTS_EXDET,USER31,User defined field 31
+VW_PTS_EXDET,USER32,User defined field 32
+VW_PTS_EXDET,USER33,User defined field 33
+VW_PTS_EXDET,USER34,User defined field 34
+VW_PTS_EXDET,USER35,User defined field 35
+VW_PTS_EXDET,USER36,User defined field 36
+VW_PTS_EXDET,USER37,User defined field 37
+VW_PTS_EXDET,USER38,User defined field 38
+VW_PTS_EXDET,USER39,User defined field 39
+VW_PTS_EXDET,USER40,User defined field 40
+VW_PTS_EXDET,USER41,User defined field 41
+VW_PTS_EXDET,USER42,User defined field 42
+VW_PTS_EXDET,USER43,User defined field 43
+VW_PTS_EXDET,USER44,User defined field 44
+VW_PTS_EXDET,USER45,User defined field 45
+VW_PTS_EXDET,USER46,User defined field 46
+VW_PTS_EXDET,USER47,User defined field 47
+VW_PTS_EXDET,USER48,User defined field 48
+VW_PTS_EXDET,USER49,User defined field 49
+VW_PTS_EXDET,USER50,User defined field 50
+VW_PTS_EXDET,USER51,User defined field 51
+VW_PTS_EXDET,USER52,User defined field 52
+VW_PTS_EXDET,USER53,User defined field 53
+VW_PTS_EXDET,USER54,User defined field 54
+VW_PTS_EXDET,USER55,User defined field 55
+VW_PTS_EXDET,USER56,User defined field 56
+VW_PTS_EXDET,USER57,User defined field 57
+VW_PTS_EXDET,USER58,User defined field 58
+VW_PTS_EXDET,USER59,User defined field 59
+VW_PTS_EXDET,USER60,User defined field 60
+VW_PTS_EXDET,USER61,User defined field 61
+VW_PTS_EXDET,USER62,User defined field 62
+VW_PTS_EXDET,USER63,User defined field 63
+VW_PTS_EXDET,USER64,User defined field 64
+VW_PTS_EXDET,USER65,User defined field 65
+VW_PTS_EXDET,USER66,User defined field 66
+VW_PTS_EXDET,USER67,User defined field 67
+VW_PTS_EXDET,USER68,User defined field 68
+VW_PTS_EXDET,USER69,User defined field 69
+VW_PTS_EXDET,USER70,User defined field 70
+VW_PTS_EXDET,USER71,User defined field 71
+VW_PTS_EXDET,USER72,User defined field 72
+VW_PTS_EXDET,USER73,User defined field 73
+VW_PTS_EXDET,USER74,User defined field 74
+VW_PTS_EXDET,USER75,User defined field 75
+VW_PTS_EXDET,USER76,User defined field 76
+VW_PTS_EXDET,USER77,User defined field 77
+VW_PTS_EXDET,USER78,User defined field 78
+VW_PTS_EXDET,USER79,User defined field 79
+VW_PTS_EXDET,USER80,User defined field 80
+VW_PTS_EXDET,USER81,User defined field 81
+VW_PTS_EXDET,USER82,User defined field 82
+VW_PTS_EXDET,USER83,User defined field 83
+VW_PTS_EXDET,USER84,User defined field 84
+VW_PTS_EXDET,USER85,User defined field 85
+VW_PTS_EXDET,USER86,User defined field 86
+VW_PTS_EXDET,USER87,User defined field 87
+VW_PTS_EXDET,USER88,User defined field 88
+VW_PTS_EXDET,USER89,User defined field 89
+VW_PTS_EXDET,USER90,User defined field 90
+VW_PTS_EXDET,USER91,User defined field 91
+VW_PTS_EXDET,USER92,User defined field 92
+VW_PTS_EXDET,USER93,User defined field 93
+VW_PTS_EXDET,USER94,User defined field 94
+VW_PTS_EXDET,USER95,User defined field 95
+VW_PTS_EXDET,USER96,User defined field 96
+VW_PTS_EXDET,USER97,User defined field 97
+VW_PTS_EXDET,USER98,User defined field 98
+VW_PTS_EXDET,USER99,User defined field 99
+VW_PTS_EXDET,USER100,User defined field 100
+VW_PTS_EXDET,DEACTIVAT,Deactivate date
+VW_PTS_EXDET,IASW_ID,iasWorld unique row identifier
+VW_PTS_EXDET,TRANS_ID,iasWorld transaction number
+VW_PTS_EXDET,UPD_STATUS,iasWorld update status for this row
+VW_PTS_EXDET,CLASS,Class
+VW_PTS_EXDET,RECNR,Value record number
+VW_PTS_EXDET,EXLAND2,Exemption land value 2
+VW_PTS_EXDET,EXBLDG2,Exemption building value 2
+VW_PTS_EXDET,EXOTHER2,Exemption other value 2
+VW_PTS_EXDET,APLAND2,Applied exemption land value 2
+VW_PTS_EXDET,APBLDG2,Applied exemption building value 2
+VW_PTS_EXDET,APOTHER2,Applied exemption other value 2
+VW_PTS_EXDET,ASSETID,Asset ID number
+VW_PTS_EXDET,YRBASE,Base Year Exemption
+VW_PTS_EXDET,BEGDT,Proration Exemption Start Date
+VW_PTS_EXDET,ENDDT,Proration Exemption End Date
+VW_PTS_EXDET,FORM,Adder/Remitter form number
+VW_PTS_OWNDET,JUR,Jurisdiction
+VW_PTS_OWNDET,PARID,Parcel identification number
+VW_PTS_OWNDET,TAXYR,Tax year
+VW_PTS_OWNDET,OWNSEQ,Owner sequence number
+VW_PTS_OWNDET,PO,"Primary owner flag (1 = OWNDAT, 0 = OWNMLT)"
+VW_PTS_OWNDET,SEQ,Version number of this record
+VW_PTS_OWNDET,CUR,Current record indicator
+VW_PTS_OWNDET,WHO,User ID of last maintenance
+VW_PTS_OWNDET,WEN,Last maintenance date
+VW_PTS_OWNDET,WHOCALC,Batch computation/change
+VW_PTS_OWNDET,WENCALC,Date of last batch change
+VW_PTS_OWNDET,STATUS,Processing status
+VW_PTS_OWNDET,CONVEYNO,Conveyance number
+VW_PTS_OWNDET,OWN1,Owner name 1
+VW_PTS_OWNDET,OWN2,Owner name 2
+VW_PTS_OWNDET,CAREOF,In Care Of name
+VW_PTS_OWNDET,ADDRTYPE,"Address type code (N, S, F, R, C)"
+VW_PTS_OWNDET,ADRNO,Street number
+VW_PTS_OWNDET,ADRGRID,Grid address number
+VW_PTS_OWNDET,ADRADD,Address number suffix
+VW_PTS_OWNDET,ADRDIR,Street direction
+VW_PTS_OWNDET,ADRSTR,Address street name
+VW_PTS_OWNDET,ADRSUF,Street suffix
+VW_PTS_OWNDET,ADRSUF2,Street suffix #2
+VW_PTS_OWNDET,CITYNAME,City name
+VW_PTS_OWNDET,STATECODE,State or province(2 digit)
+VW_PTS_OWNDET,COUNTRY,Country
+VW_PTS_OWNDET,POSTALCODE,Postal Code (International zip code)
+VW_PTS_OWNDET,UNITDESC,Address unit description
+VW_PTS_OWNDET,UNITNO,Address unit number
+VW_PTS_OWNDET,ADDR1,Address line 1
+VW_PTS_OWNDET,ADDR2,Address line 2
+VW_PTS_OWNDET,ADDR3,Address line 3
+VW_PTS_OWNDET,ZIP1,"Zip code, first 5 digits"
+VW_PTS_OWNDET,ZIP2,"Zip code suffix, last 4 digits"
+VW_PTS_OWNDET,CARRIER_RT,Carrier route - 4 digit suffix
+VW_PTS_OWNDET,POSTAL_INDX,Postal index number
+VW_PTS_OWNDET,PCTOWN,Percent of ownership for primary owner
+VW_PTS_OWNDET,SALEKEY,Key pointing to the sale
+VW_PTS_OWNDET,OWNTYPE1,"Type of owner(individual, guardian, etc) 1"
+VW_PTS_OWNDET,OWNTYPE2,"Type of owner(individual, guardian, etc) 2"
+VW_PTS_OWNDET,OWNTYPE3,"Type of owner(individual, guardian, etc) 3"
+VW_PTS_OWNDET,OWNTYPE4,"Type of owner(individual, guardian, etc) 4"
+VW_PTS_OWNDET,HIDENAME,Flag to hide name/address from public view (Y)
+VW_PTS_OWNDET,SSN,Social security number
+VW_PTS_OWNDET,FEDID,Federal tax ID number
+VW_PTS_OWNDET,STATEID,State tax ID number
+VW_PTS_OWNDET,MARSTAT,Marital status
+VW_PTS_OWNDET,GRPFLAG,Grouping code for multiple owners
+VW_PTS_OWNDET,OWNBEG,Ownership begin date
+VW_PTS_OWNDET,OWNEND,Ownership ending date
+VW_PTS_OWNDET,PHONE,Phone number
+VW_PTS_OWNDET,FAX,Fax number of contact person
+VW_PTS_OWNDET,EMAIL,E-mail address of contact person
+VW_PTS_OWNDET,NOTECD,Code for predefined note
+VW_PTS_OWNDET,OWNNUM,Owner number
+VW_PTS_OWNDET,LINK,Owner link number
+VW_PTS_OWNDET,PARTIAL,Partial ownership indicator
+VW_PTS_OWNDET,BOOK,Book number
+VW_PTS_OWNDET,PAGE,Page number
+VW_PTS_OWNDET,NOTE1,Note field 1
+VW_PTS_OWNDET,NOTE2,Note field 2
+VW_PTS_OWNDET,USER1,User defined field 1
+VW_PTS_OWNDET,USER2,User defined field 2
+VW_PTS_OWNDET,USER3,User defined field 3
+VW_PTS_OWNDET,USER4,User defined field 4
+VW_PTS_OWNDET,USER5,User defined field 5
+VW_PTS_OWNDET,USER6,User defined field 6
+VW_PTS_OWNDET,USER7,User defined field 7
+VW_PTS_OWNDET,USER8,User defined field 8
+VW_PTS_OWNDET,USER9,User defined field 9
+VW_PTS_OWNDET,USER10,User defined field 10
+VW_PTS_OWNDET,USER11,User defined field 11
+VW_PTS_OWNDET,USER12,User defined field 12
+VW_PTS_OWNDET,USER13,User defined field 13
+VW_PTS_OWNDET,USER14,User defined field 14
+VW_PTS_OWNDET,USER15,User defined field 15
+VW_PTS_OWNDET,USER16,User defined field 16
+VW_PTS_OWNDET,USER17,User defined field 17
+VW_PTS_OWNDET,USER18,User defined field 18
+VW_PTS_OWNDET,USER19,User defined field 19
+VW_PTS_OWNDET,USER20,User defined field 20
+VW_PTS_OWNDET,USER21,User defined field 21
+VW_PTS_OWNDET,USER22,User defined field 22
+VW_PTS_OWNDET,USER23,User defined field 23
+VW_PTS_OWNDET,USER24,User defined field 24
+VW_PTS_OWNDET,USER25,User defined field 25
+VW_PTS_OWNDET,DEACTIVAT,Deactivate date
+VW_PTS_OWNDET,IASW_ID,iasWorld unique row identifier
+VW_PTS_OWNDET,TRANS_ID,iasWorld transaction number
+VW_PTS_OWNDET,UPD_STATUS,iasWorld update status for this row
+VW_PTS_OWNDET,CNAMEJUR,Stores CNAME.JUR when ownnum is populated in hierarchical jur sites
+VW_PTS_OWNDET,USER26,User defined field 26
+VW_PTS_OWNDET,USER27,User defined field 27
+VW_PTS_OWNDET,USER28,User defined field 28
+VW_PTS_OWNDET,USER29,User defined field 29
+VW_PTS_OWNDET,USER30,User defined field 30
+VW_PTS_OWNDET,USER31,User defined field 31
+VW_PTS_OWNDET,USER32,User defined field 32
+VW_PTS_OWNDET,USER33,User defined field 33
+VW_PTS_OWNDET,USER34,User defined field 34
+VW_PTS_OWNDET,USER35,User defined field 35
+VW_PTS_OWNDET,USER36,User defined field 36
+VW_PTS_OWNDET,USER37,User defined field 37
+VW_PTS_OWNDET,USER38,User defined field 38
+VW_PTS_OWNDET,USER39,User defined field 39
+VW_PTS_OWNDET,USER40,User defined field 40
+VW_PTS_OWNDET,SPLITNO,Split/combination tracking number
+VW_PTS_OWNDET,OWN1_FIRSTNAME,Owner 1 First Name
+VW_PTS_OWNDET,OWN1_LASTNAME,Owner 1 Last Name
+VW_PTS_OWNDET,OWN1_MIDDLENAME,Owner 1 Middle Name
+VW_PTS_OWNDET,OWN1_PREFIX,Owner 1 Prefix
+VW_PTS_OWNDET,OWN1_SUFFIX,Owner 1 Suffix
+VW_PTS_OWNDET,OWN1_COMPANYNAME,Owner 1 Company Name
+VW_PTS_OWNDET,OWN2_FIRSTNAME,Owner 2 First Name
+VW_PTS_OWNDET,OWN2_LASTNAME,Owner 2 Last Name
+VW_PTS_OWNDET,OWN2_MIDDLENAME,Owner 2 Middle Name
+VW_PTS_OWNDET,OWN2_PREFIX,Owner 2 Prefix
+VW_PTS_OWNDET,OWN2_SUFFIX,Owner 2 Suffix
+VW_PTS_OWNDET,OWN2_COMPANYNAME,Owner 2 Company Name
+VW_PTS_OWNDET,ATTN,Attention Line
+VW_PTS_OWNDET,FLOORNO,Floor Number
+VW_PTS_OWNDET,DELMOD,Mode of Delivery
+VW_PTS_OWNDET,DELMODVAL,Mode of Delivery Value
+VW_PTS_OWNDET,SITE,Site
+VW_PTS_OWNDET,COMPARTMENT,Compartment
+VW_PTS_OWNDET,DELINSTALLTYPE,Delivery Installation Type
+VW_PTS_OWNDET,DELINSTALLVAL,Delivery Installation Value
+VW_PTS_OWNDET,ADDR4,Address Line 4
+VW_PTS_OWNDET,ADDR5,Address Line 5
+VW_PTS_OWNDET,ADRPRE,Address Number Prefix
+VW_PTS_OWNDET,ADDRVALID,Flag to denote whether address was validated against validation service
+VW_PTS_OWNDET,UDATE1,User defined date field 1
+VW_PTS_OWNDET,UDATE2,User defined date field 2
+VW_PTS_OWNDET,UDATE3,User defined date field 3
+VW_PTS_OWNDET,UDATE4,User defined date field 4
+VW_PTS_OWNDET,UDATE5,User defined date field 5
+VW_PTS_OWNDET,UDATE6,User defined date field 6
+VW_PTS_OWNDET,UDATE7,User defined date field 7
+VW_PTS_OWNDET,UDATE8,User defined date field 8
+VW_PTS_OWNDET,UDATE9,User defined date field 9
+VW_PTS_OWNDET,UDATE10,User defined date field 10
+VW_PTS_OWNDET,SKIP_ADDR_VALIDATION,Skip Address Validation
+VW_PTS_OWNDET,USER41,User defined field 41
+VW_PTS_OWNDET,CELL_PHONE,Cell phone number
+VW_PTS_OWNDET,BUSINESS_PHONE,Business phone number
+VW_PTS_TCAPP,SSN,Social Security Number
+VW_PTS_TCAPP,SSN2,Social Security Number 2
+VW_PTS_TCAPP,FEDID,Federal ID
+VW_PTS_TCAPP,ATTMAILNO,Attorney mailing number
+VW_PTS_TCAPP,ATTNY1,Attorney name line 1
+VW_PTS_TCAPP,ATTNY2,Attorney name line 2
+VW_PTS_TCAPP,ATTADDR1,Attorney address line 1
+VW_PTS_TCAPP,ATTADDR2,Attorney address line 2
+VW_PTS_TCAPP,ATTADDR3,Attorney address line 3
+VW_PTS_TCAPP,ATTPHONE,Attorney phone number
+VW_PTS_TCAPP,ATTEMAIL,Attorney Email
+VW_PTS_TCAPP,RECNR,Value record number
+VW_PTS_TCAPP,FORM,Adder/Remitter form number
+VW_PTS_TCDET,JUR,Jurisdiction
+VW_PTS_TCDET,TAXYR,Tax year
+VW_PTS_TCDET,PARID,Parcel identification number
+VW_PTS_TCDET,TCCODE,Tax credit code
+VW_PTS_TCDET,TCSUBCODE,Tax credit sub code
+VW_PTS_TCDET,SEQ,Version number of this record
+VW_PTS_TCDET,CUR,Current record indicator
+VW_PTS_TCDET,WHO,User ID of last maintenance
+VW_PTS_TCDET,WEN,Last maintenance date
+VW_PTS_TCDET,WHOCALC,Batch computation/change
+VW_PTS_TCDET,WENCALC,Date of last batch change
+VW_PTS_TCDET,STATUS,Processing status
+VW_PTS_TCDET,PROCNAME,Procedure name
+VW_PTS_TCDET,PROCDATE,Procedure date
+VW_PTS_TCDET,ROLLTYPE,Tax roll name
+VW_PTS_TCDET,OVERRIDE,Override tax credit
+VW_PTS_TCDET,OVRVAL,Override value
+VW_PTS_TCDET,TAXCREDIT,Calculated tax credit
+VW_PTS_TCDET,APTAXCREDIT,Applied tax credit
+VW_PTS_TCDET,USER1,User defined field 1
+VW_PTS_TCDET,USER2,User defined field 2
+VW_PTS_TCDET,USER3,User defined field 3
+VW_PTS_TCDET,USER4,User defined field 4
+VW_PTS_TCDET,USER5,User defined field 5
+VW_PTS_TCDET,USER6,User defined field 6
+VW_PTS_TCDET,USER7,User defined field 7
+VW_PTS_TCDET,USER8,User defined field 8
+VW_PTS_TCDET,USER9,User defined field 9
+VW_PTS_TCDET,USER10,User defined field 10
+VW_PTS_TCDET,USERVAL1,User defined numeric field 1
+VW_PTS_TCDET,USERVAL2,User defined numeric field 2
+VW_PTS_TCDET,USERVAL3,User defined numeric field 3
+VW_PTS_TCDET,USERVAL4,User defined numeric field 4
+VW_PTS_TCDET,USERVAL5,User defined numeric field 5
+VW_PTS_TCDET,USERVAL6,User defined numeric field 6
+VW_PTS_TCDET,USERVAL7,User defined numeric field 7
+VW_PTS_TCDET,USERVAL8,User defined numeric field 8
+VW_PTS_TCDET,USERVAL9,User defined numeric field 9
+VW_PTS_TCDET,USERVAL10,User defined numeric field 10
+VW_PTS_TCDET,UDATE1,User defined date field 1
+VW_PTS_TCDET,UDATE2,User defined date field 2
+VW_PTS_TCDET,UDATE3,User defined date field 3
+VW_PTS_TCDET,UDATE4,User defined date field 4
+VW_PTS_TCDET,UDATE5,User defined date field 5
+VW_PTS_TCDET,UDATE6,User defined date field 6
+VW_PTS_TCDET,UDATE7,User defined date field 7
+VW_PTS_TCDET,UDATE8,User defined date field 8
+VW_PTS_TCDET,UDATE9,User defined date field 9
+VW_PTS_TCDET,UDATE10,User defined date field 10
+VW_PTS_TCDET,DEACTIVAT,Deactivate date
+VW_PTS_TCDET,IASW_ID,iasWorld unique row identifier
+VW_PTS_TCDET,TRANS_ID,iasWorld transaction number
+VW_PTS_TCDET,UPD_STATUS,iasWorld update status for this row
+VW_PTS_TCDET,LINENO,Line number
+VW_PTS_TCDET,RECNR,Value record number
+VW_PTS_TCDET,FORM,Adder/Remitter form number

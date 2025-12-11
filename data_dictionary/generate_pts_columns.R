@@ -11,7 +11,6 @@ library(readxl)
 fdw_columns <- readr::read_csv("data_dictionary/data/fdw_columns.csv") %>%
     select(-1)
 
-
 pts_tables_only <- fdw_columns %>%
     filter(grepl("VW_PTS", TABLE_NAME) & !(grepl("_HIST", TABLE_NAME))) %>%
     group_by(TABLE_NAME) %>%
@@ -101,10 +100,17 @@ pts_columns_guide <- readxl::read_excel("data_dictionary/data/property_data_fiel
     slice(1) %>%
     ungroup()
 
+
+# meta data
+pts_meta_data = read.csv("data_dictionary/data/pts_meta_data.csv") %>%
+    rename(description_meta_data = DESCRIPTION)
+
 updated_with_pts_guide = updated_with_condbase_newbase %>%
     left_join(pts_columns_guide, by=c("TABLE_NAME", "COLUMN_NAME")) %>%
+    left_join(pts_meta_data, by=c("TABLE_NAME"="TABLE", "COLUMN_NAME")) %>%
     mutate(DESCRIPTION = ifelse(!is.na(DESCRIPTION_manual), DESCRIPTION_manual, DESCRIPTION)) %>%
-    select(-DESCRIPTION_manual, -field_description)
+    mutate(DESCRIPTION = ifelse(is.na(DESCRIPTION), description_meta_data, DESCRIPTION)) %>%
+    select(-DESCRIPTION_manual, -field_description, -description_meta_data)
 
 write.csv(updated_with_pts_guide, "data_dictionary/data/pts_columns.csv", na="")
 
