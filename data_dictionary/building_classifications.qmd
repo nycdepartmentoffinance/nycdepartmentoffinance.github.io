@@ -1,0 +1,28 @@
+---
+title: "Building Classifications"
+repo-url: https://github.com/nycdepartmentoffinance/nycdepartmentoffinance.github.io
+---
+
+```{r, include=FALSE}
+library(dplyr)
+library(DT)
+
+readRenviron("C:/Users/BoydClaire/.Renviron")
+
+table_data <- read.csv("data/building_classifications.csv")
+```
+
+The table below includes a list of the building classifications and their corresponding
+descriptions, use, tax class, and model codes.
+
+***Note***: Each observation is a unique combination of BC, TC, USE, and MODEL so if
+there are duplicate BCs it is because they correspond to multiple TCs or MODELs.
+
+```{r}
+#| echo: false
+#| warning: false
+
+DT::datatable(table_data, escape = FALSE, filter = 'top', rownames = FALSE,
+              options = list(paging = FALSE, scrollCollapse = TRUE
+              ))
+```

@@ -52,5 +52,8 @@
   },
   "data_dictionary/model_codes.qmd": {
     "model_codes.html": "8ea388dd"
+  },
+  "data_dictionary/building_classifications.qmd": {
+    "building_classifications.html": "2d53a71c"
   }
 }

@@ -67,15 +67,15 @@
     ]
   },
   {
-    "objectID": "data_dictionary/all_tables.html",
-    "href": "data_dictionary/all_tables.html",
-    "title": "All Tables",
+    "objectID": "data_dictionary/building_classifications.html",
+    "href": "data_dictionary/building_classifications.html",
+    "title": "Building Classifications",
     "section": "",
-    "text": "The table below includes a list of core database tables available in Vision8 (V8_NEWYORK_NY_LIVE), Financial Data Warehouse (FDW), and IAS (IAS).\nNote: for brevity, this table excludes tables with the following schemas: \"dbo\", \"COMMON\", \"internal\", \"DATA_BACKUP\", \"DataBackup\", \"CONV\", \"NYC_STAGE\". For a comprehensive list of tables that includes these schemas, explore the source data here.\n\n\n\n\n\nDatabase\nNumber of tables\n\n\n\n\nFDW\n228\n\n\nV8_NEWYORK_NY_LIVE\n1145\n\n\nIAS\n6295\n\n\n\n\n\nUse the search bar below to look for a specific type of table (e.g. parcel_extension) across the different databases or filter by database explore which tables exist in each resource.",
+    "text": "The table below includes a list of the building classifications and their corresponding descriptions, use, tax class, and model codes.\nNote: Each observation is a unique combination of BC, TC, USE, and MODEL so if there are duplicate BCs it is because they correspond to multiple TCs or MODELs.",
     "crumbs": [
       "Home",
       "Data Dictionary",
-      "All Tables"
+      "Building Classifications"
     ]
   },
   {
@@ -98,6 +98,18 @@
     "crumbs": [
       "Home",
       "Assessor Districts"
+    ]
+  },
+  {
+    "objectID": "data_dictionary/all_tables.html",
+    "href": "data_dictionary/all_tables.html",
+    "title": "All Tables",
+    "section": "",
+    "text": "The table below includes a list of core database tables available in Vision8 (V8_NEWYORK_NY_LIVE), Financial Data Warehouse (FDW), and IAS (IAS).\nNote: for brevity, this table excludes tables with the following schemas: \"dbo\", \"COMMON\", \"internal\", \"DATA_BACKUP\", \"DataBackup\", \"CONV\", \"NYC_STAGE\". For a comprehensive list of tables that includes these schemas, explore the source data here.\n\n\n\n\n\nDatabase\nNumber of tables\n\n\n\n\nFDW\n228\n\n\nV8_NEWYORK_NY_LIVE\n1145\n\n\nIAS\n6295\n\n\n\n\n\nUse the search bar below to look for a specific type of table (e.g. parcel_extension) across the different databases or filter by database explore which tables exist in each resource.",
+    "crumbs": [
+      "Home",
+      "Data Dictionary",
+      "All Tables"
     ]
   },
   {
