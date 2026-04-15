@@ -16,8 +16,6 @@ website:
       href: /
     - text: "Assessor Districts"
       href: /assessor_districts/
-    - text: "Models"
-      href: /models/
     - text: "Data Dictionary"
       href: /data_dictionary/
     tools:

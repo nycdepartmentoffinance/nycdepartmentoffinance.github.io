@@ -1,47 +1,10 @@
 [
   {
-    "objectID": "models/index.html",
-    "href": "models/index.html",
-    "title": "Models",
-    "section": "",
-    "text": "Explore the following pages that help document model results for different types of properties in NYC:\n\nCondo Sales Model\nCo-op Sales Model",
-    "crumbs": [
-      "Home",
-      "Models"
-    ]
-  },
-  {
-    "objectID": "models/coop_sales/comps.html",
-    "href": "models/coop_sales/comps.html",
-    "title": "Comparable Properties",
-    "section": "",
-    "text": "Now, let’s measure the model performance based on the sales price of the property that is most similar to each subject property based on the model’s coefficients. Metrics for the model at the city-wide and boro level are displayed below.\nNote: As of now, both the subject properties and the potential comparable properties are the same training set (80% of all eligible sales)\n\n\n\n\n\n\n\n\n\nTo examine a specific property’s selected comps, search for a COOPUNITKEY to get a short summary in a table format.\n\n\n\n\n\n\n\n\n\nUsing any COOPUNITKEY listed above, display the comps and their relative features using the interactive map.\n\n\n\n\n\n\n\n\n \n\nSearch",
-    "crumbs": [
-      "Home",
-      "Models",
-      "Co-op Sales Model",
-      "Comparable Properties"
-    ]
-  },
-  {
-    "objectID": "models/coop_sales/comps.html#comparable-properties",
-    "href": "models/coop_sales/comps.html#comparable-properties",
-    "title": "Comparable Properties",
-    "section": "",
-    "text": "Now, let’s measure the model performance based on the sales price of the property that is most similar to each subject property based on the model’s coefficients. Metrics for the model at the city-wide and boro level are displayed below.\nNote: As of now, both the subject properties and the potential comparable properties are the same training set (80% of all eligible sales)\n\n\n\n\n\n\n\n\n\nTo examine a specific property’s selected comps, search for a COOPUNITKEY to get a short summary in a table format.\n\n\n\n\n\n\n\n\n\nUsing any COOPUNITKEY listed above, display the comps and their relative features using the interactive map.\n\n\n\n\n\n\n\n\n \n\nSearch",
-    "crumbs": [
-      "Home",
-      "Models",
-      "Co-op Sales Model",
-      "Comparable Properties"
-    ]
-  },
-  {
     "objectID": "index.html",
     "href": "index.html",
     "title": "Home",
     "section": "",
-    "text": "Welcome to the NYC Department of Finance Property Modeling Site\nThis is as a central reference for staff working on property valuation, modeling, and analysis. It brings together key components of our ongoing modeling efforts, including:\n\nAssessor Districts: Interactive tools and resources to understand jurisdictions for assessors by district, block and section volume.\nModel Specifications & Outputs: Documentation of the some of the models used in property valuation, including input assumptions, coefficients, and summary statistics.\nData Dictionary: A shared reference for data sources and variable definitions across our data resources.\n\nIf you have any questions on the content displayed on this site, feel free to reach out to boydclaire@finance.nyc.gov or open an GitHub issue explaining the request."
+    "text": "Welcome to the NYC Department of Finance Property Modeling Site\nThis is as a central reference for staff working on property valuation, modeling, and analysis. It brings together key components of our ongoing modeling efforts, including:\n\nAssessor Districts: Interactive tools and resources to understand jurisdictions for assessors by district, block and section volume.\nData Dictionary: A shared reference for data sources and variable definitions across our data resources.\n\nIf you have any questions on the content displayed on this site, feel free to reach out to boydclaire@finance.nyc.gov or open an GitHub issue explaining the request."
   },
   {
     "objectID": "data_dictionary/production_columns.html",
@@ -60,7 +23,7 @@
     "href": "data_dictionary/index.html",
     "title": "Data Dictionary",
     "section": "",
-    "text": "Explore the following pages that help document the data resources available to DOF’s property modeling team:\n\nFDW to Vision Crosswalk: A table that contains FDW table names and their matching CAMA table names if applicable, as well as the prefix used and relevant primary keys for the table (unit of observation: table).\nREAL_PROP Column Lookup: A table that contains all columns for the most important REAL_PROP tables in the production database, including the column type, description, and if it is a primary key (unit of observation: column).\nPDM/PTS Column Lookup: A table that contains information for columns for PDM tables (notably: NEWBASE, CONDBASE) and PTS tables (notably: ASMT, PARDAT, and APRVAL) available in the FDW database (FDW3NF), including the column type, description, and additional notes if relevant (unit of observation: column).\nAll Tables: This is a comprehensive list of all database tables within Production, FDW, and IAS databases, including the prefix used, number of columns in the table, and primary keys where relevant (unit of observation: table).\nModel Codes: A table that maps the Vision model codes to the specific property types.\n\nTo download any of these data sets, visit the source data here.",
+    "text": "Explore the following pages that help document the data resources available to DOF’s property modeling team:\n\nAll Tables: This is a comprehensive list of all database tables within Production, FDW, and IAS databases, including the prefix used, number of columns in the table, and primary keys where relevant (unit of observation: table).\nBuilding Classifications: A table that contains all building classifications with their tax class, description, use and relevant model codes.\nFDW to Vision Crosswalk: A table that contains FDW table names and their matching CAMA table names if applicable, as well as the prefix used and relevant primary keys for the table (unit of observation: table).\nModel Codes: A table that maps the Vision model codes to the specific property types.\nREAL_PROP Column Lookup: A table that contains all columns for the most important REAL_PROP tables in the production database, including the column type, description, and if it is a primary key (unit of observation: column).\nPDM/PTS Column Lookup: A table that contains information for columns for PDM tables (notably: NEWBASE, CONDBASE) and PTS tables (notably: ASMT, PARDAT, and APRVAL) available in the FDW database (FDW3NF), including the column type, description, and additional notes if relevant (unit of observation: column).\n\nTo download any of these data sets, visit the source data here.",
     "crumbs": [
       "Home",
       "Data Dictionary"
@@ -146,102 +109,6 @@
       "Home",
       "Data Dictionary",
       "PDM/PTS Column Lookup"
-    ]
-  },
-  {
-    "objectID": "models/condo_sales/index.html",
-    "href": "models/condo_sales/index.html",
-    "title": "Condo Sales Model",
-    "section": "",
-    "text": "Using sales from 2022-2024 in Manhattan, Brooklyn, and Queens, and sales from 2020-2024 in the Bronx and Staten Island to predict the sale price of condos across NYC, the most successful mixed model (or hierarchical linear model) to date is the following:\n\nlogtagrosscon ~ nbhd  + X + Y  + trend + UAF + elev +\n            (1 + STY  | BLOCK) + (1 + logsf + floor_extract| ADDRESS)\n\n\n\nThese tables show the metrics divided by decile on a model run on the entire city population simultaenously, rather than boro-by-boro. Below are deciles overall, deciles by boro, and deciles by nbhd.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nassessr::\n\n\n\n\n\n\n\n\n\n\nThe following shows the metrics broken down by decile for each nbhd in the city.\n\n\n\n\n\n\n\n\n\n\nThe interactive map below visualizes key assessment accuracy metrics at the neighborhood level across New York City. Toggle between the different layers which shade neighborhoods by different performance indicators, such as: R, Spearman’s Rank, Coefficient of Dispersion (COD), Price-related Differential (PRD), and Modified Kakwani Index (MKI). Clicking on a neighborhood reveals a popup with detailed statistics for that area.\nThis map displays every neighborhood with at least two qualified sales in the boro-specific time period. While the same model was applied to every borough, it was done so individually, and not as a citywide population.\n\ncreate_metrics_map(\n  data = neighborhood_shapefile, \n\n  by = \"FullNbhdName\",\n\n  center_lng = -73.99, \n  center_lat = 40.76, \n  zoom_level = 11\n)\n\n\n\n\n\n This map only displays neighborhoods with at least 10 qualified sales in the boro-specific period.\n\ncreate_metrics_map(\n  data = min10, \n  by = \"FullNbhdName\",\n\n  center_lng = -73.99, \n  center_lat = 40.76, \n  zoom_level = 11\n)\n\n\n\n\n\n\n\n\n The following displays the metrics for each borough divided by sale price quintile (in Staten Island) or decile (for all other boroughs).\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nThe table below summarizes how the tables and maps are shaded.",
-    "crumbs": [
-      "Home",
-      "Models",
-      "Condo Sales Model"
-    ]
-  },
-  {
-    "objectID": "models/condo_sales/index.html#citywide-model-deciles",
-    "href": "models/condo_sales/index.html#citywide-model-deciles",
-    "title": "Condo Sales Model",
-    "section": "",
-    "text": "These tables show the metrics divided by decile on a model run on the entire city population simultaenously, rather than boro-by-boro. Below are deciles overall, deciles by boro, and deciles by nbhd.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nassessr::\n\n\n\n\n\n\n\n\n\n\nThe following shows the metrics broken down by decile for each nbhd in the city.",
-    "crumbs": [
-      "Home",
-      "Models",
-      "Condo Sales Model"
-    ]
-  },
-  {
-    "objectID": "models/condo_sales/index.html#boro-specific",
-    "href": "models/condo_sales/index.html#boro-specific",
-    "title": "Condo Sales Model",
-    "section": "",
-    "text": "The interactive map below visualizes key assessment accuracy metrics at the neighborhood level across New York City. Toggle between the different layers which shade neighborhoods by different performance indicators, such as: R, Spearman’s Rank, Coefficient of Dispersion (COD), Price-related Differential (PRD), and Modified Kakwani Index (MKI). Clicking on a neighborhood reveals a popup with detailed statistics for that area.\nThis map displays every neighborhood with at least two qualified sales in the boro-specific time period. While the same model was applied to every borough, it was done so individually, and not as a citywide population.\n\ncreate_metrics_map(\n  data = neighborhood_shapefile, \n\n  by = \"FullNbhdName\",\n\n  center_lng = -73.99, \n  center_lat = 40.76, \n  zoom_level = 11\n)\n\n\n\n\n\n This map only displays neighborhoods with at least 10 qualified sales in the boro-specific period.\n\ncreate_metrics_map(\n  data = min10, \n  by = \"FullNbhdName\",\n\n  center_lng = -73.99, \n  center_lat = 40.76, \n  zoom_level = 11\n)",
-    "crumbs": [
-      "Home",
-      "Models",
-      "Condo Sales Model"
-    ]
-  },
-  {
-    "objectID": "models/condo_sales/index.html#metrics-by-sale-price-decilequintile",
-    "href": "models/condo_sales/index.html#metrics-by-sale-price-decilequintile",
-    "title": "Condo Sales Model",
-    "section": "",
-    "text": "The following displays the metrics for each borough divided by sale price quintile (in Staten Island) or decile (for all other boroughs).",
-    "crumbs": [
-      "Home",
-      "Models",
-      "Condo Sales Model"
-    ]
-  },
-  {
-    "objectID": "models/condo_sales/index.html#notes",
-    "href": "models/condo_sales/index.html#notes",
-    "title": "Condo Sales Model",
-    "section": "",
-    "text": "The table below summarizes how the tables and maps are shaded.",
-    "crumbs": [
-      "Home",
-      "Models",
-      "Condo Sales Model"
-    ]
-  },
-  {
-    "objectID": "models/coop_sales/index.html",
-    "href": "models/coop_sales/index.html",
-    "title": "Co-op Sales Model",
-    "section": "",
-    "text": "Using sales from 2022-2024 to predict the sale price of co-ops across NYC, the most successful mixed model (or hierarchical linear model) to date is the following:\n\nlog_grosscon ~ BC + xcoord_norm + ycoord_norm + affordable +\n    park_dist + cultural_facility_dist + subway_dist +\n    gym + doorman + laundry +\n    (1 | boro) +\n    (1 + stories_norm + log_floor_norm | block) +\n    (1 + BEDROOMS_norm + log_sqft_norm + BATHROOMS_norm | COOPID)\n\n\n\nTo assess variation in model performance across the city, key assessment accuracy metrics are summarized at the borough level in the table below. For an overview of how all the visuals are shaded, see notes.\n\n\n\n\n\n\n\n\n\n\n\nThe two tables below summarize the model’s performance by predicted sale price (GROSSCON) decile, which are calculated at the borough level (e.g. the upper threshold of bottom 10% of sales in Manhattan is $400,000 while it is $175,000 in Staten Island).\n\n\n\n\n\n\n\n\n\nHere is the source data to more easily explore the raw data from the plot above.\n\n\n\n\n\n\n\n\n\nThe variation of MKI by neighborhood is generally consistent across deciles of GROSSCON, largely ranging around 1 (ideal value), though the mean of most deciles is below 1. There are more outliers in the 4-8 decile ranges, indicating that there might be a poorer model fit in the middle ranges of the dataset.\n\n\n\n\n\n\n\n\n\nThe table below contains the source data used to generate the plot above.\n\n\n\n\n\n\n\n\n\n\nThis is the current base model to use for previous sales analysis. The model is a slightly altered version of the base model, due to smaller sample size and thus limitations on the number of random effects possible to include.\n\nlog_grosscon ~ BC + xcoord_norm + ycoord_norm + affordable +\n    park_dist + cultural_facility_dist + subway_dist +\n    gym + doorman + laundry +\n    (1 | boro) +\n    (1 + stories_norm + log_floor_norm | block) +\n    (1 + BEDROOMS_norm + log_sqft_norm + BATHROOMS_norm | COOPID)\n\n\n\nTrain with previous sale data:\n\n\n\n\n\n\nTrain without any record of previous sale data:\n\n\n\n\n\n\n\n\n\nBy simply lowering the sample size, we do get slightly better results even if just randomly splitting the training set into two groups. See results below for two equal sized groups – we see a model improvement of roughly .7-1 in city-wide COD and ~1 point reduction in COD in each borough. These are not remarkably different from the two groups that do/do not have previous sales.\nRandom Sample 1 Results:\n\n\n\n\n\n\nRandom Sample 2 Results:\n\n\n\n\n\n\n\n\n\nBelow is a summary of differences for categorical variables used in the model. Overall, the two datasets look largely very similar, with the maximum absolute difference between the two datasets at 3%. All the other variables have very similar frequencies across the two datasets.\n\ndatatable(rbind(\n    get_summary_differences(\"BORO\"),\n    get_summary_differences(\"BC\"),\n    get_summary_differences(\"affordable\"),\n    get_summary_differences(\"gym\"),\n    get_summary_differences(\"laundry\"),\n    get_summary_differences(\"doorman\"),\n    get_summary_differences(\"BEDROOMS\"),\n    get_summary_differences(\"BATHROOMS\"),\n    get_summary_differences(\"stories\"),\n    get_summary_differences(\"floor\"),\n) %&gt;% \n    mutate(\n        absolute_difference = abs(has_no_previous_sale-has_previous_sale)\n    ) %&gt;% \n    arrange(desc(absolute_difference))\n)\n\n\n\n\n\n\n\n\n\n\n\nThe interactive map below visualizes key assessment accuracy metrics at the neighborhood level across New York City. Toggle between the different layers which shade neighborhoods by different performance indicators, such as: R, Spearman’s Rank, Coefficient of Dispersion (COD), Price-related Differential (PRD), and Modified Kakwani Index (MKI). Clicking on a neighborhood reveals a popup with detailed statistics for that area.\nNote: Neighborhoods with less than 10 sales used to train the model do not display any accuracy metrics.\n\ncreate_metrics_map(\n  data = neighborhood_shapefile, \n  by = \"NBHD_NAME\",\n  center_lng = -73.99, \n  center_lat = 40.76, \n  zoom_level = 11\n)\n\n\n\n\n\n\n\n\nThe map below displays the model’s performance in Manhattan at the block level. Toggle between the layers to display different accuracy metrics or click on a block to more carefully inspect how well the model performs on sales on that block.\n\ncreate_metrics_map(\n  data = block_shapefile, \n  by = \"BLOCK\",\n  center_lng = -73.96, \n  center_lat = 40.78, \n  zoom_level = 12\n)\n\n\n\n\n\n\n\n\nThis map shows a breakdown of the 9,941 Manhattan sales used to train the model, shaded by either the sale price, predicted sale price, or the sales ratio. Clicking on a sale reveals a popup with the sale’s characteristics used by the model to determined it’s predicted value (dependent variables).\n\ncreate_point_map(\n  data = train[train$boro == 1,],\n  dependent_variables = c(\"NBHD_NAME\", \"BC\", \"park_dist\", \"cultural_facility_dist\", \"subway_dist\",\n    \"affordable\",\"gym\", \"laundry\", \"doorman\",\"stories\",\"floor\",\"BEDROOMS\",\"BATHROOMS\",\"log_sqft\", \"sqft\"),\n  center_lng = -73.96, \n  center_lat = 40.78, \n  zoom_level = 12\n)\n\n\n\n\n\n\n\n\nThe point map below displays the standard deviation of the sale prices in each building within the training data set. If you click on a building, you can explore the min, max, median, standard deviation, and the list of units sold.\nIn general, it seems like the highest standard deviations are in buidings right near the park with very different story height or very few sales in the building.\n\ncreate_building_map(\n    building_metrics,\n    display_variables = c(\"COOPID\", \"building\", \"n_sales\", \"min\", \"max\", \"median\", \"standard_deviation\", \"units\"),\n    layers = list(\n        list(group=\"By Standard Deviation\", var=\"sd\", color_pal=color_pal_grosscon)\n             )\n)",
-    "crumbs": [
-      "Home",
-      "Models",
-      "Co-op Sales Model"
-    ]
-  },
-  {
-    "objectID": "models/coop_sales/index.html#mixed-model",
-    "href": "models/coop_sales/index.html#mixed-model",
-    "title": "Co-op Sales Model",
-    "section": "",
-    "text": "Using sales from 2022-2024 to predict the sale price of co-ops across NYC, the most successful mixed model (or hierarchical linear model) to date is the following:\n\nlog_grosscon ~ BC + xcoord_norm + ycoord_norm + affordable +\n    park_dist + cultural_facility_dist + subway_dist +\n    gym + doorman + laundry +\n    (1 | boro) +\n    (1 + stories_norm + log_floor_norm | block) +\n    (1 + BEDROOMS_norm + log_sqft_norm + BATHROOMS_norm | COOPID)\n\n\n\nTo assess variation in model performance across the city, key assessment accuracy metrics are summarized at the borough level in the table below. For an overview of how all the visuals are shaded, see notes.\n\n\n\n\n\n\n\n\n\n\n\nThe two tables below summarize the model’s performance by predicted sale price (GROSSCON) decile, which are calculated at the borough level (e.g. the upper threshold of bottom 10% of sales in Manhattan is $400,000 while it is $175,000 in Staten Island).\n\n\n\n\n\n\n\n\n\nHere is the source data to more easily explore the raw data from the plot above.\n\n\n\n\n\n\n\n\n\nThe variation of MKI by neighborhood is generally consistent across deciles of GROSSCON, largely ranging around 1 (ideal value), though the mean of most deciles is below 1. There are more outliers in the 4-8 decile ranges, indicating that there might be a poorer model fit in the middle ranges of the dataset.\n\n\n\n\n\n\n\n\n\nThe table below contains the source data used to generate the plot above.\n\n\n\n\n\n\n\n\n\n\nThis is the current base model to use for previous sales analysis. The model is a slightly altered version of the base model, due to smaller sample size and thus limitations on the number of random effects possible to include.\n\nlog_grosscon ~ BC + xcoord_norm + ycoord_norm + affordable +\n    park_dist + cultural_facility_dist + subway_dist +\n    gym + doorman + laundry +\n    (1 | boro) +\n    (1 + stories_norm + log_floor_norm | block) +\n    (1 + BEDROOMS_norm + log_sqft_norm + BATHROOMS_norm | COOPID)\n\n\n\nTrain with previous sale data:\n\n\n\n\n\n\nTrain without any record of previous sale data:\n\n\n\n\n\n\n\n\n\nBy simply lowering the sample size, we do get slightly better results even if just randomly splitting the training set into two groups. See results below for two equal sized groups – we see a model improvement of roughly .7-1 in city-wide COD and ~1 point reduction in COD in each borough. These are not remarkably different from the two groups that do/do not have previous sales.\nRandom Sample 1 Results:\n\n\n\n\n\n\nRandom Sample 2 Results:\n\n\n\n\n\n\n\n\n\nBelow is a summary of differences for categorical variables used in the model. Overall, the two datasets look largely very similar, with the maximum absolute difference between the two datasets at 3%. All the other variables have very similar frequencies across the two datasets.\n\ndatatable(rbind(\n    get_summary_differences(\"BORO\"),\n    get_summary_differences(\"BC\"),\n    get_summary_differences(\"affordable\"),\n    get_summary_differences(\"gym\"),\n    get_summary_differences(\"laundry\"),\n    get_summary_differences(\"doorman\"),\n    get_summary_differences(\"BEDROOMS\"),\n    get_summary_differences(\"BATHROOMS\"),\n    get_summary_differences(\"stories\"),\n    get_summary_differences(\"floor\"),\n) %&gt;% \n    mutate(\n        absolute_difference = abs(has_no_previous_sale-has_previous_sale)\n    ) %&gt;% \n    arrange(desc(absolute_difference))\n)\n\n\n\n\n\n\n\n\n\n\n\nThe interactive map below visualizes key assessment accuracy metrics at the neighborhood level across New York City. Toggle between the different layers which shade neighborhoods by different performance indicators, such as: R, Spearman’s Rank, Coefficient of Dispersion (COD), Price-related Differential (PRD), and Modified Kakwani Index (MKI). Clicking on a neighborhood reveals a popup with detailed statistics for that area.\nNote: Neighborhoods with less than 10 sales used to train the model do not display any accuracy metrics.\n\ncreate_metrics_map(\n  data = neighborhood_shapefile, \n  by = \"NBHD_NAME\",\n  center_lng = -73.99, \n  center_lat = 40.76, \n  zoom_level = 11\n)\n\n\n\n\n\n\n\n\nThe map below displays the model’s performance in Manhattan at the block level. Toggle between the layers to display different accuracy metrics or click on a block to more carefully inspect how well the model performs on sales on that block.\n\ncreate_metrics_map(\n  data = block_shapefile, \n  by = \"BLOCK\",\n  center_lng = -73.96, \n  center_lat = 40.78, \n  zoom_level = 12\n)\n\n\n\n\n\n\n\n\nThis map shows a breakdown of the 9,941 Manhattan sales used to train the model, shaded by either the sale price, predicted sale price, or the sales ratio. Clicking on a sale reveals a popup with the sale’s characteristics used by the model to determined it’s predicted value (dependent variables).\n\ncreate_point_map(\n  data = train[train$boro == 1,],\n  dependent_variables = c(\"NBHD_NAME\", \"BC\", \"park_dist\", \"cultural_facility_dist\", \"subway_dist\",\n    \"affordable\",\"gym\", \"laundry\", \"doorman\",\"stories\",\"floor\",\"BEDROOMS\",\"BATHROOMS\",\"log_sqft\", \"sqft\"),\n  center_lng = -73.96, \n  center_lat = 40.78, \n  zoom_level = 12\n)\n\n\n\n\n\n\n\n\nThe point map below displays the standard deviation of the sale prices in each building within the training data set. If you click on a building, you can explore the min, max, median, standard deviation, and the list of units sold.\nIn general, it seems like the highest standard deviations are in buidings right near the park with very different story height or very few sales in the building.\n\ncreate_building_map(\n    building_metrics,\n    display_variables = c(\"COOPID\", \"building\", \"n_sales\", \"min\", \"max\", \"median\", \"standard_deviation\", \"units\"),\n    layers = list(\n        list(group=\"By Standard Deviation\", var=\"sd\", color_pal=color_pal_grosscon)\n             )\n)",
-    "crumbs": [
-      "Home",
-      "Models",
-      "Co-op Sales Model"
-    ]
-  },
-  {
-    "objectID": "models/coop_sales/index.html#notes",
-    "href": "models/coop_sales/index.html#notes",
-    "title": "Co-op Sales Model",
-    "section": "Notes",
-    "text": "Notes\nThe table below summarizes how the tables and maps are shaded.",
-    "crumbs": [
-      "Home",
-      "Models",
-      "Co-op Sales Model"
     ]
   }
 ]
