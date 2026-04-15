@@ -102,10 +102,6 @@ ul.task-list li input[type="checkbox"] {
 <span class="menu-text">Assessor Districts</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../models/"> 
-<span class="menu-text">Models</span></a>
-  </li>  
-  <li class="nav-item">
     <a class="nav-link" href="../data_dictionary/"> 
 <span class="menu-text">Data Dictionary</span></a>
   </li>  
@@ -194,40 +190,6 @@ ul.task-list li input[type="checkbox"] {
 </li>
       </ul>
   </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a href="../models/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Models</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../models/condo_sales/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Condo Sales Model</span></a>
-  </div>
-</li>
-          <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a href="../models/coop_sales/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Co-op Sales Model</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth2 ">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../models/coop_sales/comps.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Comparable Properties</span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-      </ul>
-  </li>
     </ul>
     </div>
 </nav>
@@ -260,11 +222,12 @@ ul.task-list li input[type="checkbox"] {
 
 <p>Explore the following pages that help document the data resources available to DOF’s property modeling team:</p>
 <ul>
+<li><a href="all_tables.html">All Tables</a>: This is a comprehensive list of all database tables within Production, FDW, and IAS databases, including the prefix used, number of columns in the table, and primary keys where relevant (<em>unit of observation</em>: table).</li>
+<li><a href="building_classifications.html">Building Classifications</a>: A table that contains all building classifications with their tax class, description, use and relevant model codes.</li>
 <li><a href="fdw_crosswalk.html">FDW to Vision Crosswalk</a>: A table that contains FDW table names and their matching CAMA table names if applicable, as well as the prefix used and relevant primary keys for the table (<em>unit of observation</em>: table).</li>
+<li><a href="model_codes.html">Model Codes</a>: A table that maps the Vision model codes to the specific property types.</li>
 <li><a href="production_columns.html">REAL_PROP Column Lookup</a>: A table that contains all columns for the most important REAL_PROP tables in the production database, including the column type, description, and if it is a primary key (<em>unit of observation</em>: column).</li>
 <li><a href="pts_columns.html">PDM/PTS Column Lookup</a>: A table that contains information for columns for <code>PDM</code> tables (notably: NEWBASE, CONDBASE) and <code>PTS</code> tables (notably: ASMT, PARDAT, and APRVAL) available in the FDW database (<code>FDW3NF</code>), including the column type, description, and additional notes if relevant (<em>unit of observation</em>: column).</li>
-<li><a href="all_tables.html">All Tables</a>: This is a comprehensive list of all database tables within Production, FDW, and IAS databases, including the prefix used, number of columns in the table, and primary keys where relevant (<em>unit of observation</em>: table).</li>
-<li><a href="model_codes.html">Model Codes</a>: A table that maps the Vision model codes to the specific property types.</li>
 </ul>
 <p>To download any of these data sets, visit the source data <a href="https://github.com/nycdepartmentoffinance/nycdepartmentoffinance.github.io/tree/main/data_dictionary/data">here</a>.</p>
 
